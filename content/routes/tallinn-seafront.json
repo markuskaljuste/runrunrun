@@ -1,0 +1,23 @@
+{
+  "slug": "tallinn-seafront",
+  "status": "published",
+  "date": "2026-10-26",
+  "category": "estonia",
+  "image": "/assets/ocean.jpg",
+  "sourceUrl": "https://web.visittallinn.ee/eng/visitor/see-do/things-to-do/urban-nature/177339/pirita-promenade-and-reidi-road",
+  "sourceLabel": "Visit Tallinn — Pirita Promenade and Reidi Road",
+  "checked": "2026-10-26",
+  "distance": "",
+  "en": {
+    "title": "Tallinn, along the water.",
+    "place": "Tallinn, Estonia",
+    "excerpt": "Reidi Road and Pirita Promenade: a coastal starting point for exploring Tallinn on foot.",
+    "body": "## The place\n\nVisit Tallinn describes linked seaside promenades with walking and cycling paths, including views towards the city and the sea.\n\n## A running idea\n\nUse the promenade as a starting point for planning your own out-and-back. Choose your turnaround point after checking a current map and conditions locally. No measured run or GPX track is supplied here.\n\n## Before you go\n\nConfirm access and weather on the day. This is a research note, not a first-hand route report. Distance, elevation, lighting and water points have not been verified for a particular run."
+  },
+  "et": {
+    "title": "Tallinn mere ääres.",
+    "place": "Tallinn, Eesti",
+    "excerpt": "Reidi tee ja Pirita promenaad: mereäärne lähtepunkt Tallinna avastamiseks joostes.",
+    "body": "## Paik\n\nVisit Tallinn kirjeldab ühendatud mereäärseid promenaade kõnni- ja rattateedega ning vaadetega linnale ja merele.\n\n## Jooksuidee\n\nKasuta promenaadi edasi-tagasi jooksu plaanimise lähtepunktina. Vali tagasipöördekoht pärast ajakohase kaardi ja kohalike olude kontrollimist. Mõõdetud jooksuringi ega GPX-faili siin ei ole.\n\n## Enne minekut\n\nKontrolli samal päeval ligipääsu ja ilma. See on uurimismärge, mitte isiklik rajakogemus. Konkreetse jooksu distants, tõusumeetrid, valgustus ja joogiveekohad ei ole kontrollitud."
+  }
+}

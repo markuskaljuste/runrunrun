@@ -1,0 +1,12 @@
+{
+  "logo": "",
+  "footerLogo": "",
+  "logoAlt": "",
+  "logoWidth": 160,
+  "sponsorsEnabled": true,
+  "sponsorTitle": {
+    "en": "Supported by",
+    "et": "Toetajad"
+  },
+  "sponsors": []
+}

@@ -1,0 +1,36 @@
+{
+  "favicon": "/assets/favicon.svg",
+  "homeHero": {
+    "src": "/assets/hero-mountains.jpg",
+    "en": {
+      "alt": "A mountain landscape beneath a wide, clouded sky",
+      "caption": ""
+    },
+    "et": {
+      "alt": "Mägine maastik avara pilvise taeva all",
+      "caption": ""
+    }
+  },
+  "homeStory": {
+    "src": "/assets/running.jpg",
+    "en": {
+      "alt": "Editorial photograph of a runner on a path",
+      "caption": "100 KG → A NEW CHAPTER"
+    },
+    "et": {
+      "alt": "Illustratiivne foto jooksjast rajal",
+      "caption": "100 KG → UUS PEATÜKK"
+    }
+  },
+  "about": {
+    "src": "/assets/forest.jpg",
+    "en": {
+      "alt": "Sunlight in a green forest",
+      "caption": "Editorial imagery; not the author’s own photograph."
+    },
+    "et": {
+      "alt": "Päikesevalgus rohelises metsas",
+      "caption": "Illustratiivne foto; see ei ole autori isiklik foto."
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "indexing": true,
+  "defaultSocialImage": "/assets/hero-mountains.jpg",
+  "pages": {
+    "home": {
+      "en": {
+        "title": "Running & Travel Journal | RUN / ROAM",
+        "description": "An Estonian runner’s journal of running, travel and remote life. Discover the story behind Rocca Sörk, personal running notes and sourced destination guides.",
+        "socialImage": ""
+      },
+      "et": {
+        "title": "Jooksu- ja reisipäevik | RUN / ROAM",
+        "description": "Ühe eestlase lood jooksmisest, reisimisest ja kaugtööst. Loe Rocca Sörgi asutaja teekonnast ning avasta isiklikud jooksulood ja allikatega sihtkohtade teejuhid.",
+        "socialImage": ""
+      }
+    },
+    "journal": {
+      "en": {
+        "title": "Running Stories & Travel Notes | RUN / ROAM",
+        "description": "Personal stories about starting to run for karting, nine marathon attempts, a later 10 km focus and running while travelling.",
+        "socialImage": ""
+      },
+      "et": {
+        "title": "Jooksulood ja reisimärkmed | RUN / ROAM",
+        "description": "Isiklikud lood kardisõidu nimel jooksmise alustamisest, üheksast maratonikatsest, hilisemast 10 km fookusest ja reisidel jooksmisest.",
+        "socialImage": ""
+      }
+    },
+    "routes": {
+      "en": {
+        "title": "Running Destination Guides | RUN / ROAM",
+        "description": "Explore sourced research notes for running destinations, including Tallinn and Madeira. Official links and clear notes on what has and has not been verified.",
+        "socialImage": ""
+      },
+      "et": {
+        "title": "Jooksusihtkohtade teejuhid | RUN / ROAM",
+        "description": "Avasta Tallinna ja Madeira jooksupaikade uurimismärkmeid. Iga teejuhi juures on ametlikud allikad ning selgitus, millised rajaandmed on kontrollitud.",
+        "socialImage": ""
+      }
+    },
+    "about": {
+      "en": {
+        "title": "The Story Behind the Running Shoes | RUN / ROAM",
+        "description": "From cross-country skiing in Estonia to running for karting, nine marathon attempts and founding Rocca Sörk. A personal story of running, travel and remote work.",
+        "socialImage": ""
+      },
+      "et": {
+        "title": "Lugu jooksutossude taga | RUN / ROAM",
+        "description": "Murdmaasuusatamisest Eestis kardisõidu nimel jooksmiseni, üheksa maratonikatse ja Rocca Sörgini. Minu lugu jooksmisest, reisimisest ja kaugtööst.",
+        "socialImage": ""
+      }
+    }
+  }
+}

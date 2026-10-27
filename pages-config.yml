@@ -1,0 +1,953 @@
+{
+  "media": {
+    "input": "public/assets/uploads",
+    "output": "/assets/uploads",
+    "extensions": [
+      "jpg",
+      "jpeg",
+      "png",
+      "webp"
+    ],
+    "rename": "safe"
+  },
+  "content": [
+    {
+      "name": "posts",
+      "label": "Journal / Päevik",
+      "type": "collection",
+      "path": "content/posts",
+      "format": "json",
+      "filename": "{fields.slug}.json",
+      "subfolders": false,
+      "view": {
+        "primary": "en.title",
+        "fields": [
+          "en.title",
+          "status",
+          "date"
+        ],
+        "sort": "date",
+        "order": "desc"
+      },
+      "fields": [
+        {
+          "name": "slug",
+          "label": "URL slug (lowercase, hyphens)",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "status",
+          "label": "Status / Olek",
+          "type": "select",
+          "default": "draft",
+          "options": {
+            "values": [
+              "draft",
+              "published"
+            ]
+          },
+          "required": true
+        },
+        {
+          "name": "date",
+          "label": "Publication date / Kuupäev",
+          "type": "date",
+          "options": {
+            "format": "yyyy-MM-dd"
+          },
+          "required": true
+        },
+        {
+          "name": "category",
+          "label": "Topic / Teema",
+          "type": "select",
+          "options": {
+            "values": [
+              "story",
+              "running",
+              "travel"
+            ]
+          },
+          "required": true
+        },
+        {
+          "name": "image",
+          "label": "Cover image / Kaanepilt",
+          "type": "image"
+        },
+        {
+          "name": "en",
+          "label": "English",
+          "type": "object",
+          "fields": [
+            {
+              "name": "title",
+              "label": "Title / Pealkiri",
+              "type": "string"
+            },
+            {
+              "name": "excerpt",
+              "label": "Introduction / Sissejuhatus",
+              "type": "text"
+            },
+            {
+              "name": "body",
+              "label": "Body (Markdown) / Sisu",
+              "type": "text"
+            },
+            {
+              "name": "imageAlt",
+              "type": "string",
+              "label": "Image description (alt) / Pildi kirjeldus"
+            },
+            {
+              "name": "imageCaption",
+              "type": "string",
+              "label": "Image caption / Pildiallkiri"
+            },
+            {
+              "name": "seoTitle",
+              "type": "string",
+              "label": "SEO title, optional / SEO pealkiri"
+            },
+            {
+              "name": "seoDescription",
+              "type": "text",
+              "label": "Meta description, optional / Meta kirjeldus"
+            },
+            {
+              "name": "socialImage",
+              "type": "image",
+              "label": "Sharing image, optional / Jagamispilt"
+            }
+          ]
+        },
+        {
+          "name": "et",
+          "label": "Eesti",
+          "type": "object",
+          "fields": [
+            {
+              "name": "title",
+              "label": "Title / Pealkiri",
+              "type": "string"
+            },
+            {
+              "name": "excerpt",
+              "label": "Introduction / Sissejuhatus",
+              "type": "text"
+            },
+            {
+              "name": "body",
+              "label": "Body (Markdown) / Sisu",
+              "type": "text"
+            },
+            {
+              "name": "imageAlt",
+              "type": "string",
+              "label": "Image description (alt) / Pildi kirjeldus"
+            },
+            {
+              "name": "imageCaption",
+              "type": "string",
+              "label": "Image caption / Pildiallkiri"
+            },
+            {
+              "name": "seoTitle",
+              "type": "string",
+              "label": "SEO title, optional / SEO pealkiri"
+            },
+            {
+              "name": "seoDescription",
+              "type": "text",
+              "label": "Meta description, optional / Meta kirjeldus"
+            },
+            {
+              "name": "socialImage",
+              "type": "image",
+              "label": "Sharing image, optional / Jagamispilt"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "routes",
+      "label": "Route guides / Rajajuhid",
+      "type": "collection",
+      "path": "content/routes",
+      "format": "json",
+      "filename": "{fields.slug}.json",
+      "subfolders": false,
+      "view": {
+        "primary": "en.title",
+        "fields": [
+          "en.title",
+          "status",
+          "date"
+        ],
+        "sort": "date",
+        "order": "desc"
+      },
+      "fields": [
+        {
+          "name": "slug",
+          "label": "URL slug (lowercase, hyphens)",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "status",
+          "label": "Status / Olek",
+          "type": "select",
+          "default": "draft",
+          "options": {
+            "values": [
+              "draft",
+              "published"
+            ]
+          },
+          "required": true
+        },
+        {
+          "name": "date",
+          "label": "Publication date / Kuupäev",
+          "type": "date",
+          "options": {
+            "format": "yyyy-MM-dd"
+          },
+          "required": true
+        },
+        {
+          "name": "category",
+          "label": "Topic / Teema",
+          "type": "select",
+          "options": {
+            "values": [
+              "estonia",
+              "portugal",
+              "other"
+            ]
+          },
+          "required": true
+        },
+        {
+          "name": "image",
+          "label": "Cover image / Kaanepilt",
+          "type": "image"
+        },
+        {
+          "name": "sourceUrl",
+          "label": "Official source URL / Ametlik allikas",
+          "type": "string"
+        },
+        {
+          "name": "sourceLabel",
+          "label": "Source name / Allika nimi",
+          "type": "string"
+        },
+        {
+          "name": "checked",
+          "label": "Source checked / Kontrollitud",
+          "type": "date",
+          "options": {
+            "format": "yyyy-MM-dd"
+          }
+        },
+        {
+          "name": "distance",
+          "label": "Official segment length (optional) / Pikkus",
+          "type": "string"
+        },
+        {
+          "name": "en",
+          "label": "English",
+          "type": "object",
+          "fields": [
+            {
+              "name": "title",
+              "label": "Title / Pealkiri",
+              "type": "string"
+            },
+            {
+              "name": "place",
+              "label": "Destination / Sihtkoht",
+              "type": "string"
+            },
+            {
+              "name": "excerpt",
+              "label": "Introduction / Sissejuhatus",
+              "type": "text"
+            },
+            {
+              "name": "body",
+              "label": "Body (Markdown) / Sisu",
+              "type": "text"
+            },
+            {
+              "name": "imageAlt",
+              "type": "string",
+              "label": "Image description (alt) / Pildi kirjeldus"
+            },
+            {
+              "name": "imageCaption",
+              "type": "string",
+              "label": "Image caption / Pildiallkiri"
+            },
+            {
+              "name": "seoTitle",
+              "type": "string",
+              "label": "SEO title, optional / SEO pealkiri"
+            },
+            {
+              "name": "seoDescription",
+              "type": "text",
+              "label": "Meta description, optional / Meta kirjeldus"
+            },
+            {
+              "name": "socialImage",
+              "type": "image",
+              "label": "Sharing image, optional / Jagamispilt"
+            }
+          ]
+        },
+        {
+          "name": "et",
+          "label": "Eesti",
+          "type": "object",
+          "fields": [
+            {
+              "name": "title",
+              "label": "Title / Pealkiri",
+              "type": "string"
+            },
+            {
+              "name": "place",
+              "label": "Destination / Sihtkoht",
+              "type": "string"
+            },
+            {
+              "name": "excerpt",
+              "label": "Introduction / Sissejuhatus",
+              "type": "text"
+            },
+            {
+              "name": "body",
+              "label": "Body (Markdown) / Sisu",
+              "type": "text"
+            },
+            {
+              "name": "imageAlt",
+              "type": "string",
+              "label": "Image description (alt) / Pildi kirjeldus"
+            },
+            {
+              "name": "imageCaption",
+              "type": "string",
+              "label": "Image caption / Pildiallkiri"
+            },
+            {
+              "name": "seoTitle",
+              "type": "string",
+              "label": "SEO title, optional / SEO pealkiri"
+            },
+            {
+              "name": "seoDescription",
+              "type": "text",
+              "label": "Meta description, optional / Meta kirjeldus"
+            },
+            {
+              "name": "socialImage",
+              "type": "image",
+              "label": "Sharing image, optional / Jagamispilt"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "site",
+      "label": "Site & my story / Leht ja minu lugu",
+      "type": "file",
+      "path": "content/site.json",
+      "format": "json",
+      "fields": [
+        {
+          "name": "brand",
+          "label": "Site name / Lehe nimi",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "en",
+          "label": "English",
+          "type": "object",
+          "fields": [
+            {
+              "name": "tagline",
+              "label": "Tagline / Alapealkiri",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "hero",
+              "label": "Homepage headline / Avalehe pealkiri",
+              "type": "text",
+              "required": true
+            },
+            {
+              "name": "intro",
+              "label": "Introduction / Sissejuhatus",
+              "type": "text",
+              "required": true
+            },
+            {
+              "name": "aboutTitle",
+              "label": "My story headline / Minu loo pealkiri",
+              "type": "text",
+              "required": true
+            },
+            {
+              "name": "aboutExcerpt",
+              "label": "My story introduction / Sissejuhatus",
+              "type": "text",
+              "required": true
+            },
+            {
+              "name": "aboutBody",
+              "label": "My story (Markdown) / Minu lugu",
+              "type": "text",
+              "required": true
+            }
+          ]
+        },
+        {
+          "name": "et",
+          "label": "Eesti",
+          "type": "object",
+          "fields": [
+            {
+              "name": "tagline",
+              "label": "Tagline / Alapealkiri",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "hero",
+              "label": "Homepage headline / Avalehe pealkiri",
+              "type": "text",
+              "required": true
+            },
+            {
+              "name": "intro",
+              "label": "Introduction / Sissejuhatus",
+              "type": "text",
+              "required": true
+            },
+            {
+              "name": "aboutTitle",
+              "label": "My story headline / Minu loo pealkiri",
+              "type": "text",
+              "required": true
+            },
+            {
+              "name": "aboutExcerpt",
+              "label": "My story introduction / Sissejuhatus",
+              "type": "text",
+              "required": true
+            },
+            {
+              "name": "aboutBody",
+              "label": "My story (Markdown) / Minu lugu",
+              "type": "text",
+              "required": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "branding",
+      "label": "Logo & sponsors / Logo ja toetajad",
+      "type": "file",
+      "path": "content/branding.json",
+      "format": "json",
+      "fields": [
+        {
+          "name": "logo",
+          "type": "image",
+          "label": "Header logo / Päise logo"
+        },
+        {
+          "name": "footerLogo",
+          "type": "image",
+          "label": "Footer logo, optional / Jaluse logo"
+        },
+        {
+          "name": "logoAlt",
+          "type": "string",
+          "label": "Logo description / Logo kirjeldus"
+        },
+        {
+          "name": "logoWidth",
+          "type": "number",
+          "label": "Logo width (80–240 px)",
+          "required": true,
+          "default": 160,
+          "options": {
+            "min": 80,
+            "max": 240
+          }
+        },
+        {
+          "name": "sponsorsEnabled",
+          "type": "boolean",
+          "label": "Show sponsors / Näita toetajaid",
+          "default": true
+        },
+        {
+          "name": "sponsorTitle",
+          "type": "object",
+          "label": "Sponsor headings / Pealkirjad",
+          "fields": [
+            {
+              "name": "en",
+              "type": "string",
+              "label": "English",
+              "required": true
+            },
+            {
+              "name": "et",
+              "type": "string",
+              "label": "Eesti",
+              "required": true
+            }
+          ]
+        },
+        {
+          "name": "sponsors",
+          "type": "object",
+          "label": "Sponsors / Toetajad",
+          "list": true,
+          "fields": [
+            {
+              "name": "name",
+              "type": "string",
+              "label": "Sponsor name / Toetaja nimi"
+            },
+            {
+              "name": "logo",
+              "type": "image",
+              "label": "Sponsor logo / Toetaja logo"
+            },
+            {
+              "name": "url",
+              "type": "string",
+              "label": "Website (https://), optional / Veebileht"
+            },
+            {
+              "name": "enabled",
+              "type": "boolean",
+              "label": "Visible / Nähtav",
+              "default": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "images",
+      "label": "Pildid / Images",
+      "type": "file",
+      "path": "content/images.json",
+      "format": "json",
+      "fields": [
+        {
+          "name": "favicon",
+          "type": "image",
+          "label": "Favicon / Brauseri ikoon",
+          "required": true
+        },
+        {
+          "name": "homeHero",
+          "type": "object",
+          "label": "Homepage hero / Avalehe suur pilt",
+          "fields": [
+            {
+              "name": "src",
+              "type": "image",
+              "label": "Image / Pilt",
+              "required": true
+            },
+            {
+              "name": "en",
+              "type": "object",
+              "label": "English",
+              "fields": [
+                {
+                  "name": "alt",
+                  "type": "string",
+                  "label": "Image description / Pildi kirjeldus",
+                  "required": true
+                },
+                {
+                  "name": "caption",
+                  "type": "string",
+                  "label": "Caption, optional / Pildiallkiri"
+                }
+              ]
+            },
+            {
+              "name": "et",
+              "type": "object",
+              "label": "Eesti",
+              "fields": [
+                {
+                  "name": "alt",
+                  "type": "string",
+                  "label": "Image description / Pildi kirjeldus",
+                  "required": true
+                },
+                {
+                  "name": "caption",
+                  "type": "string",
+                  "label": "Caption, optional / Pildiallkiri"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "homeStory",
+          "type": "object",
+          "label": "Homepage story / Avalehe loo pilt",
+          "fields": [
+            {
+              "name": "src",
+              "type": "image",
+              "label": "Image / Pilt",
+              "required": true
+            },
+            {
+              "name": "en",
+              "type": "object",
+              "label": "English",
+              "fields": [
+                {
+                  "name": "alt",
+                  "type": "string",
+                  "label": "Image description / Pildi kirjeldus",
+                  "required": true
+                },
+                {
+                  "name": "caption",
+                  "type": "string",
+                  "label": "Caption, optional / Pildiallkiri"
+                }
+              ]
+            },
+            {
+              "name": "et",
+              "type": "object",
+              "label": "Eesti",
+              "fields": [
+                {
+                  "name": "alt",
+                  "type": "string",
+                  "label": "Image description / Pildi kirjeldus",
+                  "required": true
+                },
+                {
+                  "name": "caption",
+                  "type": "string",
+                  "label": "Caption, optional / Pildiallkiri"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "about",
+          "type": "object",
+          "label": "About photograph / Minust lehe pilt",
+          "fields": [
+            {
+              "name": "src",
+              "type": "image",
+              "label": "Image / Pilt",
+              "required": true
+            },
+            {
+              "name": "en",
+              "type": "object",
+              "label": "English",
+              "fields": [
+                {
+                  "name": "alt",
+                  "type": "string",
+                  "label": "Image description / Pildi kirjeldus",
+                  "required": true
+                },
+                {
+                  "name": "caption",
+                  "type": "string",
+                  "label": "Caption, optional / Pildiallkiri"
+                }
+              ]
+            },
+            {
+              "name": "et",
+              "type": "object",
+              "label": "Eesti",
+              "fields": [
+                {
+                  "name": "alt",
+                  "type": "string",
+                  "label": "Image description / Pildi kirjeldus",
+                  "required": true
+                },
+                {
+                  "name": "caption",
+                  "type": "string",
+                  "label": "Caption, optional / Pildiallkiri"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "seo",
+      "label": "SEO",
+      "type": "file",
+      "path": "content/seo.json",
+      "format": "json",
+      "fields": [
+        {
+          "name": "indexing",
+          "type": "boolean",
+          "label": "Allow search indexing / Luba otsingumootorites kuvamine",
+          "default": true
+        },
+        {
+          "name": "defaultSocialImage",
+          "type": "image",
+          "label": "Default sharing image / Vaikimisi jagamispilt"
+        },
+        {
+          "name": "pages",
+          "type": "object",
+          "label": "Page SEO / Lehtede SEO",
+          "fields": [
+            {
+              "name": "home",
+              "type": "object",
+              "label": "Avaleht / Home",
+              "fields": [
+                {
+                  "name": "en",
+                  "type": "object",
+                  "label": "English",
+                  "fields": [
+                    {
+                      "name": "title",
+                      "type": "string",
+                      "label": "SEO title (empty = automatic)"
+                    },
+                    {
+                      "name": "description",
+                      "type": "text",
+                      "label": "Meta description (empty = automatic)"
+                    },
+                    {
+                      "name": "socialImage",
+                      "type": "image",
+                      "label": "Sharing image, optional"
+                    }
+                  ]
+                },
+                {
+                  "name": "et",
+                  "type": "object",
+                  "label": "Eesti",
+                  "fields": [
+                    {
+                      "name": "title",
+                      "type": "string",
+                      "label": "SEO title (empty = automatic)"
+                    },
+                    {
+                      "name": "description",
+                      "type": "text",
+                      "label": "Meta description (empty = automatic)"
+                    },
+                    {
+                      "name": "socialImage",
+                      "type": "image",
+                      "label": "Sharing image, optional"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "journal",
+              "type": "object",
+              "label": "Päevik / Journal",
+              "fields": [
+                {
+                  "name": "en",
+                  "type": "object",
+                  "label": "English",
+                  "fields": [
+                    {
+                      "name": "title",
+                      "type": "string",
+                      "label": "SEO title (empty = automatic)"
+                    },
+                    {
+                      "name": "description",
+                      "type": "text",
+                      "label": "Meta description (empty = automatic)"
+                    },
+                    {
+                      "name": "socialImage",
+                      "type": "image",
+                      "label": "Sharing image, optional"
+                    }
+                  ]
+                },
+                {
+                  "name": "et",
+                  "type": "object",
+                  "label": "Eesti",
+                  "fields": [
+                    {
+                      "name": "title",
+                      "type": "string",
+                      "label": "SEO title (empty = automatic)"
+                    },
+                    {
+                      "name": "description",
+                      "type": "text",
+                      "label": "Meta description (empty = automatic)"
+                    },
+                    {
+                      "name": "socialImage",
+                      "type": "image",
+                      "label": "Sharing image, optional"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "routes",
+              "type": "object",
+              "label": "Rajajuhid / Routes",
+              "fields": [
+                {
+                  "name": "en",
+                  "type": "object",
+                  "label": "English",
+                  "fields": [
+                    {
+                      "name": "title",
+                      "type": "string",
+                      "label": "SEO title (empty = automatic)"
+                    },
+                    {
+                      "name": "description",
+                      "type": "text",
+                      "label": "Meta description (empty = automatic)"
+                    },
+                    {
+                      "name": "socialImage",
+                      "type": "image",
+                      "label": "Sharing image, optional"
+                    }
+                  ]
+                },
+                {
+                  "name": "et",
+                  "type": "object",
+                  "label": "Eesti",
+                  "fields": [
+                    {
+                      "name": "title",
+                      "type": "string",
+                      "label": "SEO title (empty = automatic)"
+                    },
+                    {
+                      "name": "description",
+                      "type": "text",
+                      "label": "Meta description (empty = automatic)"
+                    },
+                    {
+                      "name": "socialImage",
+                      "type": "image",
+                      "label": "Sharing image, optional"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "about",
+              "type": "object",
+              "label": "Minust / About",
+              "fields": [
+                {
+                  "name": "en",
+                  "type": "object",
+                  "label": "English",
+                  "fields": [
+                    {
+                      "name": "title",
+                      "type": "string",
+                      "label": "SEO title (empty = automatic)"
+                    },
+                    {
+                      "name": "description",
+                      "type": "text",
+                      "label": "Meta description (empty = automatic)"
+                    },
+                    {
+                      "name": "socialImage",
+                      "type": "image",
+                      "label": "Sharing image, optional"
+                    }
+                  ]
+                },
+                {
+                  "name": "et",
+                  "type": "object",
+                  "label": "Eesti",
+                  "fields": [
+                    {
+                      "name": "title",
+                      "type": "string",
+                      "label": "SEO title (empty = automatic)"
+                    },
+                    {
+                      "name": "description",
+                      "type": "text",
+                      "label": "Meta description (empty = automatic)"
+                    },
+                    {
+                      "name": "socialImage",
+                      "type": "image",
+                      "label": "Sharing image, optional"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
