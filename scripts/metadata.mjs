@@ -1,4 +1,5 @@
 import {esc,safeUrl} from './core.mjs';
+import {verificationTag} from './privacy.mjs';
 export function renderMetadata({lang,path,title,description,ogImage,seo:entry,data,base='',origin=''}) {
   const key=path===''?'home':path.replace(/\/$/,'');
   const page=data.seo.pages[key]?.[lang]??{};
@@ -12,5 +13,5 @@ export function renderMetadata({lang,path,title,description,ogImage,seo:entry,da
     html+=`<link rel="canonical" href="${esc(location)}"><link rel="alternate" hreflang="en" href="${esc(origin+base+'/en/'+path)}"><link rel="alternate" hreflang="et" href="${esc(origin+base+'/et/'+path)}"><meta property="og:url" content="${esc(location)}">`;
     if(picture)html+=`<meta property="og:image" content="${esc(absolute(picture))}"><meta name="twitter:image" content="${esc(absolute(picture))}">`;
   }
-  return html;
+  return html+verificationTag(data);
 }

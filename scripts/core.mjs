@@ -21,18 +21,39 @@ export function markdown(body = '', base = '') {
 }
 export function readContent() {
   const data = {};
-  for (const type of ['site','branding','images','seo']) data[type]=JSON.parse(readFileSync(resolve(root,'content',type+'.json'),'utf8'));
+  for (const type of ['site','branding','images','seo','integrations']) data[type]=JSON.parse(readFileSync(resolve(root,'content',type+'.json'),'utf8'));
   for (const key of ['logo','footerLogo','logoAlt']) data.branding[key] ??= '';
   data.branding.logoWidth ??= 160;
   data.branding.sponsors ??= [];
   for (const sponsor of data.branding.sponsors) for (const key of ['name','logo','url']) sponsor[key] ??= '';
+  for (const key of ['gaMeasurementId','searchConsoleVerification','privacyControllerName','privacyContactEmail']) data.integrations[key] ??= '';
   data.seo.defaultSocialImage ??= '';
   for (const page of Object.values(data.seo.pages)) for (const lang of ['en','et']) for (const key of ['title','description','socialImage']) page[lang][key] ??= '';
   for (const key of ['homeHero','homeStory','about']) for (const lang of ['en','et']) data.images[key][lang].caption ??= '';
-  for (const type of ['posts','routes']) data[type] = readdirSync(resolve(root,'content',type)).filter(f=>f.endsWith('.json')).map(file => JSON.parse(readFileSync(resolve(root,'content',type,file),'utf8')));
+  for (const type of ['posts','routes','countries']) data[type] = readdirSync(resolve(root,'content',type)).filter(f=>f.endsWith('.json')).map(file => JSON.parse(readFileSync(resolve(root,'content',type,file),'utf8')));
+  for (const country of data.countries) for (const lang of ['en','et']) country[lang].description ??= '';
+  for (const post of data.posts) post.country ??= '';
   return data;
 }
 export function validateRecord(type, item) {
+  if (type === 'integrations') {
+    if (typeof item.analyticsEnabled!=='boolean') throw new Error('Choose whether Analytics is enabled.');
+    for (const key of ['gaMeasurementId','searchConsoleVerification','privacyControllerName','privacyContactEmail']) if (typeof item[key]!=='string') throw new Error(`Check ${key}.`);
+    if (item.gaMeasurementId&&!/^G-[A-Z0-9]{4,30}$/.test(item.gaMeasurementId)) throw new Error('Use a GA4 measurement ID beginning with G-.');
+    if (item.searchConsoleVerification&&!/^[A-Za-z0-9_-]{10,256}$/.test(item.searchConsoleVerification)) throw new Error('Paste only the Search Console HTML-tag verification code.');
+    if (item.privacyContactEmail&&!/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(item.privacyContactEmail)) throw new Error('Add a valid privacy contact email address.');
+    if (item.analyticsEnabled&&(!item.gaMeasurementId||!item.privacyControllerName.trim()||!item.privacyContactEmail)) throw new Error('Before enabling Analytics, add the measurement ID and privacy contact name/email.');
+    if (!Number.isInteger(item.consentVersion)||item.consentVersion<1) throw new Error('Consent version must be a positive whole number.');
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(item.privacyUpdated??'')) throw new Error('Add the privacy notice date.');
+    return;
+  }
+
+  if (type === 'countries') {
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.slug??'') || item.slug==='general') throw new Error('Choose a country URL using lowercase letters and hyphens; general is reserved.');
+    for (const lang of ['en','et']) if (!item[lang]?.name?.trim() || (item[lang].description!=null&&typeof item[lang].description!=='string')) throw new Error(`Add the country name in ${lang.toUpperCase()}.`);
+    return;
+  }
+
   if (type === 'images') {
     if (!item.favicon || safeUrl(item.favicon)==='#') throw new Error('Choose a favicon image or keep the original.');
     for (const key of ['homeHero','homeStory','about']) {
@@ -73,7 +94,8 @@ export function validateRecord(type, item) {
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.slug??'')) throw new Error('Use a URL slug with lowercase letters, numbers and hyphens.');
   if (!['draft','published'].includes(item.status)) throw new Error('Choose draft or published.');
   if (!/^\d{4}-\d{2}-\d{2}$/.test(item.date??'') || !Number.isFinite(Date.parse(item.date))) throw new Error('Add a valid publication date.');
-  if (!['story','running','travel','estonia','portugal','other'].includes(item.category)) throw new Error('Choose a supported category.');
+  if (type==='routes'&&!['estonia','portugal','other'].includes(item.category)) throw new Error('Choose a supported category.');
+  if (type==='posts'&&item.country!=null&&(typeof item.country!=='string'||(item.country&&!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.country)))) throw new Error('Choose a country from the list, or General.');
   if (item.image && safeUrl(item.image)==='#') throw new Error('Use a local image path or an https image URL.');
   for (const lang of ['en','et']) for (const field of ['title','excerpt','body',...(type==='routes'?['place']:[])]) if (typeof item[lang]?.[field] !== 'string' || (item.status==='published'&&!item[lang][field].trim())) throw new Error(`Add ${field} in ${lang.toUpperCase()} before publishing.`);
   for (const lang of ['en','et']) {
@@ -87,11 +109,13 @@ export function validateAll(data) {
   validateRecord('branding',data.branding);
   validateRecord('images',data.images);
   validateRecord('seo',data.seo);
-  for (const type of ['posts','routes']) {
+  validateRecord('integrations',data.integrations);
+  for (const type of ['posts','routes','countries']) {
     const slugs = new Set();
     for (const item of data[type]) {
       validateRecord(type,item);
       if(slugs.has(item.slug)) throw new Error(`Duplicate URL: ${item.slug}`);
+      if(type==='posts'&&item.country&&!data.countries.some(country=>country.slug===item.country)) throw new Error(`Add the country ${item.country} under Countries before assigning it to a story.`);
       slugs.add(item.slug);
     }
   }

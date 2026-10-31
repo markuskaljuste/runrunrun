@@ -3,6 +3,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { root,readContent,validateAll,validateRecord,markdown } from './core.mjs';
 import {renderMetadata} from './metadata.mjs';
+import {countryGroups,countrySlug} from './countries.mjs';
 const data=readContent();validateAll(data);
 const dist=resolve(root,'dist'),base=(process.env.BASE_PATH??'').replace(/\/$/,'');
 assert(existsSync(resolve(dist,'en/index.html')),'Build the site before running checks.');
@@ -34,7 +35,7 @@ assert(markdown('<script>alert(1)</script>').includes('&lt;script&gt;'),'HTML mu
 assert(!markdown('[unsafe](javascript:alert(1))').includes('href="javascript:'),'Unsafe URL.');
 const draft=structuredClone(data.posts[0]);draft.status='draft';draft.en.body='';validateRecord('posts',draft);draft.status='published';assert.throws(()=>validateRecord('posts',draft),'Incomplete translations must block publishing.');
 const route=structuredClone(data.routes[0]);route.sourceUrl='';assert.throws(()=>validateRecord('routes',route),'Route publication must require a source.');
-const config=JSON.parse(readFileSync(resolve(root,'.pages.yml'),'utf8'));assert.equal(config.content.length,6);assert.equal(config.media.output,'/assets/uploads');for(const type of ['branding','images','seo'])assert(config.content.some(c=>c.name===type&&c.path===`content/${type}.json`));
+const config=JSON.parse(readFileSync(resolve(root,'.pages.yml'),'utf8'));assert.equal(config.content.length,8);assert.equal(config.media.output,'/assets/uploads');for(const type of ['branding','images','seo','integrations'])assert(config.content.some(c=>c.name===type&&c.path===`content/${type}.json`));
 const branding=structuredClone(data.branding);branding.sponsors=[{name:'Test sponsor',logo:'/assets/favicon.svg',url:'javascript:alert(1)',enabled:true}];assert.throws(()=>validateRecord('branding',branding),'Sponsor links must use HTTPS.');branding.sponsors[0].url='https://example.com';validateRecord('branding',branding);branding.logoWidth=999;assert.throws(()=>validateRecord('branding',branding),'Logo sizing must stay within the header layout.');
 const testData=structuredClone(data);testData.seo.pages.home.et={title:'Uus SEO pealkiri',description:'Kirjeldus & tekst',socialImage:'/assets/ocean.jpg'};testData.seo.indexing=false;
 let head=renderMetadata({lang:'et',path:'',title:'Fallback',description:'Fallback description',data:testData,base:'/journal-site',origin:'https://example.com'});
@@ -42,4 +43,19 @@ assert(head.includes('<title>Uus SEO pealkiri</title>'));assert(head.includes('c
 head=renderMetadata({lang:'en',path:'journal/a-story/',title:'Fallback',description:'Fallback',ogImage:'/assets/forest.jpg',seo:{seoTitle:'Story SEO',seoDescription:'Story description',socialImage:'https://example.com/story.jpg'},data:testData,origin:'https://example.com'});
 assert(head.includes('<title>Story SEO</title>'));assert(head.includes('content="Story description"'));assert(head.includes('content="https://example.com/story.jpg"'));assert(head.includes('content="article"'));
 const images=structuredClone(data.images);images.homeHero.src='javascript:alert(1)';assert.throws(()=>validateRecord('images',images));
+assert(config.content.some(c=>c.name==='countries'&&c.type==='collection'));
+assert(config.content.find(c=>c.name==='posts').fields.some(f=>f.name==='country'&&f.type==='reference'&&f.options.collection==='countries'));
+const countryData=structuredClone(data);countryData.posts[0].country='nonexistent';assert.throws(()=>validateAll(countryData),'Unknown countries must be rejected.');
+const reserved={slug:'general',en:{name:'General'},et:{name:'Üldine'}};assert.throws(()=>validateRecord('countries',reserved),'General is a reserved category.');
+for(const lang of ['en','et']){
+ const index=readFileSync(resolve(dist,lang,'countries/index.html'),'utf8');assert(index.includes(`/${lang}/countries/`));
+ const groups=countryGroups(data,lang);
+ for(const group of groups){const page=readFileSync(resolve(dist,lang,'countries',group.slug,'index.html'),'utf8');for(const post of data.posts.filter(p=>p.status==='published'))assert.equal(page.includes(`/${lang}/journal/${post.slug}/`),countrySlug(post)===group.slug,`Country page mixed stories: ${group.slug}`);const other=lang==='en'?'et':'en';assert(page.includes(`/${other}/countries/${group.slug}/`));}
+ for(const country of data.countries)assert.equal(existsSync(resolve(dist,lang,'countries',country.slug,'index.html')),groups.some(g=>g.slug===country.slug),'Empty country categories should stay hidden.');
+}
+const draftOnly=structuredClone(data);draftOnly.posts[0].country='indonesia';draftOnly.posts[0].status='draft';assert(!countryGroups(draftOnly,'et').some(g=>g.slug==='indonesia'),'Draft stories must not expose a country category.');
 console.log(`Passed: ${pages} HTML pages, ${links} internal links/assets, EN/ET counterpart links, source requirements, safe text rendering, draft visibility and CMS file structure.`);
+const integrations=structuredClone(data.integrations);integrations.analyticsEnabled=true;integrations.gaMeasurementId='';assert.throws(()=>validateRecord('integrations',integrations),'Enabling Analytics requires the real ID and privacy contact.');Object.assign(integrations,{gaMeasurementId:'G-TEST123456',privacyControllerName:'Test operator',privacyContactEmail:'test@example.com'});validateRecord('integrations',integrations);integrations.searchConsoleVerification='<script>';assert.throws(()=>validateRecord('integrations',integrations));
+const verificationData=structuredClone(data);verificationData.integrations.searchConsoleVerification='test-verification-token';assert(renderMetadata({lang:'et',path:'',title:'Test',description:'Test',data:verificationData}).includes('<meta name="google-site-verification" content="test-verification-token">'));
+for(const lang of ['et','en']){const privacy=readFileSync(resolve(dist,lang,'privacy/index.html'),'utf8');assert(privacy.includes('runograph-consent'));assert(privacy.includes('data-cookie-settings'));const home=readFileSync(resolve(dist,lang,'index.html'),'utf8');assert(home.includes('id="runograph-integrations"'));assert(home.includes(`href="${base}/${lang}/privacy/"`));assert(home.includes('<title>')&&home.includes(data.site.brand));assert.equal((home.match(/name="google-site-verification"/g)||[]).length,data.integrations.searchConsoleVerification?1:0);assert(!home.includes('src="https://www.googletagmanager.com/'),'Google script must be loaded only after consent.');}
+await import('./check-consent.mjs');

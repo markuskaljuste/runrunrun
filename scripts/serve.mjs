@@ -22,9 +22,9 @@ const server=http.createServer(async(req,res)=>{
    const input=await body(req);
    if(path==='/api/save'){
     const {type,item,originalSlug}=input;
-    if(!['site','branding','images','seo','posts','routes'].includes(type))throw new Error('Unknown content type.');
+    if(!['site','branding','images','seo','integrations','posts','routes','countries'].includes(type))throw new Error('Unknown content type.');
     validateRecord(type,item);
-    const settings=['site','branding','images','seo'].includes(type);
+    const settings=['site','branding','images','seo','integrations'].includes(type);
     if(!settings&&originalSlug&&originalSlug!==item.slug)throw new Error('Keep the URL of an existing entry. Create a new entry to use a new URL.');
     const file=settings?resolve(root,'content',type+'.json'):resolve(root,'content',type,item.slug+'.json');
     if(!settings&&!originalSlug&&existsSync(file))throw new Error('That URL already exists. Choose another slug.');
@@ -56,4 +56,4 @@ const server=http.createServer(async(req,res)=>{
   send(res,200,req.method==='HEAD'?'':readFileSync(file),mime[extname(file)]||'application/octet-stream');
  }catch(error){send(res,400,{error:error.message});}
 });
-server.listen(port,'127.0.0.1',()=>console.log(`RUN / ROAM\nLocal: http://localhost:${port}/en/\nEditor: http://localhost:${port}/admin/\nLocal editing writes to content/ and rebuilds the preview. Press Ctrl+C to stop.`));
+server.listen(port,'127.0.0.1',()=>console.log(`Runograph\nLocal: http://localhost:${port}/en/\nEditor: http://localhost:${port}/admin/\nLocal editing writes to content/ and rebuilds the preview. Press Ctrl+C to stop.`));

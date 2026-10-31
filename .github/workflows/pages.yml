@@ -1,4 +1,4 @@
-name: Publish RUN ROAM
+name: Publish Runograph
 on:
   push:
     branches: [main]

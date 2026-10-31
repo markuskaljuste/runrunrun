@@ -59,17 +59,15 @@
           "required": true
         },
         {
-          "name": "category",
-          "label": "Topic / Teema",
-          "type": "select",
+          "name": "country",
+          "type": "reference",
+          "label": "Riik / Country (optional; empty = General)",
           "options": {
-            "values": [
-              "story",
-              "running",
-              "travel"
-            ]
-          },
-          "required": true
+            "collection": "countries",
+            "value": "{fields.slug}",
+            "label": "{et.name} / {en.name}",
+            "search": "en.name,et.name,slug"
+          }
         },
         {
           "name": "image",
@@ -946,6 +944,121 @@
               ]
             }
           ]
+        }
+      ]
+    },
+    {
+      "name": "countries",
+      "label": "Riigid / Countries",
+      "type": "collection",
+      "path": "content/countries",
+      "format": "json",
+      "filename": "{fields.slug}.json",
+      "subfolders": false,
+      "operations": {
+        "delete": false,
+        "rename": false
+      },
+      "view": {
+        "primary": "et.name",
+        "fields": [
+          "et.name",
+          "en.name",
+          "slug"
+        ],
+        "sort": "et.name",
+        "order": "asc"
+      },
+      "fields": [
+        {
+          "name": "slug",
+          "type": "string",
+          "label": "Country URL (e.g. indonesia)",
+          "required": true
+        },
+        {
+          "name": "en",
+          "type": "object",
+          "label": "English",
+          "fields": [
+            {
+              "name": "name",
+              "type": "string",
+              "label": "Country name / Riigi nimi",
+              "required": true
+            },
+            {
+              "name": "description",
+              "type": "text",
+              "label": "Introduction, optional / Sissejuhatus"
+            }
+          ]
+        },
+        {
+          "name": "et",
+          "type": "object",
+          "label": "Eesti",
+          "fields": [
+            {
+              "name": "name",
+              "type": "string",
+              "label": "Country name / Riigi nimi",
+              "required": true
+            },
+            {
+              "name": "description",
+              "type": "text",
+              "label": "Introduction, optional / Sissejuhatus"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "integrations",
+      "label": "Google ja küpsised / Google & cookies",
+      "type": "file",
+      "path": "content/integrations.json",
+      "format": "json",
+      "fields": [
+        {
+          "name": "analyticsEnabled",
+          "label": "Lülita Google Analytics sisse (vajab ID-d ja privaatsuskontakti) / Enable Analytics",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "gaMeasurementId",
+          "label": "GA4 mõõtmis-ID / Measurement ID (G-…)",
+          "type": "string"
+        },
+        {
+          "name": "searchConsoleVerification",
+          "label": "Search Console HTML-tag kinnituskood (ainult content-väärtus)",
+          "type": "string"
+        },
+        {
+          "name": "privacyControllerName",
+          "label": "Veebilehe haldaja nimi / Website operator name",
+          "type": "string"
+        },
+        {
+          "name": "privacyContactEmail",
+          "label": "Privaatsuskontakti e-post / Privacy contact email",
+          "type": "string"
+        },
+        {
+          "name": "privacyUpdated",
+          "label": "Privaatsusteabe uuendamise kuupäev (YYYY-MM-DD)",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "consentVersion",
+          "label": "Nõusoleku versioon / Consent version (suurenda oluliste muudatuste korral)",
+          "type": "number",
+          "required": true,
+          "default": 1
         }
       ]
     }
