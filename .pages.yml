@@ -501,7 +501,7 @@
         {
           "name": "logoWidth",
           "type": "number",
-          "label": "Logo width (80–240 px)",
+          "label": "Logo width (80-240 px)",
           "required": true,
           "default": 160,
           "options": {

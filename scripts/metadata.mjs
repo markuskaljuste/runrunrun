@@ -3,7 +3,7 @@ import {verificationTag} from './privacy.mjs';
 export function renderMetadata({lang,path,title,description,ogImage,seo:entry,data,base='',origin='',noindex=false,ogType}) {
   const key=path===''?'home':path.replace(/\/$/,'');
   const page=data.seo.pages[key]?.[lang]??{};
-  const headline=entry?.seoTitle?.trim()||page.title?.trim()||`${title} — ${data.site.brand}`;
+  const headline=entry?.seoTitle?.trim()||page.title?.trim()||`${title} | ${data.site.brand}`;
   const summary=entry?.seoDescription?.trim()||page.description?.trim()||description;
   const picture=entry?.socialImage||page.socialImage||ogImage||data.seo.defaultSocialImage||data.images.homeHero.src;
   const absolute=value=>/^https?:\/\//.test(value)?safeUrl(value):origin+base+value;

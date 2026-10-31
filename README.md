@@ -144,7 +144,7 @@ GitHubi ja Pages CMS-i ühendamiseks logi sisse enda kontoga. Privaatne Sitesi e
 - `public/admin/`: local editor and hosted CMS handoff.
 - `dist/`: generated, ready-to-host static website.
 
-The About page covers Estonian cross-country skiing, snowboarding and injuries, a weight of about 100 kg in 2018–2019, the goal of losing 20–25 kg for karting/motorsport, nine marathon **attempts**, the later 10 km focus, founding Rocca Sörk, remote digital marketing work and running while travelling. No weight-loss result, finish count, race time, route details, exact injury or private contact detail has been added. The destination catalog uses only places the user explicitly confirmed having run in.
+The About page covers Estonian cross-country skiing, snowboarding and injuries, a weight of about 100 kg in 2018-2019, the goal of losing 20-25 kg for karting/motorsport, nine marathon **attempts**, the later 10 km focus, founding Rocca Sörk, remote digital marketing work and running while travelling. No weight-loss result, finish count, race time, route details, exact injury or private contact detail has been added. The destination catalog uses only places the user explicitly confirmed having run in.
 
 All initial post publication dates are 26 October 2026, when this edition of the website was created; they are not dates of the life events. Replace the initial editorial copy and illustrative photographs with your own material as you develop the journal. Runograph is the selected site name.
 
