@@ -1,7 +1,9 @@
+import {renderRatings} from './ratings.js';
+import {renderEngagement} from './engagement.js';
 import {renderBranding} from './branding.js';
 import {renderImages,renderSeo} from './settings.js';
 import {renderIntegrations} from './integrations.js';
-const settingTypes=['site','branding','images','seo','integrations','publication'];
+const settingTypes=['site','branding','images','seo','integrations','publication','engagement'];
 const $=s=>document.querySelector(s);
 const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let token,content,type='posts',record=null,originalSlug=null,lang='en',dirty=false,uploading=false;
@@ -26,13 +28,13 @@ function renderList(){
 function selectRecord(item,isNew=false){record=copy(item);originalSlug=isNew?null:item.slug;dirty=false;lang='en';renderList();render();message('');$('#save').disabled=true;}
 function render(){
  $('#entry-form').hidden=!record;if(!record)return;
- $('#record-label').textContent=type==='publication'?'AVALDAMINE / PUBLISHING':type==='integrations'?'GOOGLE & KÜPSISED':type==='images'?'PILDID / IMAGES':type==='seo'?'SEO':type==='branding'?'LOGO & SPONSORS':type==='site'?'SITE & MY STORY':type==='places'?'KOHAD / PLACES':type==='countries'?'RIIGID / COUNTRIES':type==='routes'?'ROUTE GUIDE':'JOURNAL';
- $('#editor-title').textContent=type==='publication'?'Avaliku lehe olek':type==='integrations'?'Google ja küpsiste seaded':type==='images'?'Sinu pildid / Your images':type==='seo'?'SEO seaded / SEO settings':type==='branding'?'Make it yours':type==='site'?'Your site, your story':type==='places'?(record.en.name||'Uus koht / New place'):type==='countries'?(record.en.name||'Uus riik / New country'):(record.en.title||'New entry');
- const branding=['branding','images','seo','integrations'].includes(type);
+ $('#record-label').textContent=type==='engagement'?'SOTSIAAL JA KONTAKT':type==='publication'?'AVALDAMINE / PUBLISHING':type==='integrations'?'GOOGLE & KÜPSISED':type==='images'?'PILDID / IMAGES':type==='seo'?'SEO':type==='branding'?'LOGO & SPONSORS':type==='site'?'SITE & MY STORY':type==='places'?'KOHAD / PLACES':type==='countries'?'RIIGID / COUNTRIES':type==='routes'?'ROUTE GUIDE':'JOURNAL';
+ $('#editor-title').textContent=type==='engagement'?'Sotsiaalmeedia ja suhtlus':type==='publication'?'Avaliku lehe olek':type==='integrations'?'Google ja küpsiste seaded':type==='images'?'Sinu pildid / Your images':type==='seo'?'SEO seaded / SEO settings':type==='branding'?'Make it yours':type==='site'?'Your site, your story':type==='places'?(record.en.name||'Uus koht / New place'):type==='countries'?(record.en.name||'Uus riik / New country'):(record.en.title||'New entry');
+ const branding=['branding','images','seo','integrations','engagement'].includes(type);
  $('#metadata').classList.toggle('branding-metadata',branding);
  for(const selector of ['.language-tabs','#language-fields'])$(selector).hidden=branding;
  for(const selector of ['.markdown-help','.preview-details'])$(selector).hidden=branding||['countries','publication'].includes(type);
- if(branding){const options={root:$('#metadata'),record,changed:change,upload:uploadImage,notify:message,site:content.site};if(type==='integrations')renderIntegrations(options);else if(type==='branding')renderBranding(options);else if(type==='images')renderImages(options);else renderSeo(options);return;}
+ if(branding){const options={root:$('#metadata'),record,changed:change,upload:uploadImage,notify:message,site:content.site};if(type==='engagement')renderEngagement(options);else if(type==='integrations')renderIntegrations(options);else if(type==='branding')renderBranding(options);else if(type==='images')renderImages(options);else renderSeo(options);return;}
  if(type==='publication')$('#metadata').innerHTML=`<label class="wide">Avaliku lehe olek / Public website mode<select data-key="mode"><option value="coming-soon" ${record.mode==='coming-soon'?'selected':''}>Varsti avatud / Coming soon</option><option value="live" ${record.mode==='live'?'selected':''}>Täisblogi avalik / Full blog live</option></select></label><p class="editor-hint wide">See valik määrab, mida näevad avaliku GitHubi lehe ja runograph.com külastajad. Privaatne ja kohalik eelvaade näitavad alati täisblogi. „Täisblogi avalik” valik avaldab kogu lehe pärast GitHubi muudatuste salvestamist. / This controls public visitors. Private/local previews always show the full journal.</p>`;
  else if(type==='countries')$('#metadata').innerHTML=field('slug','Riigi URL / Country URL (e.g. indonesia)',record.slug,{readOnly:!!originalSlug,wide:true})+'<p class="editor-hint wide">Riik ilmub lehel siis, kui selle alla on avaldatud koht või postitus. / A country appears after a place or story is published under it.</p>';
  else if(type==='places')$('#metadata').innerHTML=field('slug','Koha URL / Place URL',record.slug,{readOnly:!!originalSlug})+`<label>Olek / Status<select data-key="status"><option value="draft" ${record.status==='draft'?'selected':''}>Mustand / Draft</option><option value="published" ${record.status==='published'?'selected':''}>Avaldatud / Published</option></select></label><label>Riik / Country<select data-key="country"><option value="">Vali riik / Choose country</option>${content.countries.map(c=>`<option value="${escape(c.slug)}" ${record.country===c.slug?'selected':''}>${escape(c.et.name)} / ${escape(c.en.name)}</option>`).join('')}</select></label><label class="place-coming-switch"><input type="checkbox" id="coming-soon" ${record.comingSoon?'checked':''}>Info varsti / Coming soon</label><p class="editor-hint wide">Kui tekst on valmis, võta „Info varsti” märge maha. Seni jääb kohaleht otsingumootorite indeksist välja. / Turn Coming soon off when the text is ready; until then the place page is noindex.</p>`+field('image','Koha pilt / Place image',record.image,{wide:true})+`<label class="wide">Laadi foto / Upload photo<div class="image-tools"><input type="file" id="upload" accept="image/jpeg,image/png,image/webp"><img id="image-preview" src="${escape(record.image)}" alt="Current image preview"></div></label>`;
@@ -46,6 +48,7 @@ function render(){
  $('#coming-soon')?.addEventListener('change',event=>{record.comingSoon=event.target.checked;change();});
  $('#metadata').querySelectorAll('[data-key]').forEach(input=>input.addEventListener('input',()=>{record[input.dataset.key]=input.value;change();if(input.dataset.key==='image')$('#image-preview').src=input.value;if(type==='posts'&&input.dataset.key==='country'){record.place='';render();}}));
  $('#upload')?.addEventListener('change',async event=>{const file=event.target.files[0];if(!file)return;try{record.image=await uploadImage(file);change();render();message('Photograph uploaded. Save the entry to use it.');}catch(error){message(error.message,true);}});
+ if(type==='places'){const ratings=document.createElement('section');ratings.className='branding-block rating-editor wide';$('#metadata').append(ratings);renderRatings({root:ratings,record,changed:change});}
  renderLanguage();
 }
 function renderLanguage(){

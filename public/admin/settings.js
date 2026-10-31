@@ -16,7 +16,7 @@ export function renderImages({root,record,changed,upload,notify}){
 }
 export function renderSeo({root,record,site,changed,upload,notify}){
   let page='home',lang='en';
-  const labels={home:'Avaleht / Home',journal:'Päevik / Journal',routes:'Rajajuhid / Routes',about:'Minust / About'};
+  const labels={home:'Avaleht / Home',journal:'Päevik / Journal',about:'Minust / About'};
   const fallbackTitle=()=>page==='home'?site[lang].hero.replace('\n',' '):page==='about'?labels.about.split(' / ')[lang==='et'?0:1]:labels[page].split(' / ')[lang==='et'?0:1];
   const fallbackDescription=()=>page==='about'?site[lang].aboutExcerpt:page==='home'?site[lang].intro:'';
   function render(){

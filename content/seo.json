@@ -5,12 +5,12 @@
     "home": {
       "en": {
         "title": "Running & Travel Journal | Runograph",
-        "description": "An Estonian runner’s journal of running, travel and remote life. Discover the story behind Rocca Sörk, personal running notes and sourced destination guides.",
+        "description": "An Estonian runner’s journal of running, travel and remote life. Discover the story behind Rocca Sörk, personal running notes and destinations explored on foot.",
         "socialImage": ""
       },
       "et": {
         "title": "Jooksu- ja reisipäevik | Runograph",
-        "description": "Ühe eestlase lood jooksmisest, reisimisest ja kaugtööst. Loe Rocca Sörgi asutaja teekonnast ning avasta isiklikud jooksulood ja allikatega sihtkohtade teejuhid.",
+        "description": "Ühe eestlase lood jooksmisest, reisimisest ja kaugtööst. Loe Rocca Sörgi asutaja teekonnast ning avasta jooksulugusid ja jooksupaiku riikide kaupa.",
         "socialImage": ""
       }
     },
@@ -23,18 +23,6 @@
       "et": {
         "title": "Jooksulood ja reisimärkmed | Runograph",
         "description": "Isiklikud lood kardisõidu nimel jooksmise alustamisest, üheksast maratonikatsest, hilisemast 10 km fookusest ja reisidel jooksmisest.",
-        "socialImage": ""
-      }
-    },
-    "routes": {
-      "en": {
-        "title": "Running Destination Guides | Runograph",
-        "description": "Explore sourced research notes for running destinations, including Tallinn and Madeira. Official links and clear notes on what has and has not been verified.",
-        "socialImage": ""
-      },
-      "et": {
-        "title": "Jooksusihtkohtade teejuhid | Runograph",
-        "description": "Avasta Tallinna ja Madeira jooksupaikade uurimismärkmeid. Iga teejuhi juures on ametlikud allikad ning selgitus, millised rajaandmed on kontrollitud.",
         "socialImage": ""
       }
     },

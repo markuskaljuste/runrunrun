@@ -12,7 +12,7 @@ npm run dev
 
 Open **http://localhost:4173/en/** for English, **http://localhost:4173/et/** for Estonian, and **http://localhost:4173/admin/** to write.
 
-1. Choose Journal, Routes, Site & my story, Logo & sponsors, Pildid / Images, SEO, Riigid / Countries, Kohad / Places, or Google & küpsised.
+1. Choose Journal, Site & my story, Logo & sponsors, Pildid / Images, SEO, Riigid / Countries, Kohad / Places, or Google & küpsised.
 2. Edit the English and Eesti tabs. Upload JPG, PNG or WebP photographs if needed.
 3. Save as a draft while writing. Both languages need a title, introduction and body before an entry can be published.
 4. Choose **Published** and **Save changes** to include an entry in your local site.
@@ -56,13 +56,25 @@ Post and route cover images remain editable inside each entry. Each language now
 
 ### Change SEO settings
 
-Choose **SEO**, select Home, Journal, Routes or About, then English or Eesti. Set an optional SEO title, meta description and sharing image for that page. An entered SEO title is the complete browser/search title; add the site name yourself if wanted. Empty values use the page headline and introduction. The search preview is illustrative; search engines may display different text.
+Choose **SEO**, select Home, Journal or About, then English or Eesti. Set an optional SEO title, meta description and sharing image for that page. An entered SEO title is the complete browser/search title; add the site name yourself if wanted. Empty values use the page headline and introduction. The search preview is illustrative; search engines may display different text.
 
 You can upload a default sharing image and control whether the generated pages include `index,follow` or `noindex,follow`. This indexing setting does not change the site's access permissions. Canonical URLs, EN/ET alternate-language links, Open Graph/Twitter metadata and the sitemap are generated at publication, using the hosting address supplied by GitHub Actions. Do not block the entire site in robots.txt when relying on noindex, because crawlers need to read the page's noindex instruction.
 
 Each post and route has optional **SEO ja jagamine / SEO & sharing** fields under its language content. These override its usual title, introduction and cover image. No SEO keywords field or ranking guarantee is provided.
 
 Pages CMS contains the same **Pildid / Images** and **SEO** collections. If you already uploaded an older edition of the project, replace its files with the updated project, including `.pages.yml`, so these fields become available.
+
+## Scores, social links, contact and comments
+
+Each running place has five optional author scores: safety, scenery, running surface, access and running experience. Edit these under **Kohad / Places → Runographi hinnang**. Every score is a whole number from 1 to 10 and can have short English/Estonian notes. The overall score is the equally weighted average, rounded to one decimal. It appears at the end of the place page and on stories linked to that place. All starter scores are blank and hidden; no ratings were invented.
+
+**Sotsiaal ja kontakt / Social & contact** controls the real Instagram and Strava profile links, share buttons, public sharing domain, and later service connections. Social profiles appear in both the full journal and the coming-soon footer. Share buttons use ordinary outbound links and browser sharing/clipboard features, with no social SDK. Preview sharing points to the production domain; unpublished destinations open only after the public blog launch.
+
+The contact page is prepared for Formspree's opaque form ID. Configure the receiving address only in Formspree, then add the form ID and enable submissions. No recipient address, API key or password belongs in the site configuration. Until a real ID is supplied the form is disabled and labelled unavailable. Successful submission feedback appears only after a successful provider response; failed submissions retain the visitor's message.
+
+Comments are prepared for Remarkbox and remain off until the public embed key is supplied and **Enable Moderation** is enabled in the provider's Namespace Settings. The website acknowledgement does not configure that server-side policy. Readers load the iframe explicitly; nothing is fetched from the comment service before that action. Surrounding copy is bilingual; Remarkbox's widget itself is English-only. Approval happens in Remarkbox, outside Pages CMS.
+
+See **LUGEJA-SEADISTUS.md** for the remaining account steps. The user chose to complete the contact/comment accounts later, so actual delivery and provider moderation have not yet been verified.
 
 ## Public launch mode
 
@@ -100,7 +112,7 @@ Official guide: https://docs.github.com/en/pages/getting-started-with-github-pag
 
 ## Edit online with free Pages CMS
 
-The project includes `.pages.yml`, already configured for bilingual posts, route guides, photographs and the homepage/About copy. It uses a plain text Markdown body field for predictable formatting.
+The project includes `.pages.yml`, already configured for bilingual posts, running places, photographs and the homepage/About copy. It uses a plain text Markdown body field for predictable formatting.
 
 1. Visit **https://app.pagescms.org/** and sign in with GitHub.
 2. Install its GitHub App for the repository containing this project.
@@ -130,6 +142,7 @@ GitHubi ja Pages CMS-i ühendamiseks logi sisse enda kontoga. Privaatne Sitesi e
 ## Pages and content
 
 - `content/site.json`: brand, homepage headlines and introduction, About story in both languages.
+- `content/engagement.json`: social profile links, sharing, inactive Formspree and Remarkbox connections. No recipient email is stored here.
 - `content/branding.json`: header/footer logo, logo size, sponsor headings, visibility, sponsor logos and links.
 - `content/images.json`: homepage/About photographs, captions, bilingual alt text and favicon.
 - `content/seo.json`: main-page SEO titles, descriptions, sharing images and indexing preference.
@@ -139,7 +152,7 @@ GitHubi ja Pages CMS-i ühendamiseks logi sisse enda kontoga. Privaatne Sitesi e
 - `content/places/*.json`: published/draft running places, country references, local photos and bilingual placeholder or finished text.
 - `content/photo-credits.json`: Wikimedia Commons authors, source pages and individual photo licenses.
 - `content/posts/*.json`: three initial personal stories, based only on the supplied outline.
-- `content/routes/*.json`: two sourced destination research notes. These are **not first-hand tested running routes**.
+- `content/routes/*.json`: archived legacy research notes. They are not published as guides; old URLs redirect to destinations.
 - `public/assets/`: local photographs, fonts and styles. No external font or image request is needed to view the site.
 - `public/admin/`: local editor and hosted CMS handoff.
 - `dist/`: generated, ready-to-host static website.
@@ -148,14 +161,9 @@ The About page covers Estonian cross-country skiing, snowboarding and injuries, 
 
 All initial post publication dates are 26 October 2026, when this edition of the website was created; they are not dates of the life events. Replace the initial editorial copy and illustrative photographs with your own material as you develop the journal. Runograph is the selected site name.
 
-## Route accuracy
+## Destinations and archived guide URLs
 
-Routes require an official source URL, source label and checked date to publish. The Tallinn entry uses Visit Tallinn; the Madeira entry uses Visit Madeira. Madeira's 2.2 km figure describes the promenade in the source, **not** a recorded run or loop. The site supplies no invented GPX, elevation, water points, accessibility, opening-hours or safety data. Date checked: 26 October 2026.
-
-Sources:
-
-- https://web.visittallinn.ee/eng/visitor/see-do/things-to-do/urban-nature/177339/pirita-promenade-and-reidi-road
-- https://visitmadeira.com/en/where-to-go/madeira/south-coast/camara-de-lobos/camara-de-lobos-promenade/
+Destinations are now the only travel-place section. The separate Route guides navigation, homepage section, SEO controls and CMS collection were removed. The old route index redirects to Destinations; the old Tallinn note redirects to Tallinn, and the old Madeira note to the Portugal country page. Archived source notes remain in `content/routes/` for recovery, without claiming personal visits to Madeira.
 
 ## Formatting
 

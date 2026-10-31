@@ -182,200 +182,6 @@
       ]
     },
     {
-      "name": "routes",
-      "label": "Route guides / Rajajuhid",
-      "type": "collection",
-      "path": "content/routes",
-      "format": "json",
-      "filename": "{fields.slug}.json",
-      "subfolders": false,
-      "view": {
-        "primary": "en.title",
-        "fields": [
-          "en.title",
-          "status",
-          "date"
-        ],
-        "sort": "date",
-        "order": "desc"
-      },
-      "fields": [
-        {
-          "name": "slug",
-          "label": "URL slug (lowercase, hyphens)",
-          "type": "string",
-          "required": true
-        },
-        {
-          "name": "status",
-          "label": "Status / Olek",
-          "type": "select",
-          "default": "draft",
-          "options": {
-            "values": [
-              "draft",
-              "published"
-            ]
-          },
-          "required": true
-        },
-        {
-          "name": "date",
-          "label": "Publication date / Kuupäev",
-          "type": "date",
-          "options": {
-            "format": "yyyy-MM-dd"
-          },
-          "required": true
-        },
-        {
-          "name": "category",
-          "label": "Topic / Teema",
-          "type": "select",
-          "options": {
-            "values": [
-              "estonia",
-              "portugal",
-              "other"
-            ]
-          },
-          "required": true
-        },
-        {
-          "name": "image",
-          "label": "Cover image / Kaanepilt",
-          "type": "image"
-        },
-        {
-          "name": "sourceUrl",
-          "label": "Official source URL / Ametlik allikas",
-          "type": "string"
-        },
-        {
-          "name": "sourceLabel",
-          "label": "Source name / Allika nimi",
-          "type": "string"
-        },
-        {
-          "name": "checked",
-          "label": "Source checked / Kontrollitud",
-          "type": "date",
-          "options": {
-            "format": "yyyy-MM-dd"
-          }
-        },
-        {
-          "name": "distance",
-          "label": "Official segment length (optional) / Pikkus",
-          "type": "string"
-        },
-        {
-          "name": "en",
-          "label": "English",
-          "type": "object",
-          "fields": [
-            {
-              "name": "title",
-              "label": "Title / Pealkiri",
-              "type": "string"
-            },
-            {
-              "name": "place",
-              "label": "Destination / Sihtkoht",
-              "type": "string"
-            },
-            {
-              "name": "excerpt",
-              "label": "Introduction / Sissejuhatus",
-              "type": "text"
-            },
-            {
-              "name": "body",
-              "label": "Body (Markdown) / Sisu",
-              "type": "text"
-            },
-            {
-              "name": "imageAlt",
-              "type": "string",
-              "label": "Image description (alt) / Pildi kirjeldus"
-            },
-            {
-              "name": "imageCaption",
-              "type": "string",
-              "label": "Image caption / Pildiallkiri"
-            },
-            {
-              "name": "seoTitle",
-              "type": "string",
-              "label": "SEO title, optional / SEO pealkiri"
-            },
-            {
-              "name": "seoDescription",
-              "type": "text",
-              "label": "Meta description, optional / Meta kirjeldus"
-            },
-            {
-              "name": "socialImage",
-              "type": "image",
-              "label": "Sharing image, optional / Jagamispilt"
-            }
-          ]
-        },
-        {
-          "name": "et",
-          "label": "Eesti",
-          "type": "object",
-          "fields": [
-            {
-              "name": "title",
-              "label": "Title / Pealkiri",
-              "type": "string"
-            },
-            {
-              "name": "place",
-              "label": "Destination / Sihtkoht",
-              "type": "string"
-            },
-            {
-              "name": "excerpt",
-              "label": "Introduction / Sissejuhatus",
-              "type": "text"
-            },
-            {
-              "name": "body",
-              "label": "Body (Markdown) / Sisu",
-              "type": "text"
-            },
-            {
-              "name": "imageAlt",
-              "type": "string",
-              "label": "Image description (alt) / Pildi kirjeldus"
-            },
-            {
-              "name": "imageCaption",
-              "type": "string",
-              "label": "Image caption / Pildiallkiri"
-            },
-            {
-              "name": "seoTitle",
-              "type": "string",
-              "label": "SEO title, optional / SEO pealkiri"
-            },
-            {
-              "name": "seoDescription",
-              "type": "text",
-              "label": "Meta description, optional / Meta kirjeldus"
-            },
-            {
-              "name": "socialImage",
-              "type": "image",
-              "label": "Sharing image, optional / Jagamispilt"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "name": "site",
       "label": "Site & my story / Leht ja minu lugu",
       "type": "file",
@@ -853,57 +659,6 @@
               ]
             },
             {
-              "name": "routes",
-              "type": "object",
-              "label": "Rajajuhid / Routes",
-              "fields": [
-                {
-                  "name": "en",
-                  "type": "object",
-                  "label": "English",
-                  "fields": [
-                    {
-                      "name": "title",
-                      "type": "string",
-                      "label": "SEO title (empty = automatic)"
-                    },
-                    {
-                      "name": "description",
-                      "type": "text",
-                      "label": "Meta description (empty = automatic)"
-                    },
-                    {
-                      "name": "socialImage",
-                      "type": "image",
-                      "label": "Sharing image, optional"
-                    }
-                  ]
-                },
-                {
-                  "name": "et",
-                  "type": "object",
-                  "label": "Eesti",
-                  "fields": [
-                    {
-                      "name": "title",
-                      "type": "string",
-                      "label": "SEO title (empty = automatic)"
-                    },
-                    {
-                      "name": "description",
-                      "type": "text",
-                      "label": "Meta description (empty = automatic)"
-                    },
-                    {
-                      "name": "socialImage",
-                      "type": "image",
-                      "label": "Sharing image, optional"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
               "name": "about",
               "type": "object",
               "label": "Minust / About",
@@ -1243,6 +998,129 @@
               "type": "text"
             }
           ]
+        },
+        {
+          "name": "ratings",
+          "label": "Runographi hinnang / Destination score",
+          "type": "object",
+          "fields": [
+            {
+              "name": "enabled",
+              "label": "Näita hinnangut / Show rating",
+              "type": "boolean",
+              "default": false
+            },
+            {
+              "name": "safety",
+              "label": "Ohutus / Safety",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "score",
+                  "label": "Hinne 1 kuni 10 / Score 1 to 10",
+                  "type": "number"
+                },
+                {
+                  "name": "et",
+                  "label": "Lühikommentaar eesti keeles",
+                  "type": "text"
+                },
+                {
+                  "name": "en",
+                  "label": "Short note in English",
+                  "type": "text"
+                }
+              ]
+            },
+            {
+              "name": "scenery",
+              "label": "Vaated / Scenery",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "score",
+                  "label": "Hinne 1 kuni 10 / Score 1 to 10",
+                  "type": "number"
+                },
+                {
+                  "name": "et",
+                  "label": "Lühikommentaar eesti keeles",
+                  "type": "text"
+                },
+                {
+                  "name": "en",
+                  "label": "Short note in English",
+                  "type": "text"
+                }
+              ]
+            },
+            {
+              "name": "surface",
+              "label": "Rajapind / Running surface",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "score",
+                  "label": "Hinne 1 kuni 10 / Score 1 to 10",
+                  "type": "number"
+                },
+                {
+                  "name": "et",
+                  "label": "Lühikommentaar eesti keeles",
+                  "type": "text"
+                },
+                {
+                  "name": "en",
+                  "label": "Short note in English",
+                  "type": "text"
+                }
+              ]
+            },
+            {
+              "name": "access",
+              "label": "Ligipääsetavus / Access",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "score",
+                  "label": "Hinne 1 kuni 10 / Score 1 to 10",
+                  "type": "number"
+                },
+                {
+                  "name": "et",
+                  "label": "Lühikommentaar eesti keeles",
+                  "type": "text"
+                },
+                {
+                  "name": "en",
+                  "label": "Short note in English",
+                  "type": "text"
+                }
+              ]
+            },
+            {
+              "name": "experience",
+              "label": "Jooksuelamus / Running experience",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "score",
+                  "label": "Hinne 1 kuni 10 / Score 1 to 10",
+                  "type": "number"
+                },
+                {
+                  "name": "et",
+                  "label": "Lühikommentaar eesti keeles",
+                  "type": "text"
+                },
+                {
+                  "name": "en",
+                  "label": "Short note in English",
+                  "type": "text"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -1307,6 +1185,95 @@
               "label": "Tutvustus / Introduction",
               "type": "text",
               "required": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "engagement",
+      "label": "Sotsiaal ja kontakt / Social & contact",
+      "type": "file",
+      "path": "content/engagement.json",
+      "format": "json",
+      "fields": [
+        {
+          "name": "publicOrigin",
+          "label": "Avaliku lehe HTTPS-aadress, ilma lõpus kaldkriipsuta / Public origin",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "socials",
+          "label": "Minu sotsiaalmeedia / My social profiles",
+          "type": "object",
+          "list": true,
+          "fields": [
+            {
+              "name": "name",
+              "label": "Nimi / Name",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "url",
+              "label": "Profiili HTTPS-aadress / Profile URL",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "enabled",
+              "label": "Nähtav / Visible",
+              "type": "boolean",
+              "default": true
+            }
+          ]
+        },
+        {
+          "name": "sharingEnabled",
+          "label": "Näita jagamisnuppe / Show sharing buttons",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "name": "contact",
+          "label": "Kontaktivorm / Contact form",
+          "type": "object",
+          "fields": [
+            {
+              "name": "enabled",
+              "label": "Lülita saatmine sisse, kui päris vormi ID on lisatud / Enable submissions",
+              "type": "boolean",
+              "default": false
+            },
+            {
+              "name": "formspreeId",
+              "label": "Formspree vormi ID (ainult ID, mitte meiliaadress)",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "comments",
+          "label": "Kommentaarid / Comments",
+          "type": "object",
+          "fields": [
+            {
+              "name": "enabled",
+              "label": "Lülita kommentaarid sisse / Enable comments",
+              "type": "boolean",
+              "default": false
+            },
+            {
+              "name": "remarkboxKey",
+              "label": "Remarkboxi avalik embed-võti / Public embed key",
+              "type": "string"
+            },
+            {
+              "name": "moderationConfirmed",
+              "label": "Remarkboxi Namespace Settings all on Enable Moderation sisse lülitatud",
+              "type": "boolean",
+              "default": false
             }
           ]
         }

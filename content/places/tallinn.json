@@ -23,5 +23,33 @@
     "imageCaption": "Tallinn · Illustratiivne kohapilt, mitte autori foto.",
     "seoTitle": "",
     "seoDescription": ""
+  },
+  "ratings": {
+    "enabled": false,
+    "safety": {
+      "score": null,
+      "en": "",
+      "et": ""
+    },
+    "scenery": {
+      "score": null,
+      "en": "",
+      "et": ""
+    },
+    "surface": {
+      "score": null,
+      "en": "",
+      "et": ""
+    },
+    "access": {
+      "score": null,
+      "en": "",
+      "et": ""
+    },
+    "experience": {
+      "score": null,
+      "en": "",
+      "et": ""
+    }
   }
 }

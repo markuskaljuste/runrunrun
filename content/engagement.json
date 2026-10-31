@@ -1,0 +1,25 @@
+{
+  "publicOrigin": "https://runograph.com",
+  "socials": [
+    {
+      "name": "Instagram",
+      "url": "https://www.instagram.com/markuskaljuste/",
+      "enabled": true
+    },
+    {
+      "name": "Strava",
+      "url": "https://strava.app.link/W1a7SCITG7b",
+      "enabled": true
+    }
+  ],
+  "sharingEnabled": true,
+  "comments": {
+    "enabled": false,
+    "remarkboxKey": "",
+    "moderationConfirmed": false
+  },
+  "contact": {
+    "enabled": false,
+    "formspreeId": ""
+  }
+}

@@ -22,9 +22,9 @@ const server=http.createServer(async(req,res)=>{
    const input=await body(req);
    if(path==='/api/save'){
     const {type,item,originalSlug}=input;
-    if(!['site','branding','images','seo','integrations','publication','posts','routes','countries','places'].includes(type))throw new Error('Unknown content type.');
+    if(!['site','branding','images','seo','integrations','publication','engagement','posts','countries','places'].includes(type))throw new Error('Unknown content type.');
     validateRecord(type,item);
-    const settings=['site','branding','images','seo','integrations','publication'].includes(type);
+    const settings=['site','branding','images','seo','integrations','publication','engagement'].includes(type);
     if(!settings&&originalSlug&&originalSlug!==item.slug)throw new Error('Keep the URL of an existing entry. Create a new entry to use a new URL.');
     const file=settings?resolve(root,'content',type+'.json'):resolve(root,'content',type,item.slug+'.json');
     if(!settings&&!originalSlug&&existsSync(file))throw new Error('That URL already exists. Choose another slug.');

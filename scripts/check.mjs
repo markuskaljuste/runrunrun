@@ -25,7 +25,7 @@ for(const path of files(dist).filter(p=>p.endsWith('.html'))){
   assert(existsSync(target),`Broken local link ${href} in ${path}`);links++;
  }
 }
-for(const lang of ['en','et'])for(const type of ['posts','routes'])for(const record of data[type]){
+for(const lang of ['en','et'])for(const type of ['posts'])for(const record of data[type]){
  const path=resolve(dist,lang,type==='posts'?'journal':'routes',record.slug,'index.html');
  assert.equal(existsSync(path),record.status==='published',`Draft isolation failed: ${record.slug}`);
  if(record.status==='published'){
@@ -37,7 +37,7 @@ assert(markdown('<script>alert(1)</script>').includes('&lt;script&gt;'),'HTML mu
 assert(!markdown('[unsafe](javascript:alert(1))').includes('href="javascript:'),'Unsafe URL.');
 const draft=structuredClone(data.posts[0]);draft.status='draft';draft.en.body='';validateRecord('posts',draft);draft.status='published';assert.throws(()=>validateRecord('posts',draft),'Incomplete translations must block publishing.');
 const route=structuredClone(data.routes[0]);route.sourceUrl='';assert.throws(()=>validateRecord('routes',route),'Route publication must require a source.');
-const config=JSON.parse(readFileSync(resolve(root,'.pages.yml'),'utf8'));assert.equal(config.content.length,10);assert.equal(config.media.output,'/assets/uploads');for(const type of ['branding','images','seo','integrations','publication'])assert(config.content.some(c=>c.name===type&&c.path===`content/${type}.json`));
+const config=JSON.parse(readFileSync(resolve(root,'.pages.yml'),'utf8'));assert.equal(config.content.length,10);assert.equal(config.media.output,'/assets/uploads');for(const type of ['branding','images','seo','integrations','publication','engagement'])assert(config.content.some(c=>c.name===type&&c.path===`content/${type}.json`));
 const branding=structuredClone(data.branding);branding.sponsors=[{name:'Test sponsor',logo:'/assets/favicon.svg',url:'javascript:alert(1)',enabled:true}];assert.throws(()=>validateRecord('branding',branding),'Sponsor links must use HTTPS.');branding.sponsors[0].url='https://example.com';validateRecord('branding',branding);branding.logoWidth=999;assert.throws(()=>validateRecord('branding',branding),'Logo sizing must stay within the header layout.');
 const testData=structuredClone(data);testData.seo.pages.home.et={title:'Uus SEO pealkiri',description:'Kirjeldus & tekst',socialImage:'/assets/ocean.jpg'};testData.seo.indexing=false;
 let head=renderMetadata({lang:'et',path:'',title:'Fallback',description:'Fallback description',data:testData,base:'/journal-site',origin:'https://example.com'});
@@ -80,3 +80,7 @@ if(existsSync(resolve(dist,'sitemap.xml'))){const sitemap=readFileSync(resolve(d
 console.log('Passed place checks: country/place relationships, draft isolation, bilingual pages, placeholder indexing, image credits and CMS references.');
 
 const invalidPublication=structuredClone(data.publication);invalidPublication.mode='unknown';assert.throws(()=>validateRecord('publication',invalidPublication));
+
+assert(!config.content.some(c=>c.name==='routes'),'Route guides must be removed from the CMS.');
+for(const lang of ['et','en']){const home=readFileSync(resolve(dist,lang,'index.html'),'utf8');assert(!home.includes('class="section routes-home"'));assert(!home.includes(`href="${base}/${lang}/routes/"`));assert(home.includes('class="brand-run"'));assert(home.includes('class="brand-ograph"'));assert(home.includes('https://www.instagram.com/markuskaljuste/'));assert(home.includes('https://strava.app.link/W1a7SCITG7b'));const contact=readFileSync(resolve(dist,lang,'contact/index.html'),'utf8');assert(contact.includes('contact-form'));if(!data.engagement.contact.enabled)assert(!contact.includes('data-contact-form'));for(const post of data.posts.filter(p=>p.status==='published'))assert(readFileSync(resolve(dist,lang,'journal',post.slug,'index.html'),'utf8').includes('data-copy-link'));}
+await import('./check-engagement.mjs');

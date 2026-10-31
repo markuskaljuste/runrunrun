@@ -1,3 +1,4 @@
+import {emptyRatings,validateRatings,ratingCriteria} from './rating-data.mjs';
 import { readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 export const root = resolve(import.meta.dirname, '..');
@@ -22,7 +23,9 @@ export function markdown(body = '', base = '') {
 export function readContent() {
   const data = {};
   data.photoCredits=JSON.parse(readFileSync(resolve(root,'content/photo-credits.json'),'utf8'));
-  for (const type of ['site','branding','images','seo','integrations','publication']) data[type]=JSON.parse(readFileSync(resolve(root,'content',type+'.json'),'utf8'));
+  for (const type of ['site','branding','images','seo','integrations','publication','engagement']) data[type]=JSON.parse(readFileSync(resolve(root,'content',type+'.json'),'utf8'));
+  data.engagement.socials ??= [];for(const social of data.engagement.socials)social.enabled ??= false;
+  data.engagement.contact.formspreeId ??= '';data.engagement.contact.enabled ??= false;data.engagement.comments.remarkboxKey ??= '';data.engagement.comments.enabled ??= false;data.engagement.comments.moderationConfirmed ??= false;
   for (const key of ['logo','footerLogo','logoAlt']) data.branding[key] ??= '';
   data.branding.logoWidth ??= 160;
   data.branding.sponsors ??= [];
@@ -33,11 +36,24 @@ export function readContent() {
   for (const key of ['homeHero','homeStory','about']) for (const lang of ['en','et']) data.images[key][lang].caption ??= '';
   for (const type of ['posts','routes','countries','places']) data[type] = readdirSync(resolve(root,'content',type)).filter(f=>f.endsWith('.json')).map(file => JSON.parse(readFileSync(resolve(root,'content',type,file),'utf8')));
   for (const country of data.countries) for (const lang of ['en','et']) country[lang].description ??= '';
+  for(const place of data.places){place.ratings ??= emptyRatings();place.ratings.enabled ??= false;for(const [key] of ratingCriteria){place.ratings[key] ??= {score:null,en:'',et:''};place.ratings[key].score ??= null;for(const lang of ['en','et'])place.ratings[key][lang] ??= '';}}
   for (const post of data.posts) {post.country ??= '';post.place ??= '';}
   for (const place of data.places) for (const lang of ['en','et']) for(const key of ['region','imageAlt','imageCaption','seoTitle','seoDescription']) place[lang][key] ??= '';
   return data;
 }
 export function validateRecord(type, item) {
+  if(type==='engagement'){
+    if(!/^https:\/\/[a-z0-9.-]+(?::[0-9]+)?$/i.test(item.publicOrigin??''))throw new Error('Use the HTTPS origin of the public website, without a path.');
+    if(!Array.isArray(item.socials)||typeof item.sharingEnabled!=='boolean')throw new Error('Check social links and sharing settings.');
+    for(const social of item.socials)if(typeof social.name!=='string'||!social.name.trim()||typeof social.url!=='string'||!/^https:\/\//.test(social.url)||safeUrl(social.url)==='#'||typeof social.enabled!=='boolean')throw new Error('Use a name and HTTPS address for each social profile.');
+    if(!item.contact||typeof item.contact.enabled!=='boolean'||typeof item.contact.formspreeId!=='string')throw new Error('Check contact form settings.');
+    if(item.contact.formspreeId&&!/^[a-zA-Z0-9]{6,64}$/.test(item.contact.formspreeId))throw new Error('Use only the Formspree form ID, not an email address.');
+    if(item.contact.enabled&&!item.contact.formspreeId)throw new Error('Add the real Formspree form ID before enabling contact messages.');
+    const c=item.comments;if(!c||typeof c.enabled!=='boolean'||typeof c.moderationConfirmed!=='boolean'||typeof c.remarkboxKey!=='string')throw new Error('Check comment settings.');
+    if(c.remarkboxKey&&!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(c.remarkboxKey))throw new Error('Add the public Remarkbox embed key.');
+    if(c.enabled&&(!c.remarkboxKey||!c.moderationConfirmed))throw new Error('Enable Moderation in Remarkbox and add its public embed key before enabling comments.');
+    return;
+  }
   if(type==='publication'){
     if(!['coming-soon','live'].includes(item.mode))throw new Error('Choose Coming soon or Live.');
     for(const lang of ['en','et'])for(const key of ['title','description'])if(typeof item[lang]?.[key]!=='string'||!item[lang][key].trim())throw new Error(`Add the coming-soon ${key} in ${lang.toUpperCase()}.`);
@@ -59,6 +75,7 @@ export function validateRecord(type, item) {
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.slug??'')) throw new Error('Choose a place URL using lowercase letters and hyphens.');
     if (!['draft','published'].includes(item.status)) throw new Error('Choose draft or published.');
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.country??'')) throw new Error('Choose the country for this place.');
+    if(item.ratings!=null)validateRatings(item.ratings);
     if (typeof item.comingSoon!=='boolean') throw new Error('Choose whether the place is coming soon.');
     if (item.image&&safeUrl(item.image)==='#') throw new Error('Choose a valid place image.');
     if (item.status==='published'&&!item.image) throw new Error('Add an image before publishing a place.');
@@ -87,7 +104,7 @@ export function validateRecord(type, item) {
   if (type === 'seo') {
     if (typeof item.indexing!=='boolean') throw new Error('Choose whether search engines may index the site.');
     if (item.defaultSocialImage && safeUrl(item.defaultSocialImage)==='#') throw new Error('Choose a valid sharing image.');
-    for (const page of ['home','journal','routes','about']) for (const lang of ['en','et']) {
+    for (const page of ['home','journal','about']) for (const lang of ['en','et']) {
       const fields=item.pages?.[page]?.[lang];
       if (!fields || ['title','description'].some(key=>typeof fields[key]!=='string')) throw new Error(`Check SEO settings for ${page}, ${lang.toUpperCase()}.`);
       if (fields.socialImage && safeUrl(fields.socialImage)==='#') throw new Error('Choose a valid page sharing image.');
@@ -128,6 +145,7 @@ export function validateRecord(type, item) {
   if (type==='routes' && item.status==='published' && (!/^https:\/\//.test(item.sourceUrl??'') || safeUrl(item.sourceUrl)==='#' || !item.sourceLabel?.trim() || !/^\d{4}-\d{2}-\d{2}$/.test(item.checked??''))) throw new Error('Published route guides need an official https source, source name and checked date.');
 }
 export function validateAll(data) {
+  validateRecord('engagement',data.engagement);
   validateRecord('publication',data.publication);
   validateRecord('site',data.site);
   validateRecord('branding',data.branding);
