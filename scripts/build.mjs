@@ -1,6 +1,7 @@
 import { mkdirSync, writeFileSync, rmSync, cpSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { root, readContent, validateAll, esc, safeUrl, markdown } from './core.mjs';
+import {isComingSoon,buildComingSoon} from './publication.mjs';
 import { renderMetadata } from './metadata.mjs';
 import {consentMarkup,buildPrivacyPages,verificationTag} from './privacy.mjs';
 import {countrySlug,countryName,countryGroups,countryBrowse,buildCountryPages,buildPlacePages,publishedPlaces} from './countries.mjs';
@@ -10,6 +11,7 @@ if(base && !/^\/[a-zA-Z0-9_./-]+$/.test(base)) throw new Error('BASE_PATH must b
 const origin=(process.env.SITE_URL??'').replace(/\/$/,'');
 if(origin&&!/^https?:\/\/[a-z0-9.:[\]-]+$/i.test(origin)) throw new Error('SITE_URL must be an http(s) origin without a path.');
 const url=p=>`${base}${p}`;
+if(isComingSoon(data)){buildComingSoon({data,base,origin});process.exit(0);}
 const image=p=>p?.startsWith('/')?url(p):safeUrl(p||'/assets/hero-mountains.jpg');
 const dist=resolve(root,'dist');rmSync(dist,{recursive:true,force:true});mkdirSync(dist,{recursive:true});cpSync(resolve(root,'public'),dist,{recursive:true});
 const translations={

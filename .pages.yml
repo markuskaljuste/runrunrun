@@ -1245,6 +1245,72 @@
           ]
         }
       ]
+    },
+    {
+      "name": "publication",
+      "label": "Avaldamine / Publishing",
+      "type": "file",
+      "path": "content/publication.json",
+      "format": "json",
+      "fields": [
+        {
+          "name": "mode",
+          "label": "Avaliku lehe olek / Public website mode",
+          "type": "select",
+          "required": true,
+          "default": "coming-soon",
+          "options": {
+            "values": [
+              {
+                "value": "coming-soon",
+                "label": "Varsti avatud / Coming soon"
+              },
+              {
+                "value": "live",
+                "label": "Täisblogi avalik / Full blog live"
+              }
+            ]
+          }
+        },
+        {
+          "name": "en",
+          "label": "English",
+          "type": "object",
+          "fields": [
+            {
+              "name": "title",
+              "label": "Pealkiri / Headline",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "description",
+              "label": "Tutvustus / Introduction",
+              "type": "text",
+              "required": true
+            }
+          ]
+        },
+        {
+          "name": "et",
+          "label": "Eesti",
+          "type": "object",
+          "fields": [
+            {
+              "name": "title",
+              "label": "Pealkiri / Headline",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "description",
+              "label": "Tutvustus / Introduction",
+              "type": "text",
+              "required": true
+            }
+          ]
+        }
+      ]
     }
   ]
 }

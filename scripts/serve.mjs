@@ -6,7 +6,7 @@ import { spawnSync } from 'node:child_process';
 import {root,readContent,validateRecord} from './core.mjs';
 const port=Number(process.env.PORT||4173),token=randomBytes(32).toString('hex');
 const dist=resolve(root,'dist');
-function build(){const result=spawnSync(process.execPath,[resolve(root,'scripts/build.mjs')],{cwd:root,encoding:'utf8',env:{...process.env,BASE_PATH:'',SITE_URL:''}});if(result.status!==0)throw new Error(result.stderr||'Build failed.');}
+function build(){const result=spawnSync(process.execPath,[resolve(root,'scripts/build.mjs')],{cwd:root,encoding:'utf8',env:{...process.env,BASE_PATH:'',SITE_URL:'',PUBLIC_BUILD:'0'}});if(result.status!==0)throw new Error(result.stderr||'Build failed.');}
 build();
 function send(res,status,data,type='application/json'){res.writeHead(status,{'Content-Type':type,'X-Content-Type-Options':'nosniff','Referrer-Policy':'same-origin','Cache-Control':'no-store'});res.end(type==='application/json'?JSON.stringify(data):data);}
 async function body(req){const chunks=[];let length=0;for await (const chunk of req){length+=chunk.length;if(length>12_000_000)throw new Error('File is too large. Maximum 8 MB.');chunks.push(chunk);}return JSON.parse(Buffer.concat(chunks).toString('utf8'));}
@@ -22,9 +22,9 @@ const server=http.createServer(async(req,res)=>{
    const input=await body(req);
    if(path==='/api/save'){
     const {type,item,originalSlug}=input;
-    if(!['site','branding','images','seo','integrations','posts','routes','countries','places'].includes(type))throw new Error('Unknown content type.');
+    if(!['site','branding','images','seo','integrations','publication','posts','routes','countries','places'].includes(type))throw new Error('Unknown content type.');
     validateRecord(type,item);
-    const settings=['site','branding','images','seo','integrations'].includes(type);
+    const settings=['site','branding','images','seo','integrations','publication'].includes(type);
     if(!settings&&originalSlug&&originalSlug!==item.slug)throw new Error('Keep the URL of an existing entry. Create a new entry to use a new URL.');
     const file=settings?resolve(root,'content',type+'.json'):resolve(root,'content',type,item.slug+'.json');
     if(!settings&&!originalSlug&&existsSync(file))throw new Error('That URL already exists. Choose another slug.');

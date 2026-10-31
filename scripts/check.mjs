@@ -2,10 +2,12 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { root,readContent,validateAll,validateRecord,markdown } from './core.mjs';
+import {isComingSoon,checkComingSoon} from './publication.mjs';
 import {renderMetadata} from './metadata.mjs';
 import {countryGroups,countrySlug} from './countries.mjs';
 const data=readContent();validateAll(data);
 const dist=resolve(root,'dist'),base=(process.env.BASE_PATH??'').replace(/\/$/,'');
+if(isComingSoon(data)){checkComingSoon({data,base});process.exit(0);}
 assert(existsSync(resolve(dist,'en/index.html')),'Build the site before running checks.');
 function files(folder){return readdirSync(folder).flatMap(n=>{const path=resolve(folder,n);return statSync(path).isDirectory()?files(path):[path];});}
 let pages=0,links=0;
@@ -35,7 +37,7 @@ assert(markdown('<script>alert(1)</script>').includes('&lt;script&gt;'),'HTML mu
 assert(!markdown('[unsafe](javascript:alert(1))').includes('href="javascript:'),'Unsafe URL.');
 const draft=structuredClone(data.posts[0]);draft.status='draft';draft.en.body='';validateRecord('posts',draft);draft.status='published';assert.throws(()=>validateRecord('posts',draft),'Incomplete translations must block publishing.');
 const route=structuredClone(data.routes[0]);route.sourceUrl='';assert.throws(()=>validateRecord('routes',route),'Route publication must require a source.');
-const config=JSON.parse(readFileSync(resolve(root,'.pages.yml'),'utf8'));assert.equal(config.content.length,9);assert.equal(config.media.output,'/assets/uploads');for(const type of ['branding','images','seo','integrations'])assert(config.content.some(c=>c.name===type&&c.path===`content/${type}.json`));
+const config=JSON.parse(readFileSync(resolve(root,'.pages.yml'),'utf8'));assert.equal(config.content.length,10);assert.equal(config.media.output,'/assets/uploads');for(const type of ['branding','images','seo','integrations','publication'])assert(config.content.some(c=>c.name===type&&c.path===`content/${type}.json`));
 const branding=structuredClone(data.branding);branding.sponsors=[{name:'Test sponsor',logo:'/assets/favicon.svg',url:'javascript:alert(1)',enabled:true}];assert.throws(()=>validateRecord('branding',branding),'Sponsor links must use HTTPS.');branding.sponsors[0].url='https://example.com';validateRecord('branding',branding);branding.logoWidth=999;assert.throws(()=>validateRecord('branding',branding),'Logo sizing must stay within the header layout.');
 const testData=structuredClone(data);testData.seo.pages.home.et={title:'Uus SEO pealkiri',description:'Kirjeldus & tekst',socialImage:'/assets/ocean.jpg'};testData.seo.indexing=false;
 let head=renderMetadata({lang:'et',path:'',title:'Fallback',description:'Fallback description',data:testData,base:'/journal-site',origin:'https://example.com'});
@@ -76,3 +78,5 @@ for(const lang of ['en','et']){
 for(const credit of data.photoCredits){assert(credit.author&&credit.license&&/^https:\/\//.test(credit.sourceUrl)&&/^https:\/\//.test(credit.licenseUrl));assert(existsSync(resolve(dist,'.'+credit.path)));}
 if(existsSync(resolve(dist,'sitemap.xml'))){const sitemap=readFileSync(resolve(dist,'sitemap.xml'),'utf8');for(const p of data.places)for(const lang of ['en','et'])assert.equal(sitemap.includes(`/${lang}/places/${p.slug}/`),p.status==='published'&&!p.comingSoon);}
 console.log('Passed place checks: country/place relationships, draft isolation, bilingual pages, placeholder indexing, image credits and CMS references.');
+
+const invalidPublication=structuredClone(data.publication);invalidPublication.mode='unknown';assert.throws(()=>validateRecord('publication',invalidPublication));

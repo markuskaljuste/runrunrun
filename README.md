@@ -64,6 +64,14 @@ Each post and route has optional **SEO ja jagamine / SEO & sharing** fields unde
 
 Pages CMS contains the same **Pildid / Images** and **SEO** collections. If you already uploaded an older edition of the project, replace its files with the updated project, including `.pages.yml`, so these fields become available.
 
+## Public launch mode
+
+**Pages CMS → Avaldamine / Publishing** controls the public website. It currently uses **Varsti avatud / Coming soon**. The GitHub workflow sets `PUBLIC_BUILD=1`, which makes `npm run build` publish only the English/Estonian coming-soon pages, their fallback page, local typography and favicon. Journal pages, place pages, destination photos, editing assets and Analytics are excluded from the public build. This is a temporary public landing page, not password protection for the public GitHub source repository.
+
+The default local and private Sites builds show the full journal, regardless of the public setting. The private Sites preview is a separate publication: Pages CMS changes rebuild GitHub Pages, and a private Sites refresh must be published separately. Existing source content is retained in both repositories.
+
+When you are ready to launch, change **Avaliku lehe olek / Public website mode** to **Täisblogi avalik / Full blog live**, save, and wait for the GitHub workflow to succeed. That publishes the full journal on the same connected domain. To close it again, choose Coming soon and save. The coming-soon headline and introduction can be edited in both languages.
+
 ## Google Analytics, Search Console and cookies
 
 Choose **Google & küpsised** in the local editor or **Google ja küpsised / Google & cookies** in Pages CMS. All Google codes start empty and Analytics starts **off**. Read **GOOGLE-SEADISTUS.md** for the setup steps. `runograph.com` is owned but has not been connected to hosting; no CNAME is added by this update.
@@ -125,6 +133,7 @@ GitHubi ja Pages CMS-i ühendamiseks logi sisse enda kontoga. Privaatne Sitesi e
 - `content/branding.json`: header/footer logo, logo size, sponsor headings, visibility, sponsor logos and links.
 - `content/images.json`: homepage/About photographs, captions, bilingual alt text and favicon.
 - `content/seo.json`: main-page SEO titles, descriptions, sharing images and indexing preference.
+- `content/publication.json`: public launch mode and bilingual coming-soon headline/introduction.
 - `content/integrations.json`: Analytics opt-in setting, GA4 measurement ID, Search Console verification token, privacy contact and consent version.
 - `content/countries/*.json`: editable bilingual country categories and introductions.
 - `content/places/*.json`: published/draft running places, country references, local photos and bilingual placeholder or finished text.

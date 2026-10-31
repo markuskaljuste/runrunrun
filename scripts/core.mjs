@@ -22,7 +22,7 @@ export function markdown(body = '', base = '') {
 export function readContent() {
   const data = {};
   data.photoCredits=JSON.parse(readFileSync(resolve(root,'content/photo-credits.json'),'utf8'));
-  for (const type of ['site','branding','images','seo','integrations']) data[type]=JSON.parse(readFileSync(resolve(root,'content',type+'.json'),'utf8'));
+  for (const type of ['site','branding','images','seo','integrations','publication']) data[type]=JSON.parse(readFileSync(resolve(root,'content',type+'.json'),'utf8'));
   for (const key of ['logo','footerLogo','logoAlt']) data.branding[key] ??= '';
   data.branding.logoWidth ??= 160;
   data.branding.sponsors ??= [];
@@ -38,6 +38,11 @@ export function readContent() {
   return data;
 }
 export function validateRecord(type, item) {
+  if(type==='publication'){
+    if(!['coming-soon','live'].includes(item.mode))throw new Error('Choose Coming soon or Live.');
+    for(const lang of ['en','et'])for(const key of ['title','description'])if(typeof item[lang]?.[key]!=='string'||!item[lang][key].trim())throw new Error(`Add the coming-soon ${key} in ${lang.toUpperCase()}.`);
+    return;
+  }
   if (type === 'integrations') {
     if (typeof item.analyticsEnabled!=='boolean') throw new Error('Choose whether Analytics is enabled.');
     for (const key of ['gaMeasurementId','searchConsoleVerification','privacyControllerName','privacyContactEmail']) if (typeof item[key]!=='string') throw new Error(`Check ${key}.`);
@@ -123,6 +128,7 @@ export function validateRecord(type, item) {
   if (type==='routes' && item.status==='published' && (!/^https:\/\//.test(item.sourceUrl??'') || safeUrl(item.sourceUrl)==='#' || !item.sourceLabel?.trim() || !/^\d{4}-\d{2}-\d{2}$/.test(item.checked??''))) throw new Error('Published route guides need an official https source, source name and checked date.');
 }
 export function validateAll(data) {
+  validateRecord('publication',data.publication);
   validateRecord('site',data.site);
   validateRecord('branding',data.branding);
   validateRecord('images',data.images);
