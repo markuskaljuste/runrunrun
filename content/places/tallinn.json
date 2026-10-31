@@ -1,0 +1,27 @@
+{
+  "slug": "tallinn",
+  "country": "estonia",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/tallinn.jpg",
+  "en": {
+    "name": "Tallinn",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Tallinn",
+    "imageCaption": "Tallinn · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Tallinn",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Tallinn",
+    "imageCaption": "Tallinn · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "slug": "belgrade",
+  "country": "serbia",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/belgrade.jpg",
+  "en": {
+    "name": "Belgrade",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Belgrade",
+    "imageCaption": "Belgrade · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Belgrad",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Belgrad",
+    "imageCaption": "Belgrad · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

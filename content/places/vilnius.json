@@ -1,0 +1,27 @@
+{
+  "slug": "vilnius",
+  "country": "lithuania",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/vilnius.jpg",
+  "en": {
+    "name": "Vilnius",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Vilnius",
+    "imageCaption": "Vilnius · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Vilnius",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Vilnius",
+    "imageCaption": "Vilnius · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

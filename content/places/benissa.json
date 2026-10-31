@@ -1,0 +1,27 @@
+{
+  "slug": "benissa",
+  "country": "spain",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/benissa.jpg",
+  "en": {
+    "name": "Benissa",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Benissa",
+    "imageCaption": "Benissa · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Benissa",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Benissa",
+    "imageCaption": "Benissa · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

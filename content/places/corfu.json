@@ -1,0 +1,27 @@
+{
+  "slug": "corfu",
+  "country": "greece",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/corfu.jpg",
+  "en": {
+    "name": "Corfu",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Corfu",
+    "imageCaption": "Corfu · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Korfu",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Korfu",
+    "imageCaption": "Korfu · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

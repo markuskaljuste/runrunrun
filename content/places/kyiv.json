@@ -1,0 +1,27 @@
+{
+  "slug": "kyiv",
+  "country": "ukraine",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/kyiv.jpg",
+  "en": {
+    "name": "Kyiv",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Kyiv",
+    "imageCaption": "Kyiv · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Kiiev",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Kiiev",
+    "imageCaption": "Kiiev · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

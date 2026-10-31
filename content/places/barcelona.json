@@ -1,0 +1,27 @@
+{
+  "slug": "barcelona",
+  "country": "spain",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/barcelona.jpg",
+  "en": {
+    "name": "Barcelona",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Barcelona",
+    "imageCaption": "Barcelona · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Barcelona",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Barcelona",
+    "imageCaption": "Barcelona · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

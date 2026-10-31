@@ -70,6 +70,17 @@
           }
         },
         {
+          "name": "place",
+          "label": "Jooksukoht, soovi korral / Running place, optional",
+          "type": "reference",
+          "options": {
+            "collection": "places",
+            "value": "{fields.slug}",
+            "label": "{et.name} / {en.name}",
+            "search": "et.name"
+          }
+        },
+        {
           "name": "image",
           "label": "Cover image / Kaanepilt",
           "type": "image"
@@ -1059,6 +1070,179 @@
           "type": "number",
           "required": true,
           "default": 1
+        }
+      ]
+    },
+    {
+      "name": "places",
+      "label": "Kohad / Places",
+      "type": "collection",
+      "path": "content/places",
+      "format": "json",
+      "filename": "{fields.slug}.json",
+      "subfolders": false,
+      "operations": {
+        "rename": false
+      },
+      "view": {
+        "primary": "et.name",
+        "fields": [
+          "et.name",
+          "country",
+          "status"
+        ],
+        "sort": "et.name",
+        "order": "asc"
+      },
+      "fields": [
+        {
+          "name": "slug",
+          "label": "Koha URL / Place URL",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "country",
+          "label": "Riik / Country",
+          "type": "reference",
+          "required": true,
+          "options": {
+            "collection": "countries",
+            "value": "{fields.slug}",
+            "label": "{et.name} / {en.name}",
+            "search": "en.name,et.name,slug"
+          }
+        },
+        {
+          "name": "status",
+          "label": "Olek / Status",
+          "type": "select",
+          "required": true,
+          "default": "draft",
+          "options": {
+            "values": [
+              {
+                "value": "draft",
+                "label": "Mustand / Draft"
+              },
+              {
+                "value": "published",
+                "label": "Avaldatud / Published"
+              }
+            ]
+          }
+        },
+        {
+          "name": "comingSoon",
+          "label": "Info varsti / Coming soon",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "name": "image",
+          "label": "Koha pilt / Place image",
+          "type": "image",
+          "required": true
+        },
+        {
+          "name": "en",
+          "label": "English",
+          "type": "object",
+          "fields": [
+            {
+              "name": "name",
+              "label": "Koha nimi / Place name",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "region",
+              "label": "Piirkond või saar, soovi korral / Region or island",
+              "type": "string"
+            },
+            {
+              "name": "excerpt",
+              "label": "Lühitutvustus / Introduction",
+              "type": "text",
+              "required": true
+            },
+            {
+              "name": "body",
+              "label": "Sisu / Content",
+              "type": "text",
+              "required": true
+            },
+            {
+              "name": "imageAlt",
+              "label": "Pildi kirjeldus / Image description",
+              "type": "string"
+            },
+            {
+              "name": "imageCaption",
+              "label": "Pildiallkiri / Image caption",
+              "type": "string"
+            },
+            {
+              "name": "seoTitle",
+              "label": "SEO pealkiri, soovi korral / SEO title",
+              "type": "string"
+            },
+            {
+              "name": "seoDescription",
+              "label": "SEO kirjeldus, soovi korral / SEO description",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "name": "et",
+          "label": "Eesti",
+          "type": "object",
+          "fields": [
+            {
+              "name": "name",
+              "label": "Koha nimi / Place name",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "region",
+              "label": "Piirkond või saar, soovi korral / Region or island",
+              "type": "string"
+            },
+            {
+              "name": "excerpt",
+              "label": "Lühitutvustus / Introduction",
+              "type": "text",
+              "required": true
+            },
+            {
+              "name": "body",
+              "label": "Sisu / Content",
+              "type": "text",
+              "required": true
+            },
+            {
+              "name": "imageAlt",
+              "label": "Pildi kirjeldus / Image description",
+              "type": "string"
+            },
+            {
+              "name": "imageCaption",
+              "label": "Pildiallkiri / Image caption",
+              "type": "string"
+            },
+            {
+              "name": "seoTitle",
+              "label": "SEO pealkiri, soovi korral / SEO title",
+              "type": "string"
+            },
+            {
+              "name": "seoDescription",
+              "label": "SEO kirjeldus, soovi korral / SEO description",
+              "type": "text"
+            }
+          ]
         }
       ]
     }

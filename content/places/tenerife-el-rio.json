@@ -1,0 +1,27 @@
+{
+  "slug": "tenerife-el-rio",
+  "country": "spain",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/tenerife-el-rio.jpg",
+  "en": {
+    "name": "El Río",
+    "region": "Tenerife",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Teide, Tenerife — regional illustration",
+    "imageCaption": "Regional view of Tenerife; not a photograph of El Río village. Illustrative photo.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "El Río",
+    "region": "Tenerife",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Teide, Tenerife — piirkondlik illustratsioon",
+    "imageCaption": "Tenerife piirkondlik vaade; ei kujuta El Río küla. Illustratiivne foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

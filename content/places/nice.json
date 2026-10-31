@@ -1,0 +1,27 @@
+{
+  "slug": "nice",
+  "country": "france",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/nice.jpg",
+  "en": {
+    "name": "Nice",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Nice",
+    "imageCaption": "Nice · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Nitsa",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Nizza",
+    "imageCaption": "Nizza · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

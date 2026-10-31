@@ -1,0 +1,27 @@
+{
+  "slug": "tenerife-los-cristianos",
+  "country": "spain",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/tenerife-los-cristianos.jpg",
+  "en": {
+    "name": "Los Cristianos",
+    "region": "Tenerife",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Los Cristianos, Tenerife",
+    "imageCaption": "Los Cristianos, Tenerife · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Los Cristianos",
+    "region": "Tenerife",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Los Cristianos, Tenerife",
+    "imageCaption": "Los Cristianos, Tenerife · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

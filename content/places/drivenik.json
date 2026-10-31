@@ -1,0 +1,27 @@
+{
+  "slug": "drivenik",
+  "country": "croatia",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/drivenik.jpg",
+  "en": {
+    "name": "Drivenik",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Drivenik",
+    "imageCaption": "Drivenik · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Drivenik",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Drivenik",
+    "imageCaption": "Drivenik · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

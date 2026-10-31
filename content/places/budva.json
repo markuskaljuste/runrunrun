@@ -1,0 +1,27 @@
+{
+  "slug": "budva",
+  "country": "montenegro",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/budva.jpg",
+  "en": {
+    "name": "Budva",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Budva",
+    "imageCaption": "Budva · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Budva",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Budva",
+    "imageCaption": "Budva · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

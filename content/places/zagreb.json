@@ -1,0 +1,27 @@
+{
+  "slug": "zagreb",
+  "country": "croatia",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/zagreb.jpg",
+  "en": {
+    "name": "Zagreb",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Zagreb",
+    "imageCaption": "Zagreb · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Zagreb",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Zagreb",
+    "imageCaption": "Zagreb · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

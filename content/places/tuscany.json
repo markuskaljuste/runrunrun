@@ -1,0 +1,27 @@
+{
+  "slug": "tuscany",
+  "country": "italy",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/tuscany.jpg",
+  "en": {
+    "name": "Tuscany",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Val d’Orcia, Tuscany",
+    "imageCaption": "Val d’Orcia, Tuscany · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Toskaana",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Val d’Orcia, Toskaana",
+    "imageCaption": "Val d’Orcia, Toskaana · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

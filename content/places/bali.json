@@ -1,0 +1,27 @@
+{
+  "slug": "bali",
+  "country": "indonesia",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/bali.jpg",
+  "en": {
+    "name": "Bali",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Tanah Lot, Bali",
+    "imageCaption": "Tanah Lot, Bali · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Bali",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Tanah Lot, Bali",
+    "imageCaption": "Tanah Lot, Bali · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

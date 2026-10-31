@@ -1,0 +1,27 @@
+{
+  "slug": "tartu",
+  "country": "estonia",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/tartu.jpg",
+  "en": {
+    "name": "Tartu",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Tartu",
+    "imageCaption": "Tartu · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Tartu",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Tartu",
+    "imageCaption": "Tartu · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

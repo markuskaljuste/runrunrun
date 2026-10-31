@@ -1,0 +1,27 @@
+{
+  "slug": "parnu",
+  "country": "estonia",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/parnu.jpg",
+  "en": {
+    "name": "Pärnu",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Pärnu",
+    "imageCaption": "Pärnu · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Pärnu",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Pärnu",
+    "imageCaption": "Pärnu · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

@@ -3,7 +3,7 @@ import {readFileSync} from 'node:fs';
 import {runInNewContext} from 'node:vm';
 const code=readFileSync(new URL('../public/assets/privacy.js',import.meta.url),'utf8');
 const key='runograph-consent',lifetime=180*86400000;
-const remembered=(analytics=true,override={})=>({version:1,analytics,updatedAt:Date.now()-1000,expiresAt:Date.now()+lifetime-1000,...override});
+const remembered=(analytics=true,override={})=>{const now=Date.now();return {version:1,analytics,updatedAt:now-1000,expiresAt:now+lifetime-1000,...override};};
 function browser({config={},saved,cookies='session=keep; runograph_ga=client; runograph_ga_TEST=state',storageBlocked=false,origin='https://example.com'}={}){
  const elements=new Map(),scripts=[],jar=new Map(cookies.split(';').map(c=>c.trim().split('='))),storage=new Map(saved?[[key,JSON.stringify(saved)]]:[]),windowListeners={};
  const element=()=>({hidden:true,disabled:false,checked:false,open:false,textContent:'',dataset:{},listeners:{},addEventListener(type,fn){this.listeners[type]=fn;},showModal(){this.open=true;},close(){this.open=false;}});

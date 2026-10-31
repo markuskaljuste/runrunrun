@@ -1,0 +1,27 @@
+{
+  "slug": "riga",
+  "country": "latvia",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/riga.jpg",
+  "en": {
+    "name": "Riga",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Riga",
+    "imageCaption": "Riga · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Riia",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Riia",
+    "imageCaption": "Riia · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

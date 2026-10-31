@@ -1,0 +1,27 @@
+{
+  "slug": "lombok",
+  "country": "indonesia",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/lombok.jpg",
+  "en": {
+    "name": "Lombok",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Lombok",
+    "imageCaption": "Lombok · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Lombok",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Lombok",
+    "imageCaption": "Lombok · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

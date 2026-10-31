@@ -21,6 +21,7 @@ export function markdown(body = '', base = '') {
 }
 export function readContent() {
   const data = {};
+  data.photoCredits=JSON.parse(readFileSync(resolve(root,'content/photo-credits.json'),'utf8'));
   for (const type of ['site','branding','images','seo','integrations']) data[type]=JSON.parse(readFileSync(resolve(root,'content',type+'.json'),'utf8'));
   for (const key of ['logo','footerLogo','logoAlt']) data.branding[key] ??= '';
   data.branding.logoWidth ??= 160;
@@ -30,9 +31,10 @@ export function readContent() {
   data.seo.defaultSocialImage ??= '';
   for (const page of Object.values(data.seo.pages)) for (const lang of ['en','et']) for (const key of ['title','description','socialImage']) page[lang][key] ??= '';
   for (const key of ['homeHero','homeStory','about']) for (const lang of ['en','et']) data.images[key][lang].caption ??= '';
-  for (const type of ['posts','routes','countries']) data[type] = readdirSync(resolve(root,'content',type)).filter(f=>f.endsWith('.json')).map(file => JSON.parse(readFileSync(resolve(root,'content',type,file),'utf8')));
+  for (const type of ['posts','routes','countries','places']) data[type] = readdirSync(resolve(root,'content',type)).filter(f=>f.endsWith('.json')).map(file => JSON.parse(readFileSync(resolve(root,'content',type,file),'utf8')));
   for (const country of data.countries) for (const lang of ['en','et']) country[lang].description ??= '';
-  for (const post of data.posts) post.country ??= '';
+  for (const post of data.posts) {post.country ??= '';post.place ??= '';}
+  for (const place of data.places) for (const lang of ['en','et']) for(const key of ['region','imageAlt','imageCaption','seoTitle','seoDescription']) place[lang][key] ??= '';
   return data;
 }
 export function validateRecord(type, item) {
@@ -45,6 +47,21 @@ export function validateRecord(type, item) {
     if (item.analyticsEnabled&&(!item.gaMeasurementId||!item.privacyControllerName.trim()||!item.privacyContactEmail)) throw new Error('Before enabling Analytics, add the measurement ID and privacy contact name/email.');
     if (!Number.isInteger(item.consentVersion)||item.consentVersion<1) throw new Error('Consent version must be a positive whole number.');
     if (!/^\d{4}-\d{2}-\d{2}$/.test(item.privacyUpdated??'')) throw new Error('Add the privacy notice date.');
+    return;
+  }
+
+  if (type === 'places') {
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.slug??'')) throw new Error('Choose a place URL using lowercase letters and hyphens.');
+    if (!['draft','published'].includes(item.status)) throw new Error('Choose draft or published.');
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.country??'')) throw new Error('Choose the country for this place.');
+    if (typeof item.comingSoon!=='boolean') throw new Error('Choose whether the place is coming soon.');
+    if (item.image&&safeUrl(item.image)==='#') throw new Error('Choose a valid place image.');
+    if (item.status==='published'&&!item.image) throw new Error('Add an image before publishing a place.');
+    for(const lang of ['en','et']) {
+      for(const key of ['name','excerpt','body']) if(typeof item[lang]?.[key]!=='string'||(item.status==='published'&&!item[lang][key].trim())) throw new Error(`Add the place ${key} in ${lang.toUpperCase()}.`);
+      for(const key of ['region','imageAlt','imageCaption','seoTitle','seoDescription']) if(item[lang][key]!=null&&typeof item[lang][key]!=='string') throw new Error(`Check ${key} in ${lang.toUpperCase()}.`);
+    }
+    for(const lang of ['en','et'])if(item[lang].socialImage&&safeUrl(item[lang].socialImage)==='#')throw new Error('Choose a valid sharing image.');
     return;
   }
 
@@ -95,6 +112,7 @@ export function validateRecord(type, item) {
   if (!['draft','published'].includes(item.status)) throw new Error('Choose draft or published.');
   if (!/^\d{4}-\d{2}-\d{2}$/.test(item.date??'') || !Number.isFinite(Date.parse(item.date))) throw new Error('Add a valid publication date.');
   if (type==='routes'&&!['estonia','portugal','other'].includes(item.category)) throw new Error('Choose a supported category.');
+  if (type==='posts'&&item.place!=null&&(typeof item.place!=='string'||(item.place&&!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.place)))) throw new Error('Choose a valid place.');
   if (type==='posts'&&item.country!=null&&(typeof item.country!=='string'||(item.country&&!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.country)))) throw new Error('Choose a country from the list, or General.');
   if (item.image && safeUrl(item.image)==='#') throw new Error('Use a local image path or an https image URL.');
   for (const lang of ['en','et']) for (const field of ['title','excerpt','body',...(type==='routes'?['place']:[])]) if (typeof item[lang]?.[field] !== 'string' || (item.status==='published'&&!item[lang][field].trim())) throw new Error(`Add ${field} in ${lang.toUpperCase()} before publishing.`);
@@ -110,11 +128,13 @@ export function validateAll(data) {
   validateRecord('images',data.images);
   validateRecord('seo',data.seo);
   validateRecord('integrations',data.integrations);
-  for (const type of ['posts','routes','countries']) {
+  for (const type of ['posts','routes','countries','places']) {
     const slugs = new Set();
     for (const item of data[type]) {
       validateRecord(type,item);
       if(slugs.has(item.slug)) throw new Error(`Duplicate URL: ${item.slug}`);
+      if(type==='places'&&!data.countries.some(country=>country.slug===item.country)) throw new Error(`Add the country ${item.country} before assigning it to a place.`);
+      if(type==='posts'&&item.place){const place=data.places.find(p=>p.slug===item.place);if(!place||place.country!==item.country)throw new Error('Choose a place belonging to the selected country.');if(item.status==='published'&&place.status!=='published')throw new Error('Publish the place before publishing a story linked to it.');}
       if(type==='posts'&&item.country&&!data.countries.some(country=>country.slug===item.country)) throw new Error(`Add the country ${item.country} under Countries before assigning it to a story.`);
       slugs.add(item.slug);
     }

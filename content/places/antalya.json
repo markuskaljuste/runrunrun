@@ -1,0 +1,27 @@
+{
+  "slug": "antalya",
+  "country": "turkey",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/antalya.jpg",
+  "en": {
+    "name": "Antalya",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Antalya",
+    "imageCaption": "Antalya · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Antalya",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Antalya",
+    "imageCaption": "Antalya · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

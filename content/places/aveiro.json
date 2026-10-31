@@ -1,0 +1,27 @@
+{
+  "slug": "aveiro",
+  "country": "portugal",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/aveiro.jpg",
+  "en": {
+    "name": "Aveiro",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Aveiro",
+    "imageCaption": "Aveiro · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Aveiro",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Aveiro",
+    "imageCaption": "Aveiro · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

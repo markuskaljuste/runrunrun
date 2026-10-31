@@ -1,0 +1,27 @@
+{
+  "slug": "krabi",
+  "country": "thailand",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/krabi.jpg",
+  "en": {
+    "name": "Krabi",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Krabi",
+    "imageCaption": "Krabi · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Krabi",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Krabi",
+    "imageCaption": "Krabi · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

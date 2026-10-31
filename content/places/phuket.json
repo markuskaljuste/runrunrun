@@ -1,0 +1,27 @@
+{
+  "slug": "phuket",
+  "country": "thailand",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/phuket.jpg",
+  "en": {
+    "name": "Phuket",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Karon Beach, Phuket",
+    "imageCaption": "Karon Beach, Phuket · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Phuket",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Karoni rand, Phuket",
+    "imageCaption": "Karoni rand, Phuket · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "slug": "genk",
+  "country": "belgium",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/genk.jpg",
+  "en": {
+    "name": "Genk",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Genk",
+    "imageCaption": "Genk · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Genk",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Genk",
+    "imageCaption": "Genk · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

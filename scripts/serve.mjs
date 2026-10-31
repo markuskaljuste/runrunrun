@@ -22,7 +22,7 @@ const server=http.createServer(async(req,res)=>{
    const input=await body(req);
    if(path==='/api/save'){
     const {type,item,originalSlug}=input;
-    if(!['site','branding','images','seo','integrations','posts','routes','countries'].includes(type))throw new Error('Unknown content type.');
+    if(!['site','branding','images','seo','integrations','posts','routes','countries','places'].includes(type))throw new Error('Unknown content type.');
     validateRecord(type,item);
     const settings=['site','branding','images','seo','integrations'].includes(type);
     if(!settings&&originalSlug&&originalSlug!==item.slug)throw new Error('Keep the URL of an existing entry. Create a new entry to use a new URL.');

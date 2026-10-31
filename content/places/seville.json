@@ -1,0 +1,27 @@
+{
+  "slug": "seville",
+  "country": "spain",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/seville.jpg",
+  "en": {
+    "name": "Seville",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Seville",
+    "imageCaption": "Seville · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Sevilla",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Sevilla",
+    "imageCaption": "Sevilla · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

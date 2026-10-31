@@ -1,0 +1,27 @@
+{
+  "slug": "prague",
+  "country": "czechia",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/prague.jpg",
+  "en": {
+    "name": "Prague",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Prague",
+    "imageCaption": "Prague · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Praha",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Praha",
+    "imageCaption": "Praha · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

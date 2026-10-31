@@ -1,0 +1,27 @@
+{
+  "slug": "punta-cana",
+  "country": "dominican-republic",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/punta-cana.jpg",
+  "en": {
+    "name": "Punta Cana",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Punta Cana",
+    "imageCaption": "Punta Cana · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Punta Cana",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Punta Cana",
+    "imageCaption": "Punta Cana · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "slug": "castellon",
+  "country": "spain",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/castellon.jpg",
+  "en": {
+    "name": "Castellón de la Plana",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Castellón de la Plana",
+    "imageCaption": "Castellón de la Plana · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Castellón de la Plana",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Castellón de la Plana",
+    "imageCaption": "Castellón de la Plana · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

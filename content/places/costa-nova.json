@@ -1,0 +1,27 @@
+{
+  "slug": "costa-nova",
+  "country": "portugal",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/costa-nova.jpg",
+  "en": {
+    "name": "Costa Nova",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Costa Nova",
+    "imageCaption": "Costa Nova · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Costa Nova",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Costa Nova",
+    "imageCaption": "Costa Nova · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

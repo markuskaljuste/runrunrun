@@ -1,0 +1,27 @@
+{
+  "slug": "mombaruzzo",
+  "country": "italy",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/mombaruzzo.jpg",
+  "en": {
+    "name": "Mombaruzzo",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Mombaruzzo",
+    "imageCaption": "Mombaruzzo · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Mombaruzzo",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Mombaruzzo",
+    "imageCaption": "Mombaruzzo · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

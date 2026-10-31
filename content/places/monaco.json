@@ -1,0 +1,27 @@
+{
+  "slug": "monaco",
+  "country": "monaco",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/monaco.jpg",
+  "en": {
+    "name": "Monaco",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Monaco",
+    "imageCaption": "Monaco · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Monaco",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Monaco",
+    "imageCaption": "Monaco · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

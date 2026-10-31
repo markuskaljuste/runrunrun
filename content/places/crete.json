@@ -1,0 +1,27 @@
+{
+  "slug": "crete",
+  "country": "greece",
+  "status": "published",
+  "comingSoon": true,
+  "image": "/assets/places/crete.jpg",
+  "en": {
+    "name": "Crete",
+    "region": "",
+    "excerpt": "Info coming soon.",
+    "body": "Info coming soon.",
+    "imageAlt": "Chania harbour, Crete",
+    "imageCaption": "Chania harbour, Crete · Illustrative location photo, not the author’s photograph.",
+    "seoTitle": "",
+    "seoDescription": ""
+  },
+  "et": {
+    "name": "Kreeta",
+    "region": "",
+    "excerpt": "Info varsti.",
+    "body": "Info varsti.",
+    "imageAlt": "Chaniá sadam, Kreeta",
+    "imageCaption": "Chaniá sadam, Kreeta · Illustratiivne kohapilt, mitte autori foto.",
+    "seoTitle": "",
+    "seoDescription": ""
+  }
+}

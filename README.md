@@ -12,7 +12,7 @@ npm run dev
 
 Open **http://localhost:4173/en/** for English, **http://localhost:4173/et/** for Estonian, and **http://localhost:4173/admin/** to write.
 
-1. Choose Journal, Routes, Site & my story, Logo & sponsors, Pildid / Images, SEO, Riigid / Countries, or Google & küpsised.
+1. Choose Journal, Routes, Site & my story, Logo & sponsors, Pildid / Images, SEO, Riigid / Countries, Kohad / Places, or Google & küpsised.
 2. Edit the English and Eesti tabs. Upload JPG, PNG or WebP photographs if needed.
 3. Save as a draft while writing. Both languages need a title, introduction and body before an entry can be published.
 4. Choose **Published** and **Save changes** to include an entry in your local site.
@@ -34,17 +34,19 @@ In the local editor, choose **Logo & sponsors** (direct address: **http://localh
 
 These same fields are configured in Pages CMS under **Logo & sponsors / Logo ja toetajad**. The homepage only shows the section when it contains at least one visible sponsor with a name and logo. No example sponsors or endorsements are published.
 
-### Organise blog posts by country
+### Running places and country categories
 
-Use **Riigid / Countries** in the editor or Pages CMS to add a country. Give it a stable URL slug (for example `indonesia`), its English and Estonian names, and an optional introduction. Save the country, then select it in **Journal / Päevik → Riik / Country** when editing a story.
+The destination catalog lives at `/en/countries/` and `/et/countries/`, with an all-places view at `/en/places/` and `/et/places/`. It starts with the 34 places supplied by the author, grouped into 20 countries. Monaco has its own country page. Place pages have local destination photos and **Info coming soon / Info varsti** text, with no invented route descriptions, distances, dates of visits or recorded runs.
 
-Country categories replace the old topic buttons on the journal page. Readers can filter by country, click a story's country label, or browse `/en/countries/` and `/et/countries/`. Each country with a published story has its own page, such as `/et/countries/estonia/`. The EN/ET links and sitemap include these pages automatically.
+In Pages CMS or the local editor, choose **Kohad / Places** to edit a photograph, country and English/Estonian name, introduction and body. **Info varsti / Coming soon** keeps a placeholder page noindex and outside the sitemap while keeping it visible in the destination catalog. Turn that switch off when the page is ready. Draft places stay out of public output. Photos are illustrative Wikimedia Commons images, with authors and licenses linked on each place page and the photo credits page. El Río uses an explicitly regional Tenerife image.
 
-Leaving the country blank files a story under **General / Üldine**. Countries with no published stories stay hidden from the public country list; drafts do not make a country appear. Existing general autobiographical stories are not forced into a travel destination. The initial story about growing up and starting running in Estonia is categorised as Estonia; the other two initial personal stories remain General. Available starter country labels include Estonia, Indonesia and Portugal; their presence in the editor does not claim that the author has visited them.
+Use **Riigid / Countries** to add a country and its bilingual name/description. A country appears when it has at least one published place or story. Published country stories remain visible on their country page. Country counts and place counts are separate from the General journal category. A new country without published content stays hidden.
 
-Country names and introductions can be changed. Keep the URL slug unchanged once it is used by stories. Unknown country references fail validation, so a category cannot silently disappear from a published story. Local editing locks existing slugs, and Pages CMS disables deleting/renaming country files.
+Journal entries can optionally select **Riik / Country** and **Jooksukoht / Running place**. Create/publish the place first and choose the matching country; the build rejects mismatched or unpublished place references. Leave the place blank for a country-wide story, or both fields blank for General / Üldine. Existing personal stories keep their previous categories. Place placeholders do not take over the homepage's latest-journal section.
 
-Eesti: lisa riik menüüst **Riigid / Countries**, täida nimi mõlemas keeles ja salvesta. Seejärel ava postitus, vali **Riik / Country** ning salvesta. Riik ilmub lugejale siis, kui selle alla on avaldatud vähemalt üks lugu. Üldised lood jäta valikuga **Üldine / General**.
+Keep existing country and place URL slugs stable. Pages CMS disables file renaming and the local editor locks saved slugs. To remove a place used by a story, first unlink or move that story. Published content, bilingual links, search by country/place, image files and relationships are validated by `npm run check`.
+
+Eesti: vali **Kohad / Places**, muuda foto ja tekstid ning salvesta. Kui sisu on valmis, võta **Info varsti** märge maha. Postituse juures saad valida sama riigi ning täpse jooksukoha. Riigi üldine lugu võib jääda konkreetse kohata.
 
 ### Change homepage and About photographs
 
@@ -125,13 +127,15 @@ GitHubi ja Pages CMS-i ühendamiseks logi sisse enda kontoga. Privaatne Sitesi e
 - `content/seo.json`: main-page SEO titles, descriptions, sharing images and indexing preference.
 - `content/integrations.json`: Analytics opt-in setting, GA4 measurement ID, Search Console verification token, privacy contact and consent version.
 - `content/countries/*.json`: editable bilingual country categories and introductions.
+- `content/places/*.json`: published/draft running places, country references, local photos and bilingual placeholder or finished text.
+- `content/photo-credits.json`: Wikimedia Commons authors, source pages and individual photo licenses.
 - `content/posts/*.json`: three initial personal stories, based only on the supplied outline.
 - `content/routes/*.json`: two sourced destination research notes. These are **not first-hand tested running routes**.
 - `public/assets/`: local photographs, fonts and styles. No external font or image request is needed to view the site.
 - `public/admin/`: local editor and hosted CMS handoff.
 - `dist/`: generated, ready-to-host static website.
 
-The About page covers Estonian cross-country skiing, snowboarding and injuries, a weight of about 100 kg in 2018–2019, the goal of losing 20–25 kg for karting/motorsport, nine marathon **attempts**, the later 10 km focus, founding Rocca Sörk, remote digital marketing work and running while travelling. No weight-loss result, finish count, race time, route experience, exact injury or private contact detail has been added.
+The About page covers Estonian cross-country skiing, snowboarding and injuries, a weight of about 100 kg in 2018–2019, the goal of losing 20–25 kg for karting/motorsport, nine marathon **attempts**, the later 10 km focus, founding Rocca Sörk, remote digital marketing work and running while travelling. No weight-loss result, finish count, race time, route details, exact injury or private contact detail has been added. The destination catalog uses only places the user explicitly confirmed having run in.
 
 All initial post publication dates are 26 October 2026, when this edition of the website was created; they are not dates of the life events. Replace the initial editorial copy and illustrative photographs with your own material as you develop the journal. Runograph is the selected site name.
 
@@ -161,4 +165,4 @@ The checker validates the content, both-language counterpart links, internal lin
 
 ## Photography and fonts
 
-The photographs are illustrative Unsplash images, stored locally, not the author's own photographs or evidence of visits. Named route cards are explicitly labelled as illustrative. The website has a photo credits page; original download URLs and font licences are in `CREDITS.md` and `public/assets/LICENSE-*.txt`. DM Sans and Manrope are bundled under the SIL Open Font License.
+The photographs include Unsplash editorial images and Wikimedia Commons destination images, stored locally. They are not the author's own photographs. The visited-place catalog is based on the user's list, independently of the stock photographs. Named route cards are explicitly labelled as illustrative. The website has a photo credits page; original download URLs and font licences are in `CREDITS.md` and `public/assets/LICENSE-*.txt`. DM Sans and Manrope are bundled under the SIL Open Font License.
