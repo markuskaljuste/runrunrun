@@ -32,7 +32,7 @@ In the local editor, choose **Logo & sponsors** (direct address: **http://localh
 - Edit the English and Estonian section headings, or switch the whole section off.
 - **Save changes** updates the local site. Publish the project to update the hosted site.
 
-These same fields are configured in Pages CMS under **Logo & sponsors / Logo ja toetajad**. The homepage only shows the section when it contains at least one visible sponsor with a name and logo. No example sponsors or endorsements are published.
+These same fields are configured in Pages CMS under **Logo & sponsors / Logo ja toetajad**. The footer shows supporters when there is at least one visible sponsor with a name and logo. Logos use the same light tone as the footer wordmark. The Rocca Sörk and On logos are the supporters supplied by the owner.
 
 ### Running places and country categories
 

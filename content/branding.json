@@ -5,8 +5,21 @@
   "logoWidth": 160,
   "sponsorsEnabled": true,
   "sponsorTitle": {
-    "en": "Supported by",
-    "et": "Toetajad"
+    "en": "My supporters",
+    "et": "Minu toetajad"
   },
-  "sponsors": []
+  "sponsors": [
+    {
+      "name": "Rocca Sörk Run Club",
+      "logo": "/assets/uploads/rocca-sork-logo-black.png",
+      "url": "",
+      "enabled": true
+    },
+    {
+      "name": "On",
+      "logo": "/assets/uploads/on-logo-black.webp",
+      "url": "",
+      "enabled": true
+    }
+  ]
 }

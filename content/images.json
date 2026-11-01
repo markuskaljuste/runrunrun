@@ -1,13 +1,13 @@
 {
   "favicon": "/assets/favicon.svg",
   "homeHero": {
-    "src": "/assets/hero-mountains.jpg",
+    "src": "/assets/tenerife-sunrise-runner.png",
     "en": {
-      "alt": "A mountain landscape beneath a wide, clouded sky",
+      "alt": "An illustrative scene of a runner seen from behind on a Tenerife mountain road at sunrise",
       "caption": ""
     },
     "et": {
-      "alt": "Mägine maastik avara pilvise taeva all",
+      "alt": "Illustratiivne vaade jooksjale selja tagant Tenerife mägiteel päikesetõusul",
       "caption": ""
     }
   },

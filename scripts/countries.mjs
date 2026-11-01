@@ -20,7 +20,7 @@ export function countryBrowse({data,lang,url,full=false}){
  const groups=countryGroups(data,lang),countries=groups.filter(g=>g.slug!=='general');
  if(full)return `<div class="destination-grid" data-list data-count-kind="countries">${countries.map(g=>countryCard(g,{data,lang,url})).join('')}</div>${groups.some(g=>g.slug==='general')?`<a class="text-link general-stories" href="${url('/'+lang+'/countries/general/')}">${lang==='et'?'Üldised jooksulood':'General running stories'} ↗</a>`:''}`;
  if(!countries.length)return '';
- return `<div class="country-discovery"><div class="destination-discovery-heading"><div class="eyebrow">${lang==='et'?'Kus olen jooksnud':'Where I’ve run'}</div><a class="text-link" href="${url('/'+lang+'/countries/')}">${lang==='et'?'Vaata kõiki riike':'Explore all countries'} ↗</a></div><div class="country-links">${countries.slice(0,6).map(g=>`<a class="country-link" href="${url('/'+lang+'/countries/'+g.slug+'/')}"><span>${esc(g.name)}</span><small>${quantity(g.places.length,lang,'places')}</small><span aria-hidden="true">↗</span></a>`).join('')}</div></div>`;
+ return `<div class="country-discovery"><div class="destination-discovery-heading"><h2>${lang==='et'?'Kus olen jooksnud':'Where I’ve run'}</h2><a class="text-link" href="${url('/'+lang+'/countries/')}">${lang==='et'?'Vaata kõiki riike':'Explore all countries'} ↗</a></div><div class="country-links">${countries.slice(0,6).map(g=>`<a class="country-link" href="${url('/'+lang+'/countries/'+g.slug+'/')}"><span>${esc(g.name)}</span><small>${quantity(g.places.length,lang,'places')}</small><span aria-hidden="true">↗</span></a>`).join('')}</div></div>`;
 }
 export function placeCard(place,{data,lang,url}){
  const v=place[lang],country=countryName(place.country,lang,data);
