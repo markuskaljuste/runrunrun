@@ -19,4 +19,3 @@ Use case: photorealistic-natural. Asset type: wide running travel blog homepage 
 ## Rocca Sörgi logo töötlusjuhis
 
 Use case: background-extraction. Edit target: attached Rocca Sörk Run Club logo photograph. Asset type: existing sponsor logo cutout for a website. Extract ONLY the existing two-line typographic wordmark, faithfully preserving the precise original letterforms, kerning, spelling, accents, italic Run and arrangement: first line 'Rocca Sörk', second line 'Run Club'. Change the white lettering to solid pure black #000000. Remove the runners, trees, street and every part of the photographic background entirely; output genuine transparent alpha. No redesign, no added symbol, no mockup, no border, no shadow. The complete unchanged original two-line wordmark must remain intact, horizontally centered with small transparent margins. Clean sharp edges and smooth anti-aliasing, high-quality logo asset.
-
