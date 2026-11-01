@@ -1,15 +1,15 @@
 import {renderRating} from './ratings.mjs';
 import {shareBar,commentsSection} from './engagement.mjs';
-import {esc,safeUrl,markdown} from './core.mjs';
-export const countrySlug=post=>post.country||'general';
+import {esc,safeUrl,markdown,postCountries} from './core.mjs';
+export const countrySlugs=post=>postCountries(post).length?postCountries(post):['general'];
 export function countryName(slug,lang,data){return slug==='general'?(lang==='et'?'Üldine':'General'):data.countries.find(c=>c.slug===slug)?.[lang].name||slug;}
 export const publishedPlaces=data=>(data.places??[]).filter(p=>p.status==='published');
 const asset=(path,url)=>path?.startsWith('/')?url(path):safeUrl(path);
 const quantity=(count,lang,kind)=>lang==='et'?`${count} ${kind==='places'?(count===1?'paik':'paika'):kind==='countries'?(count===1?'riik':'riiki'):(count===1?'lugu':'lugu')}`:`${count} ${kind==='places'?(count===1?'place':'places'):kind==='countries'?(count===1?'country':'countries'):(count===1?'story':'stories')}`;
 export function countryGroups(data,lang){
  const posts=data.posts.filter(p=>p.status==='published').sort((a,b)=>b.date.localeCompare(a.date)),places=publishedPlaces(data);
- const groups=data.countries.map(country=>({slug:country.slug,name:country[lang].name,description:country[lang].description||'',posts:posts.filter(p=>p.country===country.slug),places:places.filter(p=>p.country===country.slug).sort((a,b)=>a[lang].name.localeCompare(b[lang].name,lang))})).filter(g=>g.posts.length||g.places.length).sort((a,b)=>a.name.localeCompare(b.name,lang));
- const general=posts.filter(p=>!p.country);if(general.length)groups.push({slug:'general',name:countryName('general',lang,data),description:lang==='et'?'Isiklikud lood, mis ei kuulu ühe kindla riigi alla.':'Personal stories that are not filed under a single country.',posts:general,places:[]});
+ const groups=data.countries.map(country=>({slug:country.slug,name:country[lang].name,description:country[lang].description||'',posts:posts.filter(p=>postCountries(p).includes(country.slug)),places:places.filter(p=>p.country===country.slug).sort((a,b)=>a[lang].name.localeCompare(b[lang].name,lang))})).filter(g=>g.posts.length||g.places.length).sort((a,b)=>a.name.localeCompare(b.name,lang));
+ const general=posts.filter(p=>!postCountries(p).length);if(general.length)groups.push({slug:'general',name:countryName('general',lang,data),description:lang==='et'?'Isiklikud lood, mis ei kuulu ühe kindla riigi alla.':'Personal stories that are not filed under a single country.',posts:general,places:[]});
  return groups;
 }
 function countryCard(group,{data,lang,url}){

@@ -20,6 +20,7 @@ export function markdown(body = '', base = '') {
     return `<p>${inline(block).replaceAll('\n','<br>')}</p>`;
   }).join('\n');
 }
+export const postCountries = post => post.countries ?? (post.country ? [post.country] : []);
 export function readContent() {
   const data = {};
   data.photoCredits=JSON.parse(readFileSync(resolve(root,'content/photo-credits.json'),'utf8'));
@@ -37,7 +38,7 @@ export function readContent() {
   for (const type of ['posts','routes','countries','places']) data[type] = readdirSync(resolve(root,'content',type)).filter(f=>f.endsWith('.json')).map(file => JSON.parse(readFileSync(resolve(root,'content',type,file),'utf8')));
   for (const country of data.countries) for (const lang of ['en','et']) country[lang].description ??= '';
   for(const place of data.places){place.ratings ??= emptyRatings();place.ratings.enabled ??= false;for(const [key] of ratingCriteria){place.ratings[key] ??= {score:null,en:'',et:''};place.ratings[key].score ??= null;for(const lang of ['en','et'])place.ratings[key][lang] ??= '';}}
-  for (const post of data.posts) {post.country ??= '';post.place ??= '';}
+  for (const post of data.posts) {post.countries = postCountries(post);delete post.country;post.place ??= '';}
   for (const place of data.places) for (const lang of ['en','et']) for(const key of ['region','imageAlt','imageCaption','seoTitle','seoDescription']) place[lang][key] ??= '';
   return data;
 }
@@ -135,7 +136,7 @@ export function validateRecord(type, item) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(item.date??'') || !Number.isFinite(Date.parse(item.date))) throw new Error('Add a valid publication date.');
   if (type==='routes'&&!['estonia','portugal','other'].includes(item.category)) throw new Error('Choose a supported category.');
   if (type==='posts'&&item.place!=null&&(typeof item.place!=='string'||(item.place&&!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.place)))) throw new Error('Choose a valid place.');
-  if (type==='posts'&&item.country!=null&&(typeof item.country!=='string'||(item.country&&!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.country)))) throw new Error('Choose a country from the list, or General.');
+  if (type==='posts') {const countries=postCountries(item);if(!Array.isArray(countries)||countries.some(country=>typeof country!=='string'||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(country)))throw new Error('Choose countries from the list, or leave empty for General.');if(new Set(countries).size!==countries.length)throw new Error('Select each country only once.');}
   if (item.image && safeUrl(item.image)==='#') throw new Error('Use a local image path or an https image URL.');
   for (const lang of ['en','et']) for (const field of ['title','excerpt','body',...(type==='routes'?['place']:[])]) if (typeof item[lang]?.[field] !== 'string' || (item.status==='published'&&!item[lang][field].trim())) throw new Error(`Add ${field} in ${lang.toUpperCase()} before publishing.`);
   for (const lang of ['en','et']) {
@@ -158,8 +159,8 @@ export function validateAll(data) {
       validateRecord(type,item);
       if(slugs.has(item.slug)) throw new Error(`Duplicate URL: ${item.slug}`);
       if(type==='places'&&!data.countries.some(country=>country.slug===item.country)) throw new Error(`Add the country ${item.country} before assigning it to a place.`);
-      if(type==='posts'&&item.place){const place=data.places.find(p=>p.slug===item.place);if(!place||place.country!==item.country)throw new Error('Choose a place belonging to the selected country.');if(item.status==='published'&&place.status!=='published')throw new Error('Publish the place before publishing a story linked to it.');}
-      if(type==='posts'&&item.country&&!data.countries.some(country=>country.slug===item.country)) throw new Error(`Add the country ${item.country} under Countries before assigning it to a story.`);
+      if(type==='posts'&&item.place){const place=data.places.find(p=>p.slug===item.place);if(!place||!postCountries(item).includes(place.country))throw new Error('Choose a place belonging to one of the selected countries.');if(item.status==='published'&&place.status!=='published')throw new Error('Publish the place before publishing a story linked to it.');}
+      if(type==='posts')for(const selected of postCountries(item))if(!data.countries.some(country=>country.slug===selected))throw new Error(`Add the country ${selected} under Countries before assigning it to a story.`);
       slugs.add(item.slug);
     }
   }

@@ -42,11 +42,11 @@ In Pages CMS or the local editor, choose **Kohad / Places** to edit a photograph
 
 Use **Riigid / Countries** to add a country and its bilingual name/description. A country appears when it has at least one published place or story. Published country stories remain visible on their country page. Country counts and place counts are separate from the General journal category. A new country without published content stays hidden.
 
-Journal entries can optionally select **Riik / Country** and **Jooksukoht / Running place**. Create/publish the place first and choose the matching country; the build rejects mismatched or unpublished place references. Leave the place blank for a country-wide story, or both fields blank for General / Üldine. Existing personal stories keep their previous categories. Place placeholders do not take over the homepage's latest-journal section.
+Journal entries can select several **Riigid / Countries** and one optional **Jooksukoht / Running place**. For a Nice-to-Monaco run, select France and Monaco on the same post: one URL appears in both archives and both journal filters, with a single story to edit. Create/publish the place first and include its country in the selection; the build rejects mismatched or unpublished place references. Leave the place blank for a country-wide story, or leave all countries and the place blank for General / Üldine. Existing personal stories keep their previous categories. Place placeholders do not take over the homepage's latest-journal section.
 
 Keep existing country and place URL slugs stable. Pages CMS disables file renaming and the local editor locks saved slugs. To remove a place used by a story, first unlink or move that story. Published content, bilingual links, search by country/place, image files and relationships are validated by `npm run check`.
 
-Eesti: vali **Kohad / Places**, muuda foto ja tekstid ning salvesta. Kui sisu on valmis, võta **Info varsti** märge maha. Postituse juures saad valida sama riigi ning täpse jooksukoha. Riigi üldine lugu võib jääda konkreetse kohata.
+Eesti: vali **Kohad / Places**, muuda foto ja tekstid ning salvesta. Kui sisu on valmis, võta **Info varsti** märge maha. Postituse juures saad valida mitu riiki ning ühe täpse jooksukoha. Näiteks vali Nitsast Monacosse jooksu jaoks Prantsusmaa ja Monaco: üks lugu ilmub mõlema riigi all. Riigi üldine lugu võib jääda konkreetse kohata.
 
 ### Change homepage and About photographs
 

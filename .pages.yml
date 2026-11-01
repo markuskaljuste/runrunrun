@@ -59,15 +59,17 @@
           "required": true
         },
         {
-          "name": "country",
+          "name": "countries",
           "type": "reference",
-          "label": "Riik / Country (optional; empty = General)",
+          "label": "Riigid / Countries (mitu valikut; tühi = Üldine)",
           "options": {
             "collection": "countries",
             "value": "{fields.slug}",
             "label": "{et.name} / {en.name}",
-            "search": "en.name,et.name,slug"
-          }
+            "search": "en.name,et.name,slug",
+            "multiple": true
+          },
+          "description": "Vali kõik riigid, mida lugu puudutab. Näiteks Prantsusmaa ja Monaco. / Select all countries covered by this story."
         },
         {
           "name": "place",

@@ -4,7 +4,7 @@ import { resolve } from 'node:path';
 import { root,readContent,validateAll,validateRecord,markdown } from './core.mjs';
 import {isComingSoon,checkComingSoon} from './publication.mjs';
 import {renderMetadata} from './metadata.mjs';
-import {countryGroups,countrySlug} from './countries.mjs';
+import {countryGroups,countrySlugs} from './countries.mjs';
 const data=readContent();validateAll(data);
 const dist=resolve(root,'dist'),base=(process.env.BASE_PATH??'').replace(/\/$/,'');
 if(isComingSoon(data)){checkComingSoon({data,base});process.exit(0);}
@@ -46,16 +46,16 @@ head=renderMetadata({lang:'en',path:'journal/a-story/',title:'Fallback',descript
 assert(head.includes('<title>Story SEO</title>'));assert(head.includes('content="Story description"'));assert(head.includes('content="https://example.com/story.jpg"'));assert(head.includes('content="article"'));
 const images=structuredClone(data.images);images.homeHero.src='javascript:alert(1)';assert.throws(()=>validateRecord('images',images));
 assert(config.content.some(c=>c.name==='countries'&&c.type==='collection'));
-assert(config.content.find(c=>c.name==='posts').fields.some(f=>f.name==='country'&&f.type==='reference'&&f.options.collection==='countries'));
-const countryData=structuredClone(data);countryData.posts[0].country='nonexistent';assert.throws(()=>validateAll(countryData),'Unknown countries must be rejected.');
+assert(config.content.find(c=>c.name==='posts').fields.some(f=>f.name==='countries'&&f.type==='reference'&&f.options.collection==='countries'&&f.options.multiple===true));
+const countryData=structuredClone(data);countryData.posts[0].countries=['nonexistent'];assert.throws(()=>validateAll(countryData),'Unknown countries must be rejected.');
 const reserved={slug:'general',en:{name:'General'},et:{name:'Üldine'}};assert.throws(()=>validateRecord('countries',reserved),'General is a reserved category.');
 for(const lang of ['en','et']){
  const index=readFileSync(resolve(dist,lang,'countries/index.html'),'utf8');assert(index.includes(`/${lang}/countries/`));
  const groups=countryGroups(data,lang);
- for(const group of groups){const page=readFileSync(resolve(dist,lang,'countries',group.slug,'index.html'),'utf8');for(const post of data.posts.filter(p=>p.status==='published'))assert.equal(page.includes(`/${lang}/journal/${post.slug}/`),countrySlug(post)===group.slug,`Country page mixed stories: ${group.slug}`);const other=lang==='en'?'et':'en';assert(page.includes(`/${other}/countries/${group.slug}/`));}
+ for(const group of groups){const page=readFileSync(resolve(dist,lang,'countries',group.slug,'index.html'),'utf8');for(const post of data.posts.filter(p=>p.status==='published'))assert.equal(page.includes(`/${lang}/journal/${post.slug}/`),countrySlugs(post).includes(group.slug),`Country page mixed stories: ${group.slug}`);const other=lang==='en'?'et':'en';assert(page.includes(`/${other}/countries/${group.slug}/`));}
  for(const country of data.countries)assert.equal(existsSync(resolve(dist,lang,'countries',country.slug,'index.html')),groups.some(g=>g.slug===country.slug),'Empty country categories should stay hidden.');
 }
-const draftOnly=structuredClone(data);draftOnly.posts[0].country='indonesia';draftOnly.posts[0].status='draft';draftOnly.places=[];assert(!countryGroups(draftOnly,'et').some(g=>g.slug==='indonesia'),'Draft stories must not expose a country category.');
+const draftOnly=structuredClone(data);draftOnly.posts[0].countries=['indonesia'];draftOnly.posts[0].status='draft';draftOnly.places=[];assert(!countryGroups(draftOnly,'et').some(g=>g.slug==='indonesia'),'Draft stories must not expose a country category.');
 console.log(`Passed: ${pages} HTML pages, ${links} internal links/assets, EN/ET counterpart links, source requirements, safe text rendering, draft visibility and CMS file structure.`);
 const integrations=structuredClone(data.integrations);integrations.analyticsEnabled=true;integrations.gaMeasurementId='';assert.throws(()=>validateRecord('integrations',integrations),'Enabling Analytics requires the real ID and privacy contact.');Object.assign(integrations,{gaMeasurementId:'G-TEST123456',privacyControllerName:'Test operator',privacyContactEmail:'test@example.com'});validateRecord('integrations',integrations);integrations.searchConsoleVerification='<script>';assert.throws(()=>validateRecord('integrations',integrations));
 const verificationData=structuredClone(data);verificationData.integrations.searchConsoleVerification='test-verification-token';assert(renderMetadata({lang:'et',path:'',title:'Test',description:'Test',data:verificationData}).includes('<meta name="google-site-verification" content="test-verification-token">'));
@@ -65,7 +65,7 @@ await import('./check-consent.mjs');
 assert(config.content.some(c=>c.name==='places'&&c.type==='collection'&&c.path==='content/places'));
 assert(config.content.find(c=>c.name==='posts').fields.some(f=>f.name==='place'&&f.type==='reference'&&f.options.collection==='places'));
 const invalidPlace=structuredClone(data.places[0]);invalidPlace.country='';assert.throws(()=>validateRecord('places',invalidPlace));
-const mismatched=structuredClone(data);mismatched.posts[0].place=data.places.find(p=>p.country!==mismatched.posts[0].country).slug;assert.throws(()=>validateAll(mismatched),'Story and place must share their country.');
+const mismatched=structuredClone(data);mismatched.posts[0].place=data.places.find(p=>!mismatched.posts[0].countries.includes(p.country)).slug;assert.throws(()=>validateAll(mismatched),'Story and place must share their country.');
 const hiddenPlaces=structuredClone(data);hiddenPlaces.countries.push({slug:'draft-place-only',en:{name:'Draft'},et:{name:'Mustand'}});hiddenPlaces.places.push({...structuredClone(data.places[0]),slug:'draft-place-only',country:'draft-place-only',status:'draft'});assert(!countryGroups(hiddenPlaces,'et').some(c=>c.slug==='draft-place-only'));
 for(const lang of ['en','et']){
  for(const place of data.places){
@@ -84,3 +84,5 @@ const invalidPublication=structuredClone(data.publication);invalidPublication.mo
 assert(!config.content.some(c=>c.name==='routes'),'Route guides must be removed from the CMS.');
 for(const lang of ['et','en']){const home=readFileSync(resolve(dist,lang,'index.html'),'utf8');assert(!home.includes('class="section routes-home"'));assert(!home.includes(`href="${base}/${lang}/routes/"`));assert(home.includes('class="brand-run"'));assert(home.includes('class="brand-ograph"'));assert(home.includes('https://www.instagram.com/markuskaljuste/'));assert(home.includes('https://strava.app.link/W1a7SCITG7b'));const contact=readFileSync(resolve(dist,lang,'contact/index.html'),'utf8');assert(contact.includes('contact-form'));if(!data.engagement.contact.enabled)assert(!contact.includes('data-contact-form'));for(const post of data.posts.filter(p=>p.status==='published'))assert(readFileSync(resolve(dist,lang,'journal',post.slug,'index.html'),'utf8').includes('data-copy-link'));}
 await import('./check-engagement.mjs');
+
+await import('./check-multi-country.mjs');
