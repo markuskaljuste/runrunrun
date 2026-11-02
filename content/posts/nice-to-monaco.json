@@ -6,7 +6,6 @@
     "france",
     "monaco"
   ],
-  "place": "nice",
   "image": "/assets/uploads/nice-to-monaco/nice-promenade.jpg",
   "attachments": [
     "/assets/uploads/nice-to-monaco/nice-to-monaco.gpx"
@@ -49,5 +48,10 @@
       "et": "Üks minu kolmest lemmikust jooksupaigast; vaated ja basseiniäärne finiš jäid meelde.",
       "en": "One of my top three running destinations, with memorable views and a poolside finish."
     }
-  }
+  },
+  "places": [
+    "nice",
+    "monaco"
+  ],
+  "placeNames": []
 }

@@ -6,6 +6,7 @@ import {isComingSoon,checkComingSoon} from './publication.mjs';
 import {renderMetadata} from './metadata.mjs';
 import {countryGroups,countrySlugs} from './countries.mjs';
 import {storyPath,storyHasTranslation} from './story-languages.mjs';
+import {placeHasContent,storiesForPlace} from './story-places.mjs';
 const data=readContent();validateAll(data);
 const dist=resolve(root,'dist'),base=(process.env.BASE_PATH??'').replace(/\/$/,'');
 if(isComingSoon(data)){checkComingSoon({data,base});process.exit(0);}
@@ -64,20 +65,20 @@ for(const lang of ['et','en']){const privacy=readFileSync(resolve(dist,lang,'pri
 await import('./check-consent.mjs');
 
 assert(config.content.some(c=>c.name==='places'&&c.type==='collection'&&c.path==='content/places'));
-assert(config.content.find(c=>c.name==='posts').fields.some(f=>f.name==='place'&&f.type==='reference'&&f.options.collection==='places'));
+assert(config.content.find(c=>c.name==='posts').fields.some(f=>f.name==='places'&&f.type==='reference'&&f.options.collection==='places'&&f.options.multiple===true));
 const invalidPlace=structuredClone(data.places[0]);invalidPlace.country='';assert.throws(()=>validateRecord('places',invalidPlace));
-const mismatched=structuredClone(data);mismatched.posts[0].place=data.places.find(p=>!mismatched.posts[0].countries.includes(p.country)).slug;assert.throws(()=>validateAll(mismatched),'Story and place must share their country.');
+const mismatched=structuredClone(data);mismatched.posts[0].places=[data.places.find(p=>!mismatched.posts[0].countries.includes(p.country)).slug];assert.throws(()=>validateAll(mismatched),'Story and place must share their country.');
 const hiddenPlaces=structuredClone(data);hiddenPlaces.countries.push({slug:'draft-place-only',en:{name:'Draft'},et:{name:'Mustand'}});hiddenPlaces.places.push({...structuredClone(data.places[0]),slug:'draft-place-only',country:'draft-place-only',status:'draft'});assert(!countryGroups(hiddenPlaces,'et').some(c=>c.slug==='draft-place-only'));
 for(const lang of ['en','et']){
  for(const place of data.places){
   const file=resolve(dist,lang,'places',place.slug,'index.html');assert.equal(existsSync(file),place.status==='published');if(place.status!=='published')continue;
-  const html=readFileSync(file,'utf8'),other=lang==='et'?'en':'et';assert(html.includes(`/${other}/places/${place.slug}/`));assert(html.includes(`/${lang}/countries/${place.country}/`));assert(html.includes(`content="${place.comingSoon||!data.seo.indexing?'noindex,follow':'index,follow'}"`));
-  const credit=data.photoCredits.find(c=>c.path===place.image);assert(credit,'Location photos need attribution');assert(html.includes(credit.sourceUrl.replaceAll('&','&amp;')));assert(html.includes(credit.licenseUrl));
+  const html=readFileSync(file,'utf8'),other=lang==='et'?'en':'et';assert(html.includes(`/${other}/places/${place.slug}/`));assert(html.includes(`/${lang}/countries/${place.country}/`));assert(html.includes(`content="${!placeHasContent(place,data)||!data.seo.indexing?'noindex,follow':'index,follow'}"`));
+  if(!place.comingSoon||!storiesForPlace(data,place).length){const credit=data.photoCredits.find(c=>c.path===place.image);assert(credit,'Location photos need attribution');assert(html.includes(credit.sourceUrl.replaceAll('&','&amp;')));assert(html.includes(credit.licenseUrl));}
  }
  for(const group of countryGroups(data,lang)){const page=readFileSync(resolve(dist,lang,'countries',group.slug,'index.html'),'utf8');for(const place of data.places)assert.equal(page.includes(`/${lang}/places/${place.slug}/`),place.status==='published'&&place.country===group.slug,'Country mixed its places.');}
 }
 for(const credit of data.photoCredits){assert(credit.author&&credit.license&&/^https:\/\//.test(credit.sourceUrl)&&/^https:\/\//.test(credit.licenseUrl));assert(existsSync(resolve(dist,'.'+credit.path)));}
-if(existsSync(resolve(dist,'sitemap.xml'))){const sitemap=readFileSync(resolve(dist,'sitemap.xml'),'utf8');for(const p of data.places)for(const lang of ['en','et'])assert.equal(sitemap.includes(`/${lang}/places/${p.slug}/`),p.status==='published'&&!p.comingSoon);}
+if(existsSync(resolve(dist,'sitemap.xml'))){const sitemap=readFileSync(resolve(dist,'sitemap.xml'),'utf8');for(const p of data.places)for(const lang of ['en','et'])assert.equal(sitemap.includes(`/${lang}/places/${p.slug}/`),placeHasContent(p,data));}
 console.log('Passed place checks: country/place relationships, draft isolation, bilingual pages, placeholder indexing, image credits and CMS references.');
 
 const invalidPublication=structuredClone(data.publication);invalidPublication.mode='unknown';assert.throws(()=>validateRecord('publication',invalidPublication));
@@ -91,3 +92,5 @@ await import('./check-multi-country.mjs');
 await import('./check-authoring.mjs');
 
 await import('./check-story-publishing.mjs');
+
+await import('./check-destinations.mjs');

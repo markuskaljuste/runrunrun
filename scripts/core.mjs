@@ -1,5 +1,6 @@
 import {ratingDefaults,validateRatings} from './rating-data.mjs';
 import {storyLanguages,storyHasTranslation} from './story-languages.mjs';
+import {postPlaceSlugs,normalizePlaceName} from './story-places.mjs';
 import { readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 export const root = resolve(import.meta.dirname, '..');
@@ -24,7 +25,7 @@ export function readContent() {
   for (const type of ['posts','routes','countries','places']) data[type] = readdirSync(resolve(root,'content',type)).filter(f=>f.endsWith('.json')).map(file => JSON.parse(readFileSync(resolve(root,'content',type,file),'utf8')));
   for (const country of data.countries) for (const lang of ['en','et']) country[lang].description ??= '';
   for(const record of [...data.places,...data.posts])record.ratings=ratingDefaults(record.ratings);
-  for (const post of data.posts) {post.countries = postCountries(post);delete post.country;post.place ??= '';post.attachments ??= [];post.coverFit ??= 'cover';for(const lang of storyLanguages){post[lang]??={};for(const key of ['title','excerpt','body'])post[lang][key]??='';}}
+  for (const post of data.posts) {post.countries = postCountries(post);delete post.country;post.places=postPlaceSlugs(post);delete post.place;post.placeNames??=[];post.attachments ??= [];post.coverFit ??= 'cover';for(const lang of storyLanguages){post[lang]??={};for(const key of ['title','excerpt','body'])post[lang][key]??='';}}
   for (const place of data.places) for (const lang of ['en','et']) for(const key of ['region','imageAlt','imageCaption','seoTitle','seoDescription']) place[lang][key] ??= '';
   return data;
 }
@@ -122,7 +123,11 @@ export function validateRecord(type, item) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(item.date??'') || !Number.isFinite(Date.parse(item.date))) throw new Error('Add a valid publication date.');
   if (type==='routes'&&!['estonia','portugal','other'].includes(item.category)) throw new Error('Choose a supported category.');
   if(type==='posts'){if(item.ratings!=null)validateRatings(item.ratings);if(item.attachments!=null&&(!Array.isArray(item.attachments)||item.attachments.length>10||item.attachments.some(file=>typeof file!=='string'||safeUrl(file)==='#'||!/^https?:|^\/assets\/(?:uploads|files)\//.test(file))))throw new Error('Add up to ten valid attachment URLs.');if(item.coverFit!=null&&!['cover','contain'].includes(item.coverFit))throw new Error('Choose cover or contain for the article image.');}
-  if (type==='posts'&&item.place!=null&&(typeof item.place!=='string'||(item.place&&!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.place)))) throw new Error('Choose a valid place.');
+  if(type==='posts'){
+    const places=postPlaceSlugs(item),names=item.placeNames??[];
+    if(!Array.isArray(places)||places.length>30||places.some(slug=>typeof slug!=='string'||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug))||new Set(places).size!==places.length)throw new Error('Choose up to 30 different running places.');
+    if(!Array.isArray(names)||names.length>30||names.some(name=>typeof name!=='string'||!name.trim()||name.length>120)||new Set(names.map(normalizePlaceName)).size!==names.length)throw new Error('Add up to 30 different place names, each up to 120 characters.');
+  }
   if (type==='posts') {const countries=postCountries(item);if(!Array.isArray(countries)||countries.some(country=>typeof country!=='string'||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(country)))throw new Error('Choose countries from the list, or leave empty for General.');if(new Set(countries).size!==countries.length)throw new Error('Select each country only once.');}
   if (item.image && safeUrl(item.image)==='#') throw new Error('Use a local image path or an https image URL.');
   if(type==='posts'){
@@ -149,7 +154,7 @@ export function validateAll(data) {
       validateRecord(type,item);
       if(slugs.has(item.slug)) throw new Error(`Duplicate URL: ${item.slug}`);
       if(type==='places'&&!data.countries.some(country=>country.slug===item.country)) throw new Error(`Add the country ${item.country} before assigning it to a place.`);
-      if(type==='posts'&&item.place){const place=data.places.find(p=>p.slug===item.place);if(!place||!postCountries(item).includes(place.country))throw new Error('Choose a place belonging to one of the selected countries.');if(item.status==='published'&&place.status!=='published')throw new Error('Publish the place before publishing a story linked to it.');}
+      if(type==='posts')for(const slug of postPlaceSlugs(item)){const place=data.places.find(p=>p.slug===slug);if(!place||!postCountries(item).includes(place.country))throw new Error('Choose places belonging to the selected countries.');if(item.status==='published'&&place.status!=='published')throw new Error('Publish the place before linking a published story to it.');}
       if(type==='posts')for(const selected of postCountries(item))if(!data.countries.some(country=>country.slug===selected))throw new Error(`Add the country ${selected} under Countries before assigning it to a story.`);
       slugs.add(item.slug);
     }

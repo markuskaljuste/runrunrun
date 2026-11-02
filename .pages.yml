@@ -77,15 +77,30 @@
           "description": "Vali kõik riigid, mida lugu puudutab. Näiteks Prantsusmaa ja Monaco. / Select all countries covered by this story."
         },
         {
-          "name": "place",
-          "label": "Jooksukoht, soovi korral / Running place, optional",
+          "name": "places",
+          "label": "Linnad ja kohad / Cities and places (mitu valikut)",
           "type": "reference",
           "options": {
             "collection": "places",
             "value": "{fields.slug}",
             "label": "{et.name} / {en.name}",
-            "search": "et.name"
-          }
+            "search": "en.name,et.name,slug",
+            "multiple": true,
+            "max": 30
+          },
+          "description": "Vali kõik loos läbitud kataloogikohad, ka eri riikides. / Select every catalog place covered by the story, including places in different countries."
+        },
+        {
+          "name": "placeNames",
+          "label": "Lisa linnu ja külasid käsitsi / Add other towns and places",
+          "type": "string",
+          "list": {
+            "max": 30
+          },
+          "options": {
+            "maxlength": 120
+          },
+          "description": "Iga kohanimi eraldi reana. Nimed ilmuvad loo juures; kataloogis oleva nime korral seotakse lugu selle kohaga. / Add each name as a separate item. Names appear on the story, and matching catalog places are linked automatically."
         },
         {
           "name": "image",
