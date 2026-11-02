@@ -26,14 +26,14 @@ assert.throws(()=>attachmentUpload({name:'bad.gpx',data:'data:application/gpx+xm
 assert.throws(()=>attachmentUpload({name:'bad.pdf',data}));
 assert.throws(()=>attachmentUpload({name:'bad.zip',data}));
 const config=JSON.parse(readFileSync(resolve(root,'.pages.yml'),'utf8')),postConfig=config.content.find(c=>c.name==='posts');
-for(const lang of ['en','et']){const body=postConfig.fields.find(f=>f.name===lang).fields.find(f=>f.name==='body');assert.equal(body.type,'rich-text');assert.equal(body.options.format,'markdown');}
+for(const lang of ['en']){const body=postConfig.fields.find(f=>f.name===lang).fields.find(f=>f.name==='body');assert.equal(body.type,'rich-text');assert.equal(body.options.format,'markdown');}
 assert(postConfig.fields.some(f=>f.name==='attachments'&&f.type==='file'));
 assert(config.media.extensions.includes('gpx'));
 const dataSet=readContent();
 for(const post of dataSet.posts){
  const invalid={...structuredClone(post),attachments:['javascript:alert(1)']};assert.throws(()=>validateRecord('posts',invalid));
  if(post.status!=='draft')continue;
- for(const lang of ['en','et']){
+ for(const lang of ['en']){
   const page=resolve(root,'dist',lang,'preview',post.slug,'index.html');const expected=process.env.DRAFT_PREVIEW==='1'&&process.env.PUBLIC_BUILD!=='1';assert.equal(existsSync(page),expected);
   if(expected){const html=readFileSync(page,'utf8');assert(html.includes('content="noindex,follow"'));assert(!html.includes('data-copy-link'));}
   assert(!existsSync(resolve(root,'dist',lang,'journal',post.slug,'index.html')));

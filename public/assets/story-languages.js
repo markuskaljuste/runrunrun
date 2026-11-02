@@ -1,0 +1,7 @@
+export const languageOptions=[['en','English','en_GB'],['es','Spanish','es_ES'],['fr','French','fr_FR'],['pt','Portuguese','pt_PT'],['it','Italian','it_IT'],['de','German','de_DE'],['nl','Dutch','nl_NL'],['et','Estonian','et_EE'],['lv','Latvian','lv_LV'],['lt','Lithuanian','lt_LT'],['hr','Croatian','hr_HR'],['sr','Serbian','sr_RS'],['cnr','Montenegrin','cnr_ME'],['cs','Czech','cs_CZ'],['el','Greek','el_GR'],['uk','Ukrainian','uk_UA'],['tr','Turkish','tr_TR'],['th','Thai','th_TH'],['id','Indonesian','id_ID'],['ms','Malay','ms_MY'],['ca','Catalan','ca_ES'],['pl','Polish','pl_PL'],['ru','Russian','ru_RU'],['ja','Japanese','ja_JP'],['ko','Korean','ko_KR'],['zh','Chinese','zh_CN']];
+export const languageLabel=code=>languageOptions.find(l=>l[0]===code)?.[1]??code;
+export const languageLocale=code=>languageOptions.find(l=>l[0]===code)?.[2]??'en_GB';
+export const completeStory=fields=>['title','excerpt','body'].every(key=>typeof fields?.[key]==='string'&&fields[key].trim());
+export const translationFields=(post,lang)=>lang==='en'?post.en:post.translations?.find(t=>t.language===lang);
+export const publishedStoryLanguages=post=>post.status==='published'&&completeStory(post.en)?['en',...(post.translations??[]).filter(t=>t.status==='published'&&completeStory(t)).map(t=>t.language)]:[];
+export function blankTranslation(language){return {language,status:'draft',title:'',excerpt:'',body:'',imageAlt:'',imageCaption:'',seoTitle:'',seoDescription:''};}

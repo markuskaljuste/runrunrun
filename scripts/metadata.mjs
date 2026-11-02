@@ -1,6 +1,7 @@
 import {esc,safeUrl} from './core.mjs';
+import {languageLocale} from './story-languages.mjs';
 import {verificationTag} from './privacy.mjs';
-export function renderMetadata({lang,path,title,description,ogImage,seo:entry,data,base='',origin='',noindex=false,ogType,availableLanguages=['en','et']}) {
+export function renderMetadata({lang,path,title,description,ogImage,seo:entry,data,base='',origin='',noindex=false,ogType,availableLanguages=['en']}) {
   const key=path===''?'home':path.replace(/\/$/,'');
   const page=data.seo.pages[key]?.[lang]??{};
   const headline=entry?.seoTitle?.trim()||page.title?.trim()||`${title} | ${data.site.brand}`;
@@ -8,7 +9,7 @@ export function renderMetadata({lang,path,title,description,ogImage,seo:entry,da
   const picture=entry?.socialImage||page.socialImage||ogImage||data.seo.defaultSocialImage||data.images.homeHero.src;
   const absolute=value=>/^https?:\/\//.test(value)?safeUrl(value):origin+base+value;
   const location=`${origin}${base}/${lang}/${path}`;
-  let html=`<title>${esc(headline)}</title><meta name="description" content="${esc(summary)}"><meta name="robots" content="${data.seo.indexing&&!noindex?'index,follow':'noindex,follow'}"><meta property="og:title" content="${esc(headline)}"><meta property="og:description" content="${esc(summary)}"><meta property="og:site_name" content="${esc(data.site.brand)}"><meta property="og:locale" content="${lang==='et'?'et_EE':'en_GB'}"><meta property="og:type" content="${ogType||(entry?'article':'website')}"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(headline)}"><meta name="twitter:description" content="${esc(summary)}">`;
+  let html=`<title>${esc(headline)}</title><meta name="description" content="${esc(summary)}"><meta name="robots" content="${data.seo.indexing&&!noindex?'index,follow':'noindex,follow'}"><meta property="og:title" content="${esc(headline)}"><meta property="og:description" content="${esc(summary)}"><meta property="og:site_name" content="${esc(data.site.brand)}"><meta property="og:locale" content="${languageLocale(lang)}"><meta property="og:type" content="${ogType||(entry?'article':'website')}"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(headline)}"><meta name="twitter:description" content="${esc(summary)}">`;
   if(origin){
     html+=`<link rel="canonical" href="${esc(location)}">${availableLanguages.map(other=>`<link rel="alternate" hreflang="${other}" href="${esc(origin+base+'/'+other+'/'+path)}">`).join('')}<meta property="og:url" content="${esc(location)}">`;
     if(picture)html+=`<meta property="og:image" content="${esc(absolute(picture))}"><meta name="twitter:image" content="${esc(absolute(picture))}">`;

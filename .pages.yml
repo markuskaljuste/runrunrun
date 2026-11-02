@@ -70,8 +70,8 @@
           "options": {
             "collection": "countries",
             "value": "{fields.slug}",
-            "label": "{et.name} / {en.name}",
-            "search": "en.name,et.name,slug",
+            "label": "{en.name}",
+            "search": "en.name,slug",
             "multiple": true
           },
           "description": "Vali kõik riigid, mida lugu puudutab. Näiteks Prantsusmaa ja Monaco. / Select all countries covered by this story."
@@ -83,8 +83,8 @@
           "options": {
             "collection": "places",
             "value": "{fields.slug}",
-            "label": "{et.name} / {en.name}",
-            "search": "en.name,et.name,slug",
+            "label": "{en.name}",
+            "search": "en.name,slug",
             "multiple": true,
             "max": 30
           },
@@ -170,12 +170,6 @@
                   }
                 },
                 {
-                  "name": "et",
-                  "label": "Lühikommentaar eesti keeles",
-                  "type": "text",
-                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
-                },
-                {
                   "name": "en",
                   "label": "Short note in English",
                   "type": "text",
@@ -196,12 +190,6 @@
                     "min": 1,
                     "max": 10
                   }
-                },
-                {
-                  "name": "et",
-                  "label": "Lühikommentaar eesti keeles",
-                  "type": "text",
-                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
                 },
                 {
                   "name": "en",
@@ -226,12 +214,6 @@
                   }
                 },
                 {
-                  "name": "et",
-                  "label": "Lühikommentaar eesti keeles",
-                  "type": "text",
-                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
-                },
-                {
                   "name": "en",
                   "label": "Short note in English",
                   "type": "text",
@@ -252,12 +234,6 @@
                     "min": 1,
                     "max": 10
                   }
-                },
-                {
-                  "name": "et",
-                  "label": "Lühikommentaar eesti keeles",
-                  "type": "text",
-                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
                 },
                 {
                   "name": "en",
@@ -282,12 +258,6 @@
                   }
                 },
                 {
-                  "name": "et",
-                  "label": "Lühikommentaar eesti keeles",
-                  "type": "text",
-                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
-                },
-                {
                   "name": "en",
                   "label": "Short note in English",
                   "type": "text",
@@ -300,7 +270,7 @@
         },
         {
           "name": "en",
-          "label": "English",
+          "label": "English original",
           "type": "object",
           "fields": [
             {
@@ -355,13 +325,144 @@
               "label": "Sharing image, optional / Jagamispilt"
             }
           ],
-          "description": "Avaldamiseks täida pealkiri, sissejuhatus ja sisu vähemalt ühes keeles. Teise keele tõlke saab lisada hiljem. / Complete the title, introduction and story in at least one language; add the other translation later."
+          "description": "Write the original story in English. Complete its title, introduction and body before publishing."
         },
         {
-          "name": "et",
-          "label": "Eesti",
+          "name": "translations",
+          "label": "Add translations / Lisa tõlge",
           "type": "object",
+          "list": {
+            "max": 25,
+            "collapsible": {
+              "collapsed": true,
+              "summary": "{language} · {status}"
+            }
+          },
+          "description": "Add an item, choose its language and write the translation. Keep Draft while writing; only Published translations receive a language badge. Photos, GPX files and scores are shared. Add each language once.",
           "fields": [
+            {
+              "name": "language",
+              "label": "Translation language",
+              "type": "select",
+              "required": true,
+              "options": {
+                "values": [
+                  {
+                    "value": "es",
+                    "label": "Spanish"
+                  },
+                  {
+                    "value": "fr",
+                    "label": "French"
+                  },
+                  {
+                    "value": "pt",
+                    "label": "Portuguese"
+                  },
+                  {
+                    "value": "it",
+                    "label": "Italian"
+                  },
+                  {
+                    "value": "de",
+                    "label": "German"
+                  },
+                  {
+                    "value": "nl",
+                    "label": "Dutch"
+                  },
+                  {
+                    "value": "et",
+                    "label": "Estonian"
+                  },
+                  {
+                    "value": "lv",
+                    "label": "Latvian"
+                  },
+                  {
+                    "value": "lt",
+                    "label": "Lithuanian"
+                  },
+                  {
+                    "value": "hr",
+                    "label": "Croatian"
+                  },
+                  {
+                    "value": "sr",
+                    "label": "Serbian"
+                  },
+                  {
+                    "value": "cnr",
+                    "label": "Montenegrin"
+                  },
+                  {
+                    "value": "cs",
+                    "label": "Czech"
+                  },
+                  {
+                    "value": "el",
+                    "label": "Greek"
+                  },
+                  {
+                    "value": "uk",
+                    "label": "Ukrainian"
+                  },
+                  {
+                    "value": "tr",
+                    "label": "Turkish"
+                  },
+                  {
+                    "value": "th",
+                    "label": "Thai"
+                  },
+                  {
+                    "value": "id",
+                    "label": "Indonesian"
+                  },
+                  {
+                    "value": "ms",
+                    "label": "Malay"
+                  },
+                  {
+                    "value": "ca",
+                    "label": "Catalan"
+                  },
+                  {
+                    "value": "pl",
+                    "label": "Polish"
+                  },
+                  {
+                    "value": "ru",
+                    "label": "Russian"
+                  },
+                  {
+                    "value": "ja",
+                    "label": "Japanese"
+                  },
+                  {
+                    "value": "ko",
+                    "label": "Korean"
+                  },
+                  {
+                    "value": "zh",
+                    "label": "Chinese"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "status",
+              "label": "Translation status",
+              "type": "select",
+              "required": true,
+              "default": "draft",
+              "options": {
+                "values": [
+                  "draft",
+                  "published"
+                ]
+              }
+            },
             {
               "name": "title",
               "label": "Title / Pealkiri",
@@ -413,8 +514,7 @@
               "type": "image",
               "label": "Sharing image, optional / Jagamispilt"
             }
-          ],
-          "description": "Avaldamiseks täida pealkiri, sissejuhatus ja sisu vähemalt ühes keeles. Teise keele tõlke saab lisada hiljem. / Complete the title, introduction and story in at least one language; add the other translation later."
+          ]
         }
       ]
     },
@@ -434,49 +534,6 @@
         {
           "name": "en",
           "label": "English",
-          "type": "object",
-          "fields": [
-            {
-              "name": "tagline",
-              "label": "Tagline / Alapealkiri",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "hero",
-              "label": "Homepage headline / Avalehe pealkiri",
-              "type": "text",
-              "required": true
-            },
-            {
-              "name": "intro",
-              "label": "Introduction / Sissejuhatus",
-              "type": "text",
-              "required": true
-            },
-            {
-              "name": "aboutTitle",
-              "label": "My story headline / Minu loo pealkiri",
-              "type": "text",
-              "required": true
-            },
-            {
-              "name": "aboutExcerpt",
-              "label": "My story introduction / Sissejuhatus",
-              "type": "text",
-              "required": true
-            },
-            {
-              "name": "aboutBody",
-              "label": "My story (Markdown) / Minu lugu",
-              "type": "text",
-              "required": true
-            }
-          ]
-        },
-        {
-          "name": "et",
-          "label": "Eesti",
           "type": "object",
           "fields": [
             {
@@ -568,12 +625,6 @@
               "type": "string",
               "label": "English",
               "required": true
-            },
-            {
-              "name": "et",
-              "type": "string",
-              "label": "Eesti",
-              "required": true
             }
           ]
         },
@@ -649,24 +700,6 @@
                   "label": "Caption, optional / Pildiallkiri"
                 }
               ]
-            },
-            {
-              "name": "et",
-              "type": "object",
-              "label": "Eesti",
-              "fields": [
-                {
-                  "name": "alt",
-                  "type": "string",
-                  "label": "Image description / Pildi kirjeldus",
-                  "required": true
-                },
-                {
-                  "name": "caption",
-                  "type": "string",
-                  "label": "Caption, optional / Pildiallkiri"
-                }
-              ]
             }
           ]
         },
@@ -698,24 +731,6 @@
                   "label": "Caption, optional / Pildiallkiri"
                 }
               ]
-            },
-            {
-              "name": "et",
-              "type": "object",
-              "label": "Eesti",
-              "fields": [
-                {
-                  "name": "alt",
-                  "type": "string",
-                  "label": "Image description / Pildi kirjeldus",
-                  "required": true
-                },
-                {
-                  "name": "caption",
-                  "type": "string",
-                  "label": "Caption, optional / Pildiallkiri"
-                }
-              ]
             }
           ]
         },
@@ -734,24 +749,6 @@
               "name": "en",
               "type": "object",
               "label": "English",
-              "fields": [
-                {
-                  "name": "alt",
-                  "type": "string",
-                  "label": "Image description / Pildi kirjeldus",
-                  "required": true
-                },
-                {
-                  "name": "caption",
-                  "type": "string",
-                  "label": "Caption, optional / Pildiallkiri"
-                }
-              ]
-            },
-            {
-              "name": "et",
-              "type": "object",
-              "label": "Eesti",
               "fields": [
                 {
                   "name": "alt",
@@ -819,28 +816,6 @@
                       "label": "Sharing image, optional"
                     }
                   ]
-                },
-                {
-                  "name": "et",
-                  "type": "object",
-                  "label": "Eesti",
-                  "fields": [
-                    {
-                      "name": "title",
-                      "type": "string",
-                      "label": "SEO title (empty = automatic)"
-                    },
-                    {
-                      "name": "description",
-                      "type": "text",
-                      "label": "Meta description (empty = automatic)"
-                    },
-                    {
-                      "name": "socialImage",
-                      "type": "image",
-                      "label": "Sharing image, optional"
-                    }
-                  ]
                 }
               ]
             },
@@ -870,28 +845,6 @@
                       "label": "Sharing image, optional"
                     }
                   ]
-                },
-                {
-                  "name": "et",
-                  "type": "object",
-                  "label": "Eesti",
-                  "fields": [
-                    {
-                      "name": "title",
-                      "type": "string",
-                      "label": "SEO title (empty = automatic)"
-                    },
-                    {
-                      "name": "description",
-                      "type": "text",
-                      "label": "Meta description (empty = automatic)"
-                    },
-                    {
-                      "name": "socialImage",
-                      "type": "image",
-                      "label": "Sharing image, optional"
-                    }
-                  ]
                 }
               ]
             },
@@ -904,28 +857,6 @@
                   "name": "en",
                   "type": "object",
                   "label": "English",
-                  "fields": [
-                    {
-                      "name": "title",
-                      "type": "string",
-                      "label": "SEO title (empty = automatic)"
-                    },
-                    {
-                      "name": "description",
-                      "type": "text",
-                      "label": "Meta description (empty = automatic)"
-                    },
-                    {
-                      "name": "socialImage",
-                      "type": "image",
-                      "label": "Sharing image, optional"
-                    }
-                  ]
-                },
-                {
-                  "name": "et",
-                  "type": "object",
-                  "label": "Eesti",
                   "fields": [
                     {
                       "name": "title",
@@ -983,24 +914,6 @@
           "name": "en",
           "type": "object",
           "label": "English",
-          "fields": [
-            {
-              "name": "name",
-              "type": "string",
-              "label": "Country name / Riigi nimi",
-              "required": true
-            },
-            {
-              "name": "description",
-              "type": "text",
-              "label": "Introduction, optional / Sissejuhatus"
-            }
-          ]
-        },
-        {
-          "name": "et",
-          "type": "object",
-          "label": "Eesti",
           "fields": [
             {
               "name": "name",
@@ -1101,8 +1014,8 @@
           "options": {
             "collection": "countries",
             "value": "{fields.slug}",
-            "label": "{et.name} / {en.name}",
-            "search": "en.name,et.name,slug"
+            "label": "{en.name}",
+            "search": "en.name,slug"
           }
         },
         {
@@ -1187,56 +1100,6 @@
           ]
         },
         {
-          "name": "et",
-          "label": "Eesti",
-          "type": "object",
-          "fields": [
-            {
-              "name": "name",
-              "label": "Koha nimi / Place name",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "region",
-              "label": "Piirkond või saar, soovi korral / Region or island",
-              "type": "string"
-            },
-            {
-              "name": "excerpt",
-              "label": "Lühitutvustus / Introduction",
-              "type": "text",
-              "required": true
-            },
-            {
-              "name": "body",
-              "label": "Sisu / Content",
-              "type": "text",
-              "required": true
-            },
-            {
-              "name": "imageAlt",
-              "label": "Pildi kirjeldus / Image description",
-              "type": "string"
-            },
-            {
-              "name": "imageCaption",
-              "label": "Pildiallkiri / Image caption",
-              "type": "string"
-            },
-            {
-              "name": "seoTitle",
-              "label": "SEO pealkiri, soovi korral / SEO title",
-              "type": "string"
-            },
-            {
-              "name": "seoDescription",
-              "label": "SEO kirjeldus, soovi korral / SEO description",
-              "type": "text"
-            }
-          ]
-        },
-        {
           "name": "ratings",
           "label": "Runographi hinnang / Destination score",
           "type": "object",
@@ -1262,12 +1125,6 @@
                   }
                 },
                 {
-                  "name": "et",
-                  "label": "Lühikommentaar eesti keeles",
-                  "type": "text",
-                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
-                },
-                {
                   "name": "en",
                   "label": "Short note in English",
                   "type": "text",
@@ -1288,12 +1145,6 @@
                     "min": 1,
                     "max": 10
                   }
-                },
-                {
-                  "name": "et",
-                  "label": "Lühikommentaar eesti keeles",
-                  "type": "text",
-                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
                 },
                 {
                   "name": "en",
@@ -1318,12 +1169,6 @@
                   }
                 },
                 {
-                  "name": "et",
-                  "label": "Lühikommentaar eesti keeles",
-                  "type": "text",
-                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
-                },
-                {
                   "name": "en",
                   "label": "Short note in English",
                   "type": "text",
@@ -1346,12 +1191,6 @@
                   }
                 },
                 {
-                  "name": "et",
-                  "label": "Lühikommentaar eesti keeles",
-                  "type": "text",
-                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
-                },
-                {
                   "name": "en",
                   "label": "Short note in English",
                   "type": "text",
@@ -1372,12 +1211,6 @@
                     "min": 1,
                     "max": 10
                   }
-                },
-                {
-                  "name": "et",
-                  "label": "Lühikommentaar eesti keeles",
-                  "type": "text",
-                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
                 },
                 {
                   "name": "en",
@@ -1421,25 +1254,6 @@
         {
           "name": "en",
           "label": "English",
-          "type": "object",
-          "fields": [
-            {
-              "name": "title",
-              "label": "Pealkiri / Headline",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "description",
-              "label": "Tutvustus / Introduction",
-              "type": "text",
-              "required": true
-            }
-          ]
-        },
-        {
-          "name": "et",
-          "label": "Eesti",
           "type": "object",
           "fields": [
             {

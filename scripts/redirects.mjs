@@ -1,0 +1,2 @@
+import {esc} from './core.mjs';
+export function redirectPage(target,{origin='',publication=false}={}){return `<!doctype html><html lang="en"${publication?' data-publication="coming-soon"':''}><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,follow"><meta http-equiv="refresh" content="0;url=${esc(target)}">${origin?`<link rel="canonical" href="${esc(origin+target)}">`:''}<title>Runograph</title></head><body><a href="${esc(target)}">Continue to Runograph</a></body></html>`;}

@@ -8,7 +8,7 @@ export function storyPlaceEntries(post,data,lang){
  const entries=[],seen=new Set();
  function add(place,name){const key=place?'place:'+place.slug:'name:'+normalizePlaceName(name);if(seen.has(key))return;seen.add(key);entries.push({name:place?place[lang].name:name,place});}
  for(const slug of postPlaceSlugs(post)){const place=candidates.find(p=>p.slug===slug);if(place)add(place);}
- for(const name of post.placeNames??[]){const normalized=normalizePlaceName(name);const matches=candidates.filter(p=>[p.slug,p.en.name,p.et.name].some(value=>normalizePlaceName(value)===normalized));add(matches.length===1?matches[0]:null,name);}
+ for(const name of post.placeNames??[]){const normalized=normalizePlaceName(name);const matches=candidates.filter(p=>[p.slug,p.en.name,p.et?.name].filter(value=>typeof value==='string').some(value=>normalizePlaceName(value)===normalized));add(matches.length===1?matches[0]:null,name);}
  return entries;
 }
 

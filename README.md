@@ -1,207 +1,94 @@
 # Runograph
 
-A complete English / Estonian running travel journal. The project belongs to you: no database, paid CMS, subscription, build dependencies or API key is required.
+An English running and travel journal with optional translations on individual stories. Static files, GitHub Pages and Pages CMS keep hosting and editing free. No translation service or paid API is required.
 
-## Open and edit on your computer
+## Write and edit in Pages CMS
 
-On a Mac, double-click **Start preview.command**. Or use Node.js 22 or later:
+1. Open https://app.pagescms.org/ and select your repository.
+2. Choose **Journal / Päevik**, create a post, and write its **English original**.
+3. Select the countries and all catalog places covered by the run. Add extra town or village names under **Add other towns and places**.
+4. Add a cover photograph, inline photographs and any GPX, PDF, TXT, CSV or ZIP attachments.
+5. Use Draft while writing. Publish the English story when its title, introduction and body are complete.
+
+### Add a translation later
+
+Inside the same post, open **Add translations / Lisa tõlge**. Add an item, choose the language and leave its status as **Draft** while writing. Its translated title, introduction, body and SEO fields are independent of the English text. Change that translation to **Published** when all three main text fields are complete.
+
+Only published, complete language versions appear on story cards, for example **EN · ES**. Each badge opens its own version. Translations remain separate from the site's English navigation and general pages. A draft translation does not create a public article URL, language badge, search result, alternate-language link or sitemap entry. Publishing the original is also required before a translation can appear publicly.
+
+Cover images, media files, countries, places, GPX attachments and scores belong to the shared post. A translated story automatically includes English-original photographs not already placed in its translated body, with their original captions and credits. Reuse a photograph's URL in translated text to control its placement without uploading a duplicate.
+
+No translations are created automatically. The language choices prepare the editor; choosing a language does not translate the original for you. Each language can be added once, and each translation can be returned to Draft independently.
+
+Source files, including drafts, are readable in a public GitHub repository. Draft visibility on the website does not make those source files private.
+
+## Preview and edit on your computer
+
+Use Node.js 22 or later. Double-click **Start preview.command** on a Mac, or run:
 
 ```sh
 npm run dev
 ```
 
-Open **http://localhost:4173/en/** for English, **http://localhost:4173/et/** for Estonian, and **http://localhost:4173/admin/** to write.
+Open **http://localhost:4173/en/** to browse and **http://localhost:4173/admin/** to edit. The local editor has **Add translation**, language tabs and per-translation Draft/Published controls. It also supports bold text, links, inline photographs, file uploads and a live Markdown preview.
 
-1. Choose Journal, Site & my story, Logo & sponsors, Pildid / Images, SEO, Riigid / Countries, Kohad / Places, or Google & küpsised.
-2. Edit the English and Eesti tabs. Upload JPG, PNG or WebP photographs if needed.
-3. Save as a draft while writing. Complete the title, introduction and body in at least one language before publishing. The translation can be added later.
-4. Choose **Published** and **Save changes** to include an entry in your local site.
-5. Publish your updated project to update the online site. A local save does not change a hosted copy.
+Saving changes updates local content and rebuilds the local preview. A local save does not update GitHub Pages or the owner-private Sites preview. Upload your changes to the chosen hosting copy to update it. The editing endpoints are local-only and protected by origin and editor-token checks.
 
-The editor writes to your `content/` files and rebuilds the preview. It runs on your own computer only. A hosted `/admin/` page explains how to open Pages CMS; it does not pretend to provide public write access.
+## English website and old links
 
-### Change your logo and add sponsors
+The homepage, country pages, place catalog, About, contact and privacy pages use English. There is no global English/Estonian switch. Existing `/et/` general-page addresses redirect to their `/en/` counterparts using static redirect pages with canonical links. A deliberately published Estonian story translation can still use its `/et/journal/<slug>/` address.
 
-In the local editor, choose **Logo & sponsors** (direct address: **http://localhost:4173/admin/?section=branding**).
+Each published story translation uses `/<language>/journal/<slug>/`. It has its own title, description, HTML language, canonical URL and Open Graph locale. Reciprocal language links and sitemap entries include only published versions.
 
-- Upload a header logo. Transparent PNG or WebP works well; JPG is also supported.
-- Optionally upload a light footer logo for the dark background. Without one, the main logo appears on a light tile in the footer.
-- Adjust the logo width and add a text description for accessibility. Clear the header image to return to the site-name wordmark.
-- Click **Add sponsor**, enter the sponsor name, upload its logo and optionally add its full `https://` website address.
-- Use the arrow buttons to change the order. Uncheck **Visible** to hide a sponsor, or remove it from the list. Uploaded files are kept, so removing a sponsor does not delete its image.
-- Edit the English and Estonian section headings, or switch the whole section off.
-- **Save changes** updates the local site. Publish the project to update the hosted site.
+For local/owner-private builds, `DRAFT_PREVIEW=1 PUBLIC_BUILD=0` enables noindex draft previews at `/<language>/preview/<slug>/`. Public builds ignore that flag. Draft previews have no share or comment controls.
 
-These same fields are configured in Pages CMS under **Logo & sponsors / Logo ja toetajad**. The footer shows supporters when there is at least one visible sponsor with a name and logo. Logos use the same light tone as the footer wordmark. The Rocca Sörk and On logos are the supporters supplied by the owner.
+## Public Coming soon mode
 
-### Running places and country categories
+`content/publication.json` controls the public website. With `PUBLIC_BUILD=1` and `mode: coming-soon`, the output contains only the English coming-soon page, root/legacy redirects and a small allowlist of assets. Full stories, photographs, admin files, Analytics and draft previews are excluded.
 
-The destination catalog lives at `/en/countries/` and `/et/countries/`, with an all-places view at `/en/places/` and `/et/places/`. It starts with the 34 places supplied by the author, grouped into 20 countries. Monaco has its own country page. Place pages have local destination photos and **Info coming soon / Info varsti** text, with no invented route descriptions, distances, dates of visits or recorded runs.
+The owner-private Sites preview is a separate deployment and shows the full journal. Pages CMS saves to GitHub; subsequent CMS edits need a separate private-preview deployment to appear there.
 
-In Pages CMS or the local editor, choose **Kohad / Places** to edit a photograph, country and English/Estonian name, introduction and body. **Info varsti / Coming soon** keeps a placeholder page noindex and outside the sitemap while keeping it visible in the destination catalog. Turn that switch off when the page is ready. Draft places stay out of public output. Photos are illustrative Wikimedia Commons images, with authors and licenses linked on each place page and the photo credits page. El Río uses an explicitly regional Tenerife image.
+To open the public blog, choose **Publishing** and switch the public mode to **Live**. Saving that change to GitHub publishes the full site after its workflow succeeds. Until then, Runograph.com remains Coming soon.
 
-Use **Riigid / Countries** to add a country and its bilingual name/description. A country appears when it has at least one published place or story. Published country stories remain visible on their country page. Country counts and place counts are separate from the General journal category. A new country without published content stays hidden.
+## Destinations and places
 
-Journal entries can select several **Riigid / Countries** and several **Linnad ja kohad / Cities and places**. Select all catalog places covered by a run, including places in different selected countries. Under **Lisa linnu ja külasid käsitsi / Add other towns and places**, add any extra names as separate items (one per line in the local editor). Custom names appear on the story and in search. Exact matches to catalog names are linked automatically; new names remain labels and do not create separate destination pages. Existing single-place records remain supported. The Nice-to-Monaco story is linked to Nice and Monaco.
+The catalog contains the author's 34 confirmed running places in 20 countries. Country cards with published stories appear first. Unwritten country and place cards have blurred cover images and Coming soon labels. Draft posts do not affect readiness or ordering.
 
-Keep existing country and place URL slugs stable. Pages CMS disables file renaming and the local editor locks saved slugs. To remove a place used by a story, first unlink or move that story. Published content, bilingual links, search by country/place, image files and relationships are validated by `npm run check`.
+Country pages show story cards only, avoiding duplicate city/place cards beside the same story. The Journal has combined country, city/place and text filters. A story covering several cities matches each one. Known catalog places can be selected together; manual place names appear on the story and exact catalog-name matches are linked automatically. New names remain labels and do not create separate destination pages.
 
-Eesti: vali **Kohad / Places**, muuda foto ja tekstid ning salvesta. Kui sisu on valmis, võta **Info varsti** märge maha. Postituse juures saad valida mitu riiki ning ühe täpse jooksukoha. Näiteks vali Nitsast Monacosse jooksu jaoks Prantsusmaa ja Monaco: üks lugu ilmub mõlema riigi all. Riigi üldine lugu võib jääda konkreetse kohata.
+A single post can appear under several countries without duplicating its content. Catalog place references must belong to one of its selected countries. Old single-place records remain readable.
 
-### Change homepage and About photographs
+## Scores
 
-Choose **Pildid / Images** in the editor. Replace the homepage hero photograph, the homepage story photograph, the About-page image or the browser icon. Upload JPG, PNG or WebP images, up to 8 MB. Add English and Estonian alt descriptions and optionally change or remove captions. A square PNG works well for the browser icon. Save and publish to apply changes online.
+Open a post's **Runograph score / Runographi hinnang** section. Enter whole-number scores from 1 to 10 for safety, scenery, running surface, access and running experience. Add optional English notes, up to 240 characters, and enable **Show rating**. All five scores are required when enabled.
 
-Post and route cover images remain editable inside each entry. Each language now has image-description and caption fields as well. If you use your own photographs, update the captions and the photo credits accordingly.
+The score at the end of the story is their equally weighted average, rounded to one decimal. All language versions share those scores. Stories have independent scores rather than inheriting another place's ratings. The Nice-to-Monaco scores were assigned at the owner's request from his description and remain editable.
 
-### Change SEO settings
+## Images, credits, logos and SEO
 
-Choose **SEO**, select Home, Journal or About, then English or Eesti. Set an optional SEO title, meta description and sharing image for that page. An entered SEO title is the complete browser/search title; add the site name yourself if wanted. Empty values use the page headline and introduction. The search preview is illustrative; search engines may display different text.
+**Images** controls the homepage photograph, About photograph and favicon. **Logo & sponsors** controls header/footer logos, sponsor logos, their website links and visibility. The transparent Run favicon is supplied, and footer social links use Instagram and Strava icons.
 
-You can upload a default sharing image and control whether the generated pages include `index,follow` or `noindex,follow`. This indexing setting does not change the site's access permissions. Canonical URLs, EN/ET alternate-language links, Open Graph/Twitter metadata and the sitemap are generated at publication, using the hosting address supplied by GitHub Actions. Do not block the entire site in robots.txt when relying on noindex, because crawlers need to read the page's noindex instruction.
+**SEO** contains the English general-page title, description and sharing-image settings. Each story and translation also has its own optional SEO fields. Empty story SEO fields use its title, introduction and cover image.
 
-Each post and route has optional **SEO ja jagamine / SEO & sharing** fields under its language content. These override its usual title, introduction and cover image. No SEO keywords field or ranking guarantee is provided.
+Photographs should be your own or licensed for the intended use. A `Photo:` or `Foto:` paragraph directly after a Markdown image is rendered once in its small caption. Include author, source and license links. `content/photo-credits.json`, `CREDITS.md` and bundled license files record stock-photo and font sources. The Tenerife homepage runner is an AI-generated illustration, not a verified route photograph.
 
-Pages CMS contains the same **Pildid / Images** and **SEO** collections. If you already uploaded an older edition of the project, replace its files with the updated project, including `.pages.yml`, so these fields become available.
+## Contact, comments, Analytics and cookies
 
-## Scores, social links, contact and comments
+Social, contact, sharing and comment settings are in `content/engagement.json`. Formspree contact submission remains disabled until its real opaque form ID is added. Configure the private receiving address inside Formspree, not the public content files.
 
-Stories and running places have five optional author scores: safety, scenery, running surface, access and running experience. Edit a story under **Journal / Päevik → Runographi hinnang / Story score**, or a place under **Kohad / Places → Runographi hinnang**. Each score is a whole number from 1 to 10 with optional English/Estonian notes. The overall score is the equally weighted average, rounded to one decimal and displayed at the end of that story or place page. A story uses its own scores. Destination catalog scores start blank and hidden. The Nice-to-Monaco story has preliminary scores requested by the owner.
+Remarkbox comments remain off until its real public embed key is supplied and moderation is enabled in the provider's Namespace Settings. Comment approval happens in Remarkbox. The website acknowledgement does not configure provider moderation automatically.
 
-**Sotsiaal ja kontakt / Social & contact** controls the real Instagram and Strava profile links, share buttons, public sharing domain, and later service connections. Social profiles appear in both the full journal and the coming-soon footer. Share buttons use ordinary outbound links and browser sharing/clipboard features, with no social SDK. Preview sharing points to the production domain; unpublished destinations open only after the public blog launch.
+GA4 and Search Console fields are prepared in **Google & cookies**. Analytics remains disabled until a real measurement ID and privacy contact details are supplied, enabled and accepted by the visitor. Cookie choices can be changed from the footer. No recipient email, API token or secret belongs in public content files.
 
-The contact page is prepared for Formspree's opaque form ID. Configure the receiving address only in Formspree, then add the form ID and enable submissions. No recipient address, API key or password belongs in the site configuration. Until a real ID is supplied the form is disabled and labelled unavailable. Successful submission feedback appears only after a successful provider response; failed submissions retain the visitor's message.
-
-Comments are prepared for Remarkbox and remain off until the public embed key is supplied and **Enable Moderation** is enabled in the provider's Namespace Settings. The website acknowledgement does not configure that server-side policy. Readers load the iframe explicitly; nothing is fetched from the comment service before that action. Surrounding copy is bilingual; Remarkbox's widget itself is English-only. Approval happens in Remarkbox, outside Pages CMS.
-
-See **LUGEJA-SEADISTUS.md** for the remaining account steps. The user chose to complete the contact/comment accounts later, so actual delivery and provider moderation have not yet been verified.
-
-## Public launch mode
-
-**Pages CMS → Avaldamine / Publishing** controls the public website. It currently uses **Varsti avatud / Coming soon**. The GitHub workflow sets `PUBLIC_BUILD=1`, which makes `npm run build` publish only the English/Estonian coming-soon pages, their fallback page, local typography and favicon. Journal pages, place pages, destination photos, editing assets and Analytics are excluded from the public build. This is a temporary public landing page, not password protection for the public GitHub source repository.
-
-The default local and private Sites builds show the full journal, regardless of the public setting. The private Sites preview is a separate publication: Pages CMS changes rebuild GitHub Pages, and a private Sites refresh must be published separately. Existing source content is retained in both repositories.
-
-When you are ready to launch, change **Avaliku lehe olek / Public website mode** to **Täisblogi avalik / Full blog live**, save, and wait for the GitHub workflow to succeed. That publishes the full journal on the same connected domain. To close it again, choose Coming soon and save. The coming-soon headline and introduction can be edited in both languages.
-
-## Google Analytics, Search Console and cookies
-
-Choose **Google & küpsised** in the local editor or **Google ja küpsised / Google & cookies** in Pages CMS. All Google codes start empty and Analytics starts **off**. Read **GOOGLE-SEADISTUS.md** for the setup steps. `runograph.com` is owned but has not been connected to hosting; no CNAME is added by this update.
-
-Add your real GA4 measurement ID, website operator name and privacy contact before switching Analytics on. The site uses basic consent gating: it makes no Google Analytics request until the visitor allows analytics. Accept and reject have equal prominence. The EN/ET footer links to a privacy notice and Cookie settings; withdrawal disables Analytics, clears only Runograph analytics cookies and reloads an already tracked page. The preference is stored in localStorage for up to 180 days; expiry or a changed consent version asks again. Essential preference storage is separate from optional analytics.
-
-Private `.chatgpt.site` previews and local builds keep Analytics disabled, even if the setting is on. HTTPS production builds use the supplied `SITE_URL`. A valid Search Console HTML-tag token is included in the root and translated pages independently of Analytics consent. Domain-property verification instead uses a DNS TXT record and leaves this token empty. Saving a token does not verify Google ownership automatically.
-
-Google advertising and signals options are disabled, no custom user ID is set, and the one explicit page view uses URLs without query strings or fragments. Turn off **Enhanced measurement** in the Google web-stream settings to keep collection aligned with this setup. No server-side consent log, Google account, retention setting or ownership verification is created for you. Review the privacy information when adding third-party services or changing their settings.
-
-The automated checks exercise consent gating, returning visits, rejection, expiration, version changes, withdrawal, storage failures and cross-tab preference changes. They do not confirm a live Google connection or replace testing with your eventual measurement ID in your Google account.
-
-## Publish for free with GitHub Pages
-
-GitHub Pages is free for public repositories on GitHub Free. The supplied workflow builds and publishes the website, including repository subpaths. You do not need to buy a domain: GitHub provides an address.
-
-1. Create a **public** GitHub repository, using `main` as its default branch.
-2. Put **the contents of this project folder at the root of the repository**. Include hidden files: `.pages.yml`, `.github/`, and `.gitignore`. GitHub's website upload may miss dotfiles; GitHub Desktop is an easier option for adding the complete folder. The `.openai/` folder belongs to the private Sites preview and is not needed for GitHub Pages; omit it from a separate GitHub copy.
-3. Open the repository's **Settings → Pages → Build and deployment**, and select **GitHub Actions** as the source.
-4. Open **Actions → Publish Runograph → Run workflow**, or push a change to `main`.
-5. When the workflow succeeds, its deployment link is the live website.
-
-Publishing to your GitHub repository requires your GitHub connection. The private Sites preview and GitHub Pages are separate copies. Private GitHub repositories may require a paid GitHub plan for Pages. Keep the repository public for the free setup described here. Drafts are excluded from generated pages, but their source files remain visible in a public repository.
-
-Official guide: https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages
-
-## Edit online with free Pages CMS
-
-The project includes `.pages.yml`, already configured for bilingual posts, running places, photographs and the homepage/About copy. It uses a plain text Markdown body field for predictable formatting.
-
-1. Visit **https://app.pagescms.org/** and sign in with GitHub.
-2. Install its GitHub App for the repository containing this project.
-3. Open that repository and the `main` branch.
-4. Edit an entry, or create one using a short URL slug such as `first-run-in-a-new-city`.
-5. Save your content. Pages CMS commits to GitHub, and the included GitHub Actions workflow republishes the site.
-
-Pages CMS is free and open source: https://pagescms.org/
-Setup instructions: https://pagescms.org/docs/quick-start/
-
-To remove an entry, use Pages CMS or remove its JSON file, then rebuild. Local editing intentionally provides no delete button. Keep an existing slug when editing to preserve its URL.
-
-## Eesti: alustamine
-
-Macis ava **Start preview.command**. Teine võimalus on käivitada projekti kaustas `npm run dev` (vajalik Node.js 22 või uuem).
-
-- Avaleht: **http://localhost:4173/et/**.
-- Toimetus: **http://localhost:4173/admin/**.
-- Vali sissekanne ja muuda **English** ning **Eesti** välju.
-- **Draft** on mustand, **Published** lisab sissekande loodavale lehele. Avaldamiseks peab vähemalt ühes keeles olema täidetud pealkiri, sissejuhatus ja sisu; tõlke saab lisada hiljem.
-- Salvesta muudatused. Kohalik salvestus uuendab sinu arvutis olevaid faile ja eelvaadet.
-- Tasuta avaldamiseks lisa kogu projekt avalikku GitHubi repositooriumi, vali **Settings → Pages → GitHub Actions** ja käivita kaasasolev töövoog.
-- Veebis muutmiseks ava **https://app.pagescms.org/**, ühenda sama repositoorium ja salvesta seal. GitHubi töövoog avaldab muudatused.
-
-GitHubi ja Pages CMS-i ühendamiseks logi sisse enda kontoga. Privaatne Sitesi eelvaade ja GitHub Pagesi leht on eraldi koopiad. Tasuta GitHub Pagesi lahenduses on lähtefailid, sealhulgas mustandid, avalikus repositooriumis nähtavad.
-
-## Pages and content
-
-- `content/site.json`: brand, homepage headlines and introduction, About story in both languages.
-- `content/engagement.json`: social profile links, sharing, inactive Formspree and Remarkbox connections. No recipient email is stored here.
-- `content/branding.json`: header/footer logo, logo size, sponsor headings, visibility, sponsor logos and links.
-- `content/images.json`: homepage/About photographs, captions, bilingual alt text and favicon.
-- `content/seo.json`: main-page SEO titles, descriptions, sharing images and indexing preference.
-- `content/publication.json`: public launch mode and bilingual coming-soon headline/introduction.
-- `content/integrations.json`: Analytics opt-in setting, GA4 measurement ID, Search Console verification token, privacy contact and consent version.
-- `content/countries/*.json`: editable bilingual country categories and introductions.
-- `content/places/*.json`: published/draft running places, country references, local photos and bilingual placeholder or finished text.
-- `content/photo-credits.json`: Wikimedia Commons authors, source pages and individual photo licenses.
-- `content/posts/*.json`: three initial personal stories, based only on the supplied outline.
-- `content/routes/*.json`: archived legacy research notes. They are not published as guides; old URLs redirect to destinations.
-- `public/assets/`: local photographs, fonts and styles. No external font or image request is needed to view the site.
-- `public/admin/`: local editor and hosted CMS handoff.
-- `dist/`: generated, ready-to-host static website.
-
-The About page covers Estonian cross-country skiing, snowboarding and injuries, a weight of about 100 kg in 2018-2019, the goal of losing 20-25 kg for karting/motorsport, nine marathon **attempts**, the later 10 km focus, founding Rocca Sörk, remote digital marketing work and running while travelling. No weight-loss result, finish count, race time, route details, exact injury or private contact detail has been added. The destination catalog uses only places the user explicitly confirmed having run in.
-
-All initial post publication dates are 26 October 2026, when this edition of the website was created; they are not dates of the life events. Replace the initial editorial copy and illustrative photographs with your own material as you develop the journal. Runograph is the selected site name.
-
-## Destinations and archived guide URLs
-
-Destinations are now the only travel-place section. The separate Route guides navigation, homepage section, SEO controls and CMS collection were removed. The old route index redirects to Destinations; the old Tallinn note redirects to Tallinn, and the old Madeira note to the Portugal country page. Archived source notes remain in `content/routes/` for recovery, without claiming personal visits to Madeira.
-
-## Formatting
-
-Use blank lines between paragraphs; `## Heading`, `### Subheading`, `**bold**`, `*italic*`, `- bullet`, numbered lists, `> quote`, `[text](https://example.com)`, and an image alone in a paragraph: `![alt text](/assets/uploads/photo.jpg)`. Raw HTML is displayed as text. This is a deliberately small Markdown subset; tables and embedded scripts are not supported.
-
-## Build and check
+## Build and deploy
 
 ```sh
 npm run build
 npm run check
 ```
 
-`dist/` can be uploaded to any static host. For a project subpath, set `BASE_PATH=/repository-name` at build time. Optionally set `SITE_URL=https://example.com` (origin only) to generate canonical links, alternate language metadata and a sitemap. GitHub Actions sets both values automatically from Pages settings. Build output is regenerated; edit `content/` and `public/`, rather than `dist/`.
+There is no dependency installation step. `BASE_PATH=/repository-name` supports GitHub Pages project subpaths, and `SITE_URL=https://example.com` supplies the origin for metadata and the sitemap. GitHub Actions supplies these values and sets `PUBLIC_BUILD=1`.
 
-The checker validates the content, both-language counterpart links, internal links/assets, drafts, route-source requirements, safe text rendering and the CMS structure. There is no dependency installation step. The development server binds to the local computer, checks the origin and an editor token before writes, and does not publish editing endpoints in static output.
+For GitHub, include `.pages.yml`, `.github/`, `.gitignore`, `content/`, `public/` and `scripts/`. The `.openai/` folder belongs to the separate private Sites hosting copy. Edit source files rather than generated `dist/` output.
 
-## Photography and fonts
-
-The photographs include Unsplash editorial images and Wikimedia Commons destination images, stored locally. They are not the author's own photographs. The visited-place catalog is based on the user's list, independently of the stock photographs. Named route cards are explicitly labelled as illustrative. The website has a photo credits page; original download URLs and font licences are in `CREDITS.md` and `public/assets/LICENSE-*.txt`. DM Sans and Manrope are bundled under the SIL Open Font License.
-
-### Formatted stories, photographs and downloadable files
-
-Pages CMS uses the visual **Story / Sisu** rich-text editor, with Markdown stored in each language. Use its bold, link and image controls; the Source tab remains available. The **Failid / Attachments** field uploads GPX, PDF, TXT, CSV and ZIP files and lists them at the end of the story. Use **Show full photo** for portrait covers.
-
-The local editor has **B**, **Add link**, **Add image** and **Add file** buttons beside the body. Select words and press B, or use Cmd/Ctrl+B; Cmd/Ctrl+K inserts a link. File uploads are limited to 8 MB each, with up to ten files in the attachment list. Inline local file links render as downloads.
-
-To review an English-only draft, build locally/private with `DRAFT_PREVIEW=1 PUBLIC_BUILD=0`. Draft pages live at `/en/preview/<slug>/`, are noindex, and stay out of Journal, country archives and the sitemap. A missing translation gets a notice linking to the available language. The local server enables draft previews; public builds ignore the flag. A post can be Published once its title, introduction and story are complete in at least one language. Country and destination story cards open the available language; the other language URL displays a clear translation notice and is excluded from the sitemap.
-
-The Nice-to-Monaco example is a 2023 run described by the owner. Its 25.80 km distance and 4:32/km pace come from the supplied Strava screenshot; the supplied Garmin course line measures about 25.30 km. The owner-approved published story, photographs and GPX are included in this repository. Separately sourced coastal and road photographs have author and license credits. The initial story scores were assigned at the owner’s request from his account of the run and can be edited in Pages CMS. The public website remains in Coming soon mode.
-
-### Scores on individual stories
-
-In Pages CMS, open Journal / Päevik, select a story, and open **Runographi hinnang / Story score**. Enter Safety, Scenery, Running surface, Access and Running experience as whole numbers from 1 to 10, add optional notes (up to 240 characters per language), and enable **Näita hinnangut / Show rating**. The story page calculates and displays the average to one decimal place. The local editor also shows the average while editing. Story scores belong to the story and do not inherit unrelated place scores. No scores are assigned automatically.
-
-Pages CMS saves to the GitHub repository. The owner-private Sites preview is a separate deployment and must be updated separately to show subsequent CMS edits. Public Coming soon mode continues to hide the blog until the owner switches it to Live.
-
-### Destination browsing
-
-Countries with published stories appear first; the remaining countries have blurred cover images and Coming soon labels. Places with finished text or linked stories are also prioritized in the separate place catalog. Draft stories do not affect ordering or readiness. Country pages open directly with a compact heading and a grid of story cards only. Countries without stories show a short Coming soon message. A place with linked stories opens those stories immediately while its standalone guide is unfinished. Both manual place-name matches and multiple explicit place links contribute to the destination’s stories.
-
-The Journal provides a city/place dropdown alongside the country and text filters. A story covering several places matches each of them; manually entered place names are included as well. Photo credits immediately following a Markdown image are rendered once in its small caption. Use a `Photo:` or `Foto:` paragraph with author, source and license links directly after the image.
+Checks cover links and assets, English settings, optional story translations, published/draft isolation, language metadata, legacy redirects, shared media and scores, multiple countries and places, safe rendering, cookie consent, contact/comment prerequisites and the public Coming soon boundary.
