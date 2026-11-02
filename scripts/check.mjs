@@ -75,7 +75,7 @@ for(const lang of ['en','et']){
   const html=readFileSync(file,'utf8'),other=lang==='et'?'en':'et';assert(html.includes(`/${other}/places/${place.slug}/`));assert(html.includes(`/${lang}/countries/${place.country}/`));assert(html.includes(`content="${!placeHasContent(place,data)||!data.seo.indexing?'noindex,follow':'index,follow'}"`));
   if(!place.comingSoon||!storiesForPlace(data,place).length){const credit=data.photoCredits.find(c=>c.path===place.image);assert(credit,'Location photos need attribution');assert(html.includes(credit.sourceUrl.replaceAll('&','&amp;')));assert(html.includes(credit.licenseUrl));}
  }
- for(const group of countryGroups(data,lang)){const page=readFileSync(resolve(dist,lang,'countries',group.slug,'index.html'),'utf8');for(const place of data.places)assert.equal(page.includes(`/${lang}/places/${place.slug}/`),place.status==='published'&&place.country===group.slug,'Country mixed its places.');}
+ for(const group of countryGroups(data,lang)){const page=readFileSync(resolve(dist,lang,'countries',group.slug,'index.html'),'utf8');assert(!page.includes('place-card'),'Country pages should show story cards only.');}
 }
 for(const credit of data.photoCredits){assert(credit.author&&credit.license&&/^https:\/\//.test(credit.sourceUrl)&&/^https:\/\//.test(credit.licenseUrl));assert(existsSync(resolve(dist,'.'+credit.path)));}
 if(existsSync(resolve(dist,'sitemap.xml'))){const sitemap=readFileSync(resolve(dist,'sitemap.xml'),'utf8');for(const p of data.places)for(const lang of ['en','et'])assert.equal(sitemap.includes(`/${lang}/places/${p.slug}/`),placeHasContent(p,data));}
@@ -94,3 +94,5 @@ await import('./check-authoring.mjs');
 await import('./check-story-publishing.mjs');
 
 await import('./check-destinations.mjs');
+
+await import('./check-country-story-view.mjs');

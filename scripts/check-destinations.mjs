@@ -24,14 +24,14 @@ assert(placeHasContent(tallinn,noStories));
 for(const lang of ['en','et']){
  const groups=countryGroups(fixture,lang);let sawPending=false;
  for(const group of groups){if(!group.hasContent)sawPending=true;else assert(!sawPending,'Written destinations must appear before all placeholders.');}
- assert.deepEqual(countryGroups(noStories,lang).filter(g=>g.hasContent).map(g=>g.slug),['estonia']);
+ assert.deepEqual(countryGroups(noStories,lang).filter(g=>g.hasContent).map(g=>g.slug),[]);
  const ordered=[...fixture.places].sort(comparePlaces(fixture,lang));assert.equal(ordered.at(-1).slug,'genk');
  const pending=placeCard(fixture.places.find(p=>p.slug==='genk'),{data:fixture,lang,url:p=>p});assert(pending.includes('destination-pending'));assert(pending.includes('destination-state'));
  const ready=placeCard(fixture.places.find(p=>p.slug==='nice'),{data:fixture,lang,url:p=>p});assert(!ready.includes('destination-pending'));assert(!ready.includes('destination-state'));
  const browse=countryBrowse({data:fixture,lang,url:p=>p,full:true});assert(browse.indexOf(`/${lang}/countries/france/`)<browse.indexOf(`/${lang}/countries/belgium/`));
  const pages=new Map(),options={data:fixture,lang,url:p=>p,write:(path,html)=>pages.set(path,html),shell:(_lang,_path,_title,_description,html)=>html,card:p=>`<article data-story="${p.slug}"><a href="/${lang}/journal/${p.slug}/">${p[lang].title}</a></article>`,base:''};
  buildCountryPages(options);
- const france=pages.get(`/${lang}/countries/france/`);assert(france.includes('country-content-grid'));assert(!france.includes('country-hero'));assert(!france.includes('My running places'));assert(!france.includes('Minu jooksukohad'));assert(france.indexOf(`data-story="${record.slug}"`)<france.indexOf(`/${lang}/places/nice/`));
+ const france=pages.get(`/${lang}/countries/france/`);assert(france.includes('country-content-grid'));assert(!france.includes('country-hero'));assert(!france.includes('My running places'));assert(!france.includes('Minu jooksukohad'));assert(france.includes(`data-story="${record.slug}"`));assert(!france.includes(`/${lang}/places/nice/`));assert(!france.includes('place-card'));
  buildPlacePages(options);const nice=pages.get(`/${lang}/places/nice/`);assert(nice.includes(`data-story="${record.slug}"`));assert(!nice.includes('class="place-image"'));assert(!nice.includes('Info coming soon.'));assert(!nice.includes('Info varsti.'));
 }
 const config=JSON.parse(readFileSync(resolve(root,'.pages.yml'),'utf8')),fields=config.content.find(c=>c.name==='posts').fields;

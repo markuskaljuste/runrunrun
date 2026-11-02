@@ -1,5 +1,6 @@
 export const postPlaceSlugs=post=>post.places??(post.place?[post.place]:[]);
 export const normalizePlaceName=name=>name.normalize('NFD').replace(/\p{M}/gu,'').toLocaleLowerCase().replace(/[-\s]+/g,' ').trim();
+export const storyPlaceKey=entry=>entry.place?'place:'+entry.place.slug:'name:'+normalizePlaceName(entry.name);
 
 export function storyPlaceEntries(post,data,lang){
  const countries=post.countries??(post.country?[post.country]:[]);
