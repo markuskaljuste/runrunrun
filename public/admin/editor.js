@@ -65,7 +65,7 @@ function render(){
  $('#metadata').querySelectorAll('[data-key]').forEach(input=>input.addEventListener('input',()=>{record[input.dataset.key]=input.value;change();if(input.dataset.key==='image')$('#image-preview').src=input.value;}));
  $('#metadata').querySelectorAll('[data-post-country]').forEach(input=>input.addEventListener('change',()=>{record.countries=[...$('#metadata').querySelectorAll('[data-post-country]')].filter(c=>c.checked).map(c=>c.value);const place=content.places.find(p=>p.slug===record.place);if(place&&!record.countries.includes(place.country))record.place='';change();render();$('#metadata').querySelector('[data-post-country][value="'+input.value+'"]')?.focus();}));
  $('#upload')?.addEventListener('change',async event=>{const file=event.target.files[0];if(!file)return;try{record.image=await uploadImage(file);change();render();message('Photograph uploaded. Save the entry to use it.');}catch(error){message(error.message,true);}});
- if(type==='places'){const ratings=document.createElement('section');ratings.className='branding-block rating-editor wide';$('#metadata').append(ratings);renderRatings({root:ratings,record,changed:change});}
+ if(['places','posts'].includes(type)){const ratings=document.createElement('section');ratings.className='branding-block rating-editor wide';$('#metadata').append(ratings);renderRatings({root:ratings,record,changed:change});}
  renderLanguage();
 }
 function renderLanguage(){

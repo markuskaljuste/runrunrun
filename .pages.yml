@@ -130,6 +130,160 @@
           }
         },
         {
+          "name": "ratings",
+          "label": "Runographi hinnang / Story score",
+          "type": "object",
+          "fields": [
+            {
+              "name": "enabled",
+              "label": "Näita hinnangut / Show rating",
+              "type": "boolean",
+              "default": false
+            },
+            {
+              "name": "safety",
+              "label": "Ohutus / Safety",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "score",
+                  "label": "Hinne 1 kuni 10 / Score 1 to 10",
+                  "type": "number",
+                  "options": {
+                    "min": 1,
+                    "max": 10
+                  }
+                },
+                {
+                  "name": "et",
+                  "label": "Lühikommentaar eesti keeles",
+                  "type": "text",
+                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
+                },
+                {
+                  "name": "en",
+                  "label": "Short note in English",
+                  "type": "text",
+                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
+                }
+              ]
+            },
+            {
+              "name": "scenery",
+              "label": "Vaated / Scenery",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "score",
+                  "label": "Hinne 1 kuni 10 / Score 1 to 10",
+                  "type": "number",
+                  "options": {
+                    "min": 1,
+                    "max": 10
+                  }
+                },
+                {
+                  "name": "et",
+                  "label": "Lühikommentaar eesti keeles",
+                  "type": "text",
+                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
+                },
+                {
+                  "name": "en",
+                  "label": "Short note in English",
+                  "type": "text",
+                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
+                }
+              ]
+            },
+            {
+              "name": "surface",
+              "label": "Rajapind / Running surface",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "score",
+                  "label": "Hinne 1 kuni 10 / Score 1 to 10",
+                  "type": "number",
+                  "options": {
+                    "min": 1,
+                    "max": 10
+                  }
+                },
+                {
+                  "name": "et",
+                  "label": "Lühikommentaar eesti keeles",
+                  "type": "text",
+                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
+                },
+                {
+                  "name": "en",
+                  "label": "Short note in English",
+                  "type": "text",
+                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
+                }
+              ]
+            },
+            {
+              "name": "access",
+              "label": "Ligipääsetavus / Access",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "score",
+                  "label": "Hinne 1 kuni 10 / Score 1 to 10",
+                  "type": "number",
+                  "options": {
+                    "min": 1,
+                    "max": 10
+                  }
+                },
+                {
+                  "name": "et",
+                  "label": "Lühikommentaar eesti keeles",
+                  "type": "text",
+                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
+                },
+                {
+                  "name": "en",
+                  "label": "Short note in English",
+                  "type": "text",
+                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
+                }
+              ]
+            },
+            {
+              "name": "experience",
+              "label": "Jooksuelamus / Running experience",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "score",
+                  "label": "Hinne 1 kuni 10 / Score 1 to 10",
+                  "type": "number",
+                  "options": {
+                    "min": 1,
+                    "max": 10
+                  }
+                },
+                {
+                  "name": "et",
+                  "label": "Lühikommentaar eesti keeles",
+                  "type": "text",
+                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
+                },
+                {
+                  "name": "en",
+                  "label": "Short note in English",
+                  "type": "text",
+                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
+                }
+              ]
+            }
+          ],
+          "description": "Sisesta kõik viis hinnet 1 kuni 10 ning soovi korral lühikommentaarid. Lülita Näita hinnangut sisse. Keskmine arvutatakse automaatselt ja kuvatakse loo lõpus. / Enter five scores from 1 to 10 and optional short notes. Enable Show rating; the average is calculated automatically on the story page."
+        },
+        {
           "name": "en",
           "label": "English",
           "type": "object",
@@ -185,7 +339,8 @@
               "type": "image",
               "label": "Sharing image, optional / Jagamispilt"
             }
-          ]
+          ],
+          "description": "Avaldamiseks täida pealkiri, sissejuhatus ja sisu vähemalt ühes keeles. Teise keele tõlke saab lisada hiljem. / Complete the title, introduction and story in at least one language; add the other translation later."
         },
         {
           "name": "et",
@@ -243,7 +398,8 @@
               "type": "image",
               "label": "Sharing image, optional / Jagamispilt"
             }
-          ]
+          ],
+          "description": "Avaldamiseks täida pealkiri, sissejuhatus ja sisu vähemalt ühes keeles. Teise keele tõlke saab lisada hiljem. / Complete the title, introduction and story in at least one language; add the other translation later."
         }
       ]
     },
@@ -1084,17 +1240,23 @@
                 {
                   "name": "score",
                   "label": "Hinne 1 kuni 10 / Score 1 to 10",
-                  "type": "number"
+                  "type": "number",
+                  "options": {
+                    "min": 1,
+                    "max": 10
+                  }
                 },
                 {
                   "name": "et",
                   "label": "Lühikommentaar eesti keeles",
-                  "type": "text"
+                  "type": "text",
+                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
                 },
                 {
                   "name": "en",
                   "label": "Short note in English",
-                  "type": "text"
+                  "type": "text",
+                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
                 }
               ]
             },
@@ -1106,17 +1268,23 @@
                 {
                   "name": "score",
                   "label": "Hinne 1 kuni 10 / Score 1 to 10",
-                  "type": "number"
+                  "type": "number",
+                  "options": {
+                    "min": 1,
+                    "max": 10
+                  }
                 },
                 {
                   "name": "et",
                   "label": "Lühikommentaar eesti keeles",
-                  "type": "text"
+                  "type": "text",
+                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
                 },
                 {
                   "name": "en",
                   "label": "Short note in English",
-                  "type": "text"
+                  "type": "text",
+                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
                 }
               ]
             },
@@ -1128,17 +1296,23 @@
                 {
                   "name": "score",
                   "label": "Hinne 1 kuni 10 / Score 1 to 10",
-                  "type": "number"
+                  "type": "number",
+                  "options": {
+                    "min": 1,
+                    "max": 10
+                  }
                 },
                 {
                   "name": "et",
                   "label": "Lühikommentaar eesti keeles",
-                  "type": "text"
+                  "type": "text",
+                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
                 },
                 {
                   "name": "en",
                   "label": "Short note in English",
-                  "type": "text"
+                  "type": "text",
+                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
                 }
               ]
             },
@@ -1150,17 +1324,23 @@
                 {
                   "name": "score",
                   "label": "Hinne 1 kuni 10 / Score 1 to 10",
-                  "type": "number"
+                  "type": "number",
+                  "options": {
+                    "min": 1,
+                    "max": 10
+                  }
                 },
                 {
                   "name": "et",
                   "label": "Lühikommentaar eesti keeles",
-                  "type": "text"
+                  "type": "text",
+                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
                 },
                 {
                   "name": "en",
                   "label": "Short note in English",
-                  "type": "text"
+                  "type": "text",
+                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
                 }
               ]
             },
@@ -1172,21 +1352,28 @@
                 {
                   "name": "score",
                   "label": "Hinne 1 kuni 10 / Score 1 to 10",
-                  "type": "number"
+                  "type": "number",
+                  "options": {
+                    "min": 1,
+                    "max": 10
+                  }
                 },
                 {
                   "name": "et",
                   "label": "Lühikommentaar eesti keeles",
-                  "type": "text"
+                  "type": "text",
+                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
                 },
                 {
                   "name": "en",
                   "label": "Short note in English",
-                  "type": "text"
+                  "type": "text",
+                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
                 }
               ]
             }
-          ]
+          ],
+          "description": "Sisesta kõik viis hinnet 1 kuni 10 ning soovi korral lühikommentaarid. Lülita Näita hinnangut sisse. Keskmine arvutatakse automaatselt ja kuvatakse loo lõpus. / Enter five scores from 1 to 10 and optional short notes. Enable Show rating; the average is calculated automatically on the story page."
         }
       ]
     },

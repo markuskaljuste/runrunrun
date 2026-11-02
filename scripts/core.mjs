@@ -1,4 +1,5 @@
-import {emptyRatings,validateRatings,ratingCriteria} from './rating-data.mjs';
+import {ratingDefaults,validateRatings} from './rating-data.mjs';
+import {storyLanguages,storyHasTranslation} from './story-languages.mjs';
 import { readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 export const root = resolve(import.meta.dirname, '..');
@@ -22,8 +23,8 @@ export function readContent() {
   for (const key of ['homeHero','homeStory','about']) for (const lang of ['en','et']) data.images[key][lang].caption ??= '';
   for (const type of ['posts','routes','countries','places']) data[type] = readdirSync(resolve(root,'content',type)).filter(f=>f.endsWith('.json')).map(file => JSON.parse(readFileSync(resolve(root,'content',type,file),'utf8')));
   for (const country of data.countries) for (const lang of ['en','et']) country[lang].description ??= '';
-  for(const place of data.places){place.ratings ??= emptyRatings();place.ratings.enabled ??= false;for(const [key] of ratingCriteria){place.ratings[key] ??= {score:null,en:'',et:''};place.ratings[key].score ??= null;for(const lang of ['en','et'])place.ratings[key][lang] ??= '';}}
-  for (const post of data.posts) {post.countries = postCountries(post);delete post.country;post.place ??= '';post.attachments ??= [];post.coverFit ??= 'cover';}
+  for(const record of [...data.places,...data.posts])record.ratings=ratingDefaults(record.ratings);
+  for (const post of data.posts) {post.countries = postCountries(post);delete post.country;post.place ??= '';post.attachments ??= [];post.coverFit ??= 'cover';for(const lang of storyLanguages){post[lang]??={};for(const key of ['title','excerpt','body'])post[lang][key]??='';}}
   for (const place of data.places) for (const lang of ['en','et']) for(const key of ['region','imageAlt','imageCaption','seoTitle','seoDescription']) place[lang][key] ??= '';
   return data;
 }
@@ -120,14 +121,17 @@ export function validateRecord(type, item) {
   if (!['draft','published'].includes(item.status)) throw new Error('Choose draft or published.');
   if (!/^\d{4}-\d{2}-\d{2}$/.test(item.date??'') || !Number.isFinite(Date.parse(item.date))) throw new Error('Add a valid publication date.');
   if (type==='routes'&&!['estonia','portugal','other'].includes(item.category)) throw new Error('Choose a supported category.');
-  if(type==='posts'){if(item.attachments!=null&&(!Array.isArray(item.attachments)||item.attachments.length>10||item.attachments.some(file=>typeof file!=='string'||safeUrl(file)==='#'||!/^https?:|^\/assets\/(?:uploads|files)\//.test(file))))throw new Error('Add up to ten valid attachment URLs.');if(item.coverFit!=null&&!['cover','contain'].includes(item.coverFit))throw new Error('Choose cover or contain for the article image.');}
+  if(type==='posts'){if(item.ratings!=null)validateRatings(item.ratings);if(item.attachments!=null&&(!Array.isArray(item.attachments)||item.attachments.length>10||item.attachments.some(file=>typeof file!=='string'||safeUrl(file)==='#'||!/^https?:|^\/assets\/(?:uploads|files)\//.test(file))))throw new Error('Add up to ten valid attachment URLs.');if(item.coverFit!=null&&!['cover','contain'].includes(item.coverFit))throw new Error('Choose cover or contain for the article image.');}
   if (type==='posts'&&item.place!=null&&(typeof item.place!=='string'||(item.place&&!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.place)))) throw new Error('Choose a valid place.');
   if (type==='posts') {const countries=postCountries(item);if(!Array.isArray(countries)||countries.some(country=>typeof country!=='string'||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(country)))throw new Error('Choose countries from the list, or leave empty for General.');if(new Set(countries).size!==countries.length)throw new Error('Select each country only once.');}
   if (item.image && safeUrl(item.image)==='#') throw new Error('Use a local image path or an https image URL.');
-  for (const lang of ['en','et']) for (const field of ['title','excerpt','body',...(type==='routes'?['place']:[])]) if (typeof item[lang]?.[field] !== 'string' || (item.status==='published'&&!item[lang][field].trim())) throw new Error(`Add ${field} in ${lang.toUpperCase()} before publishing.`);
+  if(type==='posts'){
+    for(const lang of storyLanguages){if(item[lang]!=null&&(typeof item[lang]!=='object'||Array.isArray(item[lang])))throw new Error(`Check the ${lang.toUpperCase()} story fields.`);for(const field of ['title','excerpt','body'])if(item[lang]?.[field]!=null&&typeof item[lang][field]!=='string')throw new Error(`Check ${field} in ${lang.toUpperCase()}.`);}
+    if(item.status==='published'&&!storyLanguages.some(lang=>storyHasTranslation(item,lang)))throw new Error('Complete the title, introduction and story in at least one language before publishing.');
+  }else for (const lang of ['en','et']) for (const field of ['title','excerpt','body',...(type==='routes'?['place']:[])]) if (typeof item[lang]?.[field] !== 'string' || (item.status==='published'&&!item[lang][field].trim())) throw new Error(`Add ${field} in ${lang.toUpperCase()} before publishing.`);
   for (const lang of ['en','et']) {
-    for (const key of ['seoTitle','seoDescription','imageAlt','imageCaption']) if (item[lang][key]!=null&&typeof item[lang][key]!=='string') throw new Error(`Check ${key} in ${lang.toUpperCase()}.`);
-    if (item[lang].socialImage&&safeUrl(item[lang].socialImage)==='#') throw new Error('Choose a valid post sharing image.');
+    for (const key of ['seoTitle','seoDescription','imageAlt','imageCaption']) if (item[lang]?.[key]!=null&&typeof item[lang][key]!=='string') throw new Error(`Check ${key} in ${lang.toUpperCase()}.`);
+    if (item[lang]?.socialImage&&safeUrl(item[lang].socialImage)==='#') throw new Error('Choose a valid post sharing image.');
   }
   if (type==='routes' && item.status==='published' && (!/^https:\/\//.test(item.sourceUrl??'') || safeUrl(item.sourceUrl)==='#' || !item.sourceLabel?.trim() || !/^\d{4}-\d{2}-\d{2}$/.test(item.checked??''))) throw new Error('Published route guides need an official https source, source name and checked date.');
 }

@@ -5,6 +5,7 @@ import { root,readContent,validateAll,validateRecord,markdown } from './core.mjs
 import {isComingSoon,checkComingSoon} from './publication.mjs';
 import {renderMetadata} from './metadata.mjs';
 import {countryGroups,countrySlugs} from './countries.mjs';
+import {storyPath,storyHasTranslation} from './story-languages.mjs';
 const data=readContent();validateAll(data);
 const dist=resolve(root,'dist'),base=(process.env.BASE_PATH??'').replace(/\/$/,'');
 if(isComingSoon(data)){checkComingSoon({data,base});process.exit(0);}
@@ -35,7 +36,7 @@ for(const lang of ['en','et'])for(const type of ['posts'])for(const record of da
 }
 assert(markdown('<script>alert(1)</script>').includes('&lt;script&gt;'),'HTML must be escaped.');
 assert(!markdown('[unsafe](javascript:alert(1))').includes('href="javascript:'),'Unsafe URL.');
-const draft=structuredClone(data.posts[0]);draft.status='draft';draft.en.body='';validateRecord('posts',draft);draft.status='published';assert.throws(()=>validateRecord('posts',draft),'Incomplete translations must block publishing.');
+const draft=structuredClone(data.posts[0]);draft.status='draft';draft.en.body='';draft.et??={};draft.et.body='';validateRecord('posts',draft);draft.status='published';assert.throws(()=>validateRecord('posts',draft),'Publishing must require at least one complete language.');
 const route=structuredClone(data.routes[0]);route.sourceUrl='';assert.throws(()=>validateRecord('routes',route),'Route publication must require a source.');
 const config=JSON.parse(readFileSync(resolve(root,'.pages.yml'),'utf8'));assert.equal(config.content.length,10);assert.equal(config.media.output,'/assets/uploads');for(const type of ['branding','images','seo','integrations','publication','engagement'])assert(config.content.some(c=>c.name===type&&c.path===`content/${type}.json`));
 const branding=structuredClone(data.branding);branding.sponsors=[{name:'Test sponsor',logo:'/assets/favicon.svg',url:'javascript:alert(1)',enabled:true}];assert.throws(()=>validateRecord('branding',branding),'Sponsor links must use HTTPS.');branding.sponsors[0].url='https://example.com';validateRecord('branding',branding);branding.logoWidth=999;assert.throws(()=>validateRecord('branding',branding),'Logo sizing must stay within the header layout.');
@@ -52,7 +53,7 @@ const reserved={slug:'general',en:{name:'General'},et:{name:'Üldine'}};assert.t
 for(const lang of ['en','et']){
  const index=readFileSync(resolve(dist,lang,'countries/index.html'),'utf8');assert(index.includes(`/${lang}/countries/`));
  const groups=countryGroups(data,lang);
- for(const group of groups){const page=readFileSync(resolve(dist,lang,'countries',group.slug,'index.html'),'utf8');for(const post of data.posts.filter(p=>p.status==='published'))assert.equal(page.includes(`/${lang}/journal/${post.slug}/`),countrySlugs(post).includes(group.slug),`Country page mixed stories: ${group.slug}`);const other=lang==='en'?'et':'en';assert(page.includes(`/${other}/countries/${group.slug}/`));}
+ for(const group of groups){const page=readFileSync(resolve(dist,lang,'countries',group.slug,'index.html'),'utf8');for(const post of data.posts.filter(p=>p.status==='published'))assert.equal(page.includes(base+storyPath(post,lang)),countrySlugs(post).includes(group.slug),`Country page mixed stories: ${group.slug}`);const other=lang==='en'?'et':'en';assert(page.includes(`/${other}/countries/${group.slug}/`));}
  for(const country of data.countries)assert.equal(existsSync(resolve(dist,lang,'countries',country.slug,'index.html')),groups.some(g=>g.slug===country.slug),'Empty country categories should stay hidden.');
 }
 const draftOnly=structuredClone(data);draftOnly.posts[0].countries=['indonesia'];draftOnly.posts[0].status='draft';draftOnly.places=[];assert(!countryGroups(draftOnly,'et').some(g=>g.slug==='indonesia'),'Draft stories must not expose a country category.');
@@ -82,9 +83,11 @@ console.log('Passed place checks: country/place relationships, draft isolation, 
 const invalidPublication=structuredClone(data.publication);invalidPublication.mode='unknown';assert.throws(()=>validateRecord('publication',invalidPublication));
 
 assert(!config.content.some(c=>c.name==='routes'),'Route guides must be removed from the CMS.');
-for(const lang of ['et','en']){const home=readFileSync(resolve(dist,lang,'index.html'),'utf8');assert(!home.includes('class="section routes-home"'));assert(!home.includes(`href="${base}/${lang}/routes/"`));assert(home.includes('class="brand-run"'));assert(home.includes('class="brand-ograph"'));assert(home.includes('https://www.instagram.com/markuskaljuste/'));assert(home.includes('https://strava.app.link/W1a7SCITG7b'));const contact=readFileSync(resolve(dist,lang,'contact/index.html'),'utf8');assert(contact.includes('contact-form'));if(!data.engagement.contact.enabled)assert(!contact.includes('data-contact-form'));for(const post of data.posts.filter(p=>p.status==='published'))assert(readFileSync(resolve(dist,lang,'journal',post.slug,'index.html'),'utf8').includes('data-copy-link'));}
+for(const lang of ['et','en']){const home=readFileSync(resolve(dist,lang,'index.html'),'utf8');assert(!home.includes('class="section routes-home"'));assert(!home.includes(`href="${base}/${lang}/routes/"`));assert(home.includes('class="brand-run"'));assert(home.includes('class="brand-ograph"'));assert(home.includes('https://www.instagram.com/markuskaljuste/'));assert(home.includes('https://strava.app.link/W1a7SCITG7b'));const contact=readFileSync(resolve(dist,lang,'contact/index.html'),'utf8');assert(contact.includes('contact-form'));if(!data.engagement.contact.enabled)assert(!contact.includes('data-contact-form'));for(const post of data.posts.filter(p=>p.status==='published'))assert.equal(readFileSync(resolve(dist,lang,'journal',post.slug,'index.html'),'utf8').includes('data-copy-link'),Boolean(storyHasTranslation(post,lang)&&data.engagement.sharingEnabled));}
 await import('./check-engagement.mjs');
 
 await import('./check-multi-country.mjs');
 
 await import('./check-authoring.mjs');
+
+await import('./check-story-publishing.mjs');

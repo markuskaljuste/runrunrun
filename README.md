@@ -14,7 +14,7 @@ Open **http://localhost:4173/en/** for English, **http://localhost:4173/et/** fo
 
 1. Choose Journal, Site & my story, Logo & sponsors, Pildid / Images, SEO, Riigid / Countries, Kohad / Places, or Google & küpsised.
 2. Edit the English and Eesti tabs. Upload JPG, PNG or WebP photographs if needed.
-3. Save as a draft while writing. Both languages need a title, introduction and body before an entry can be published.
+3. Save as a draft while writing. Complete the title, introduction and body in at least one language before publishing. The translation can be added later.
 4. Choose **Published** and **Save changes** to include an entry in your local site.
 5. Publish your updated project to update the online site. A local save does not change a hosted copy.
 
@@ -66,7 +66,7 @@ Pages CMS contains the same **Pildid / Images** and **SEO** collections. If you 
 
 ## Scores, social links, contact and comments
 
-Each running place has five optional author scores: safety, scenery, running surface, access and running experience. Edit these under **Kohad / Places → Runographi hinnang**. Every score is a whole number from 1 to 10 and can have short English/Estonian notes. The overall score is the equally weighted average, rounded to one decimal. It appears at the end of the place page and on stories linked to that place. All starter scores are blank and hidden; no ratings were invented.
+Stories and running places have five optional author scores: safety, scenery, running surface, access and running experience. Edit a story under **Journal / Päevik → Runographi hinnang / Story score**, or a place under **Kohad / Places → Runographi hinnang**. Each score is a whole number from 1 to 10 with optional English/Estonian notes. The overall score is the equally weighted average, rounded to one decimal and displayed at the end of that story or place page. A story uses its own scores. Destination catalog scores start blank and hidden. The Nice-to-Monaco story has preliminary scores requested by the owner.
 
 **Sotsiaal ja kontakt / Social & contact** controls the real Instagram and Strava profile links, share buttons, public sharing domain, and later service connections. Social profiles appear in both the full journal and the coming-soon footer. Share buttons use ordinary outbound links and browser sharing/clipboard features, with no social SDK. Preview sharing points to the production domain; unpublished destinations open only after the public blog launch.
 
@@ -132,7 +132,7 @@ Macis ava **Start preview.command**. Teine võimalus on käivitada projekti kaus
 - Avaleht: **http://localhost:4173/et/**.
 - Toimetus: **http://localhost:4173/admin/**.
 - Vali sissekanne ja muuda **English** ning **Eesti** välju.
-- **Draft** on mustand, **Published** lisab sissekande loodavale lehele.
+- **Draft** on mustand, **Published** lisab sissekande loodavale lehele. Avaldamiseks peab vähemalt ühes keeles olema täidetud pealkiri, sissejuhatus ja sisu; tõlke saab lisada hiljem.
 - Salvesta muudatused. Kohalik salvestus uuendab sinu arvutis olevaid faile ja eelvaadet.
 - Tasuta avaldamiseks lisa kogu projekt avalikku GitHubi repositooriumi, vali **Settings → Pages → GitHub Actions** ja käivita kaasasolev töövoog.
 - Veebis muutmiseks ava **https://app.pagescms.org/**, ühenda sama repositoorium ja salvesta seal. GitHubi töövoog avaldab muudatused.
@@ -190,6 +190,12 @@ Pages CMS uses the visual **Story / Sisu** rich-text editor, with Markdown store
 
 The local editor has **B**, **Add link**, **Add image** and **Add file** buttons beside the body. Select words and press B, or use Cmd/Ctrl+B; Cmd/Ctrl+K inserts a link. File uploads are limited to 8 MB each, with up to ten files in the attachment list. Inline local file links render as downloads.
 
-To review an English-only draft, build locally/private with `DRAFT_PREVIEW=1 PUBLIC_BUILD=0`. Draft pages live at `/en/preview/<slug>/`, are noindex, and stay out of Journal, country archives and the sitemap. A missing translation gets a notice linking to the available language. The local server enables draft previews; public builds ignore the flag. A post still requires both languages before changing to Published.
+To review an English-only draft, build locally/private with `DRAFT_PREVIEW=1 PUBLIC_BUILD=0`. Draft pages live at `/en/preview/<slug>/`, are noindex, and stay out of Journal, country archives and the sitemap. A missing translation gets a notice linking to the available language. The local server enables draft previews; public builds ignore the flag. A post can be Published once its title, introduction and story are complete in at least one language. Country and destination story cards open the available language; the other language URL displays a clear translation notice and is excluded from the sitemap.
 
-The Nice-to-Monaco example is a 2023 run described by the owner. Its 25.80 km distance and 4:32/km pace come from the supplied Strava screenshot; the supplied Garmin course line measures about 25.30 km. The owner-approved example, its original photographs, Strava screenshot, GPX course, route trace and credited coastal photograph are included here. In Pages CMS, open Journal / Päevik and select “Nice to Monaco: a run, a pool and an ice cream”. It remains a Draft with English text, tagged France and Monaco. Source files in this public repository are publicly readable even while the post is a draft; the draft is excluded from the public website. The public website remains in Coming soon mode.
+The Nice-to-Monaco example is a 2023 run described by the owner. Its 25.80 km distance and 4:32/km pace come from the supplied Strava screenshot; the supplied Garmin course line measures about 25.30 km. The owner-approved published story, photographs and GPX are included in this repository. Separately sourced coastal and road photographs have author and license credits. The initial story scores were assigned at the owner’s request from his account of the run and can be edited in Pages CMS. The public website remains in Coming soon mode.
+
+### Scores on individual stories
+
+In Pages CMS, open Journal / Päevik, select a story, and open **Runographi hinnang / Story score**. Enter Safety, Scenery, Running surface, Access and Running experience as whole numbers from 1 to 10, add optional notes (up to 240 characters per language), and enable **Näita hinnangut / Show rating**. The story page calculates and displays the average to one decimal place. The local editor also shows the average while editing. Story scores belong to the story and do not inherit unrelated place scores. No scores are assigned automatically.
+
+Pages CMS saves to the GitHub repository. The owner-private Sites preview is a separate deployment and must be updated separately to show subsequent CMS edits. Public Coming soon mode continues to hide the blog until the owner switches it to Live.
