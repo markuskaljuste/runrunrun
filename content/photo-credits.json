@@ -372,5 +372,14 @@
     "labelEn": "Zagreb",
     "labelEt": "Zagreb",
     "scope": "place"
+  },
+  {
+    "path": "/assets/uploads/nice-to-monaco/cap-dail-coastal-path.jpg",
+    "labelEn": "Cap-d’Ail coastal path",
+    "labelEt": "Cap-d’Aili rannarada",
+    "author": "Renek78",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Littoral_path_between_Plage_de_la_Mala_and_Plage_Marquet_in_Cap-d%27Ail_01.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
   }
 ]
