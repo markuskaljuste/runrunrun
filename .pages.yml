@@ -6,7 +6,12 @@
       "jpg",
       "jpeg",
       "png",
-      "webp"
+      "webp",
+      "gpx",
+      "pdf",
+      "txt",
+      "csv",
+      "zip"
     ],
     "rename": "safe"
   },
@@ -88,6 +93,43 @@
           "type": "image"
         },
         {
+          "name": "attachments",
+          "label": "Failid / Attachments",
+          "type": "file",
+          "options": {
+            "extensions": [
+              "gpx",
+              "pdf",
+              "txt",
+              "csv",
+              "zip"
+            ],
+            "multiple": {
+              "max": 10
+            },
+            "unique": true,
+            "rename": "safe"
+          }
+        },
+        {
+          "name": "coverFit",
+          "label": "Kaanepildi kuvamine / Cover image display",
+          "type": "select",
+          "default": "cover",
+          "options": {
+            "values": [
+              {
+                "value": "cover",
+                "label": "Täida ala / Fill"
+              },
+              {
+                "value": "contain",
+                "label": "Näita tervet pilti / Show full photo"
+              }
+            ]
+          }
+        },
+        {
           "name": "en",
           "label": "English",
           "type": "object",
@@ -104,8 +146,19 @@
             },
             {
               "name": "body",
-              "label": "Body (Markdown) / Sisu",
-              "type": "text"
+              "label": "Story / Sisu",
+              "type": "rich-text",
+              "options": {
+                "format": "markdown",
+                "switcher": true,
+                "extensions": [
+                  "jpg",
+                  "jpeg",
+                  "png",
+                  "webp"
+                ],
+                "rename": "safe"
+              }
             },
             {
               "name": "imageAlt",
@@ -151,8 +204,19 @@
             },
             {
               "name": "body",
-              "label": "Body (Markdown) / Sisu",
-              "type": "text"
+              "label": "Story / Sisu",
+              "type": "rich-text",
+              "options": {
+                "format": "markdown",
+                "switcher": true,
+                "extensions": [
+                  "jpg",
+                  "jpeg",
+                  "png",
+                  "webp"
+                ],
+                "rename": "safe"
+              }
             },
             {
               "name": "imageAlt",

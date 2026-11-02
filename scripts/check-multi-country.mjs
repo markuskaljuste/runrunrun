@@ -5,7 +5,7 @@ import {runInNewContext} from 'node:vm';
 import {root,readContent,validateAll,validateRecord,postCountries} from './core.mjs';
 import {countryGroups,countrySlugs,buildCountryPages} from './countries.mjs';
 
-const data=readContent(),journey=structuredClone(data.posts[0]);
+const data=readContent(),journey={slug:'multi-country-fixture',status:'published',date:'2026-11-01',countries:[],place:'',image:'/assets/forest.jpg',en:{title:'Fixture story',excerpt:'A story for checks.',body:'A story for checks.'},et:{title:'Kontroll-lugu',excerpt:'Kontrolli tekst.',body:'Kontrolli tekst.'}};
 journey.countries=['france','monaco'];journey.place='monaco';
 const fixture={...structuredClone(data),posts:[journey]};
 validateAll(fixture);

@@ -183,3 +183,13 @@ The checker validates the content, both-language counterpart links, internal lin
 ## Photography and fonts
 
 The photographs include Unsplash editorial images and Wikimedia Commons destination images, stored locally. They are not the author's own photographs. The visited-place catalog is based on the user's list, independently of the stock photographs. Named route cards are explicitly labelled as illustrative. The website has a photo credits page; original download URLs and font licences are in `CREDITS.md` and `public/assets/LICENSE-*.txt`. DM Sans and Manrope are bundled under the SIL Open Font License.
+
+### Formatted stories, photographs and downloadable files
+
+Pages CMS uses the visual **Story / Sisu** rich-text editor, with Markdown stored in each language. Use its bold, link and image controls; the Source tab remains available. The **Failid / Attachments** field uploads GPX, PDF, TXT, CSV and ZIP files and lists them at the end of the story. Use **Show full photo** for portrait covers.
+
+The local editor has **B**, **Add link**, **Add image** and **Add file** buttons beside the body. Select words and press B, or use Cmd/Ctrl+B; Cmd/Ctrl+K inserts a link. File uploads are limited to 8 MB each, with up to ten files in the attachment list. Inline local file links render as downloads.
+
+To review an English-only draft, build locally/private with `DRAFT_PREVIEW=1 PUBLIC_BUILD=0`. Draft pages live at `/en/preview/<slug>/`, are noindex, and stay out of Journal, country archives and the sitemap. A missing translation gets a notice linking to the available language. The local server enables draft previews; public builds ignore the flag. A post still requires both languages before changing to Published.
+
+The Nice-to-Monaco example is a 2023 run described by the owner. Its 25.80 km distance and 4:32/km pace come from the supplied Strava screenshot; the supplied Garmin course line measures about 25.30 km. The working example, its photos and GPX are kept in the owner-private Site checkout; they are not included in this public repository copy until the owner chooses to add them. The coastal photo is credited separately in the private draft. The public website remains in Coming soon mode.

@@ -4,9 +4,10 @@ import { readFileSync, existsSync, statSync, mkdirSync, writeFileSync, renameSyn
 import { resolve, extname, sep } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import {root,readContent,validateRecord} from './core.mjs';
+import {attachmentUpload,attachmentExtensions} from './upload-files.mjs';
 const port=Number(process.env.PORT||4173),token=randomBytes(32).toString('hex');
 const dist=resolve(root,'dist');
-function build(){const result=spawnSync(process.execPath,[resolve(root,'scripts/build.mjs')],{cwd:root,encoding:'utf8',env:{...process.env,BASE_PATH:'',SITE_URL:'',PUBLIC_BUILD:'0'}});if(result.status!==0)throw new Error(result.stderr||'Build failed.');}
+function build(){const result=spawnSync(process.execPath,[resolve(root,'scripts/build.mjs')],{cwd:root,encoding:'utf8',env:{...process.env,BASE_PATH:'',SITE_URL:'',PUBLIC_BUILD:'0',DRAFT_PREVIEW:'1'}});if(result.status!==0)throw new Error(result.stderr||'Build failed.');}
 build();
 function send(res,status,data,type='application/json'){res.writeHead(status,{'Content-Type':type,'X-Content-Type-Options':'nosniff','Referrer-Policy':'same-origin','Cache-Control':'no-store'});res.end(type==='application/json'?JSON.stringify(data):data);}
 async function body(req){const chunks=[];let length=0;for await (const chunk of req){length+=chunk.length;if(length>12_000_000)throw new Error('File is too large. Maximum 8 MB.');chunks.push(chunk);}return JSON.parse(Buffer.concat(chunks).toString('utf8'));}
@@ -33,6 +34,10 @@ const server=http.createServer(async(req,res)=>{
     try{build();}catch(error){if(previous)writeFileSync(file,previous);else unlinkSync(file);build();throw error;}
     return send(res,200,{ok:true,content:readContent()});
    }
+   if(path==='/api/attachment'){
+    const {bytes,basename,extension}=attachmentUpload(input);const name=`${basename}-${randomBytes(4).toString('hex')}.${extension}`;
+    const folder=resolve(root,'public/assets/uploads');mkdirSync(folder,{recursive:true});writeFileSync(resolve(folder,name),bytes);build();return send(res,200,{path:'/assets/uploads/'+name});
+   }
    if(path==='/api/media'){
     const match=/^data:image\/(jpeg|png|webp);base64,([A-Za-z0-9+/=]+)$/.exec(input.data??'');
     if(!match)throw new Error('Choose a JPG, PNG or WebP image.');
@@ -52,7 +57,8 @@ const server=http.createServer(async(req,res)=>{
    file=resolve(file,'index.html');
   }
   if(!existsSync(file))return send(res,404,readFileSync(resolve(dist,'404.html')),'text/html; charset=utf-8');
-  const mime={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json','.svg':'image/svg+xml','.jpg':'image/jpeg','.png':'image/png','.webp':'image/webp','.woff2':'font/woff2','.ttf':'font/ttf','.xml':'application/xml','.txt':'text/plain'};
+  const mime={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json','.svg':'image/svg+xml','.jpg':'image/jpeg','.png':'image/png','.webp':'image/webp','.woff2':'font/woff2','.ttf':'font/ttf','.xml':'application/xml','.txt':'text/plain','.gpx':'application/gpx+xml','.pdf':'application/pdf','.csv':'text/csv; charset=utf-8','.zip':'application/zip'};
+  if(path.startsWith('/assets/uploads/')&&attachmentExtensions.includes(extname(file).slice(1)))res.setHeader('Content-Disposition',`attachment; filename="${file.split(sep).pop()}"`);
   send(res,200,req.method==='HEAD'?'':readFileSync(file),mime[extname(file)]||'application/octet-stream');
  }catch(error){send(res,400,{error:error.message});}
 });

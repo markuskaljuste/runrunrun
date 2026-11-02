@@ -86,3 +86,5 @@ for(const lang of ['et','en']){const home=readFileSync(resolve(dist,lang,'index.
 await import('./check-engagement.mjs');
 
 await import('./check-multi-country.mjs');
+
+await import('./check-authoring.mjs');

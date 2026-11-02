@@ -4,22 +4,7 @@ import { resolve } from 'node:path';
 export const root = resolve(import.meta.dirname, '..');
 export const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const safeUrl = value => /^(https?:\/\/|\/(?!\/))[^\s<>"']*$/i.test(value ?? '') ? value : '#';
-export function inline(value) {
-  return esc(value).replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, (_, label, url) => `<a href="${esc(safeUrl(url.replaceAll('&amp;', '&')))}" rel="noopener noreferrer">${label}</a>`).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/\*([^*]+)\*/g, '<em>$1</em>');
-}
-export function markdown(body = '', base = '') {
-  return body.split(/\n\s*\n/).map(block => {
-    const picture = /^!\[([^\]]*)\]\((\/[^\s)]+|https?:\/\/[^\s)]+)\)$/.exec(block.trim());
-    if (picture) return `<img src="${esc(picture[2].startsWith('/')?base+safeUrl(picture[2]):safeUrl(picture[2]))}" alt="${esc(picture[1])}" loading="lazy">`;
-    if (/^> /.test(block)) return `<blockquote>${inline(block.replace(/^> /gm,'')).replaceAll('\n','<br>')}</blockquote>`;
-    if (/^\d+\. /.test(block)) return `<ol>${block.split('\n').map(line=>`<li>${inline(line.replace(/^\d+\. /,''))}</li>`).join('')}</ol>`;
-    if (/^### /m.test(block)) return `<h3>${inline(block.replace(/^### /,''))}</h3>`;
-    if (/^## /m.test(block)) return `<h2>${inline(block.replace(/^## /,''))}</h2>`;
-    if (/^# /m.test(block)) return `<h2>${inline(block.replace(/^# /,''))}</h2>`;
-    if (/^- /.test(block)) return `<ul>${block.split('\n').map(line=>`<li>${inline(line.replace(/^- /,''))}</li>`).join('')}</ul>`;
-    return `<p>${inline(block).replaceAll('\n','<br>')}</p>`;
-  }).join('\n');
-}
+export {inline,markdown} from '../public/assets/markdown.js';
 export const postCountries = post => post.countries ?? (post.country ? [post.country] : []);
 export function readContent() {
   const data = {};
@@ -38,7 +23,7 @@ export function readContent() {
   for (const type of ['posts','routes','countries','places']) data[type] = readdirSync(resolve(root,'content',type)).filter(f=>f.endsWith('.json')).map(file => JSON.parse(readFileSync(resolve(root,'content',type,file),'utf8')));
   for (const country of data.countries) for (const lang of ['en','et']) country[lang].description ??= '';
   for(const place of data.places){place.ratings ??= emptyRatings();place.ratings.enabled ??= false;for(const [key] of ratingCriteria){place.ratings[key] ??= {score:null,en:'',et:''};place.ratings[key].score ??= null;for(const lang of ['en','et'])place.ratings[key][lang] ??= '';}}
-  for (const post of data.posts) {post.countries = postCountries(post);delete post.country;post.place ??= '';}
+  for (const post of data.posts) {post.countries = postCountries(post);delete post.country;post.place ??= '';post.attachments ??= [];post.coverFit ??= 'cover';}
   for (const place of data.places) for (const lang of ['en','et']) for(const key of ['region','imageAlt','imageCaption','seoTitle','seoDescription']) place[lang][key] ??= '';
   return data;
 }
@@ -135,6 +120,7 @@ export function validateRecord(type, item) {
   if (!['draft','published'].includes(item.status)) throw new Error('Choose draft or published.');
   if (!/^\d{4}-\d{2}-\d{2}$/.test(item.date??'') || !Number.isFinite(Date.parse(item.date))) throw new Error('Add a valid publication date.');
   if (type==='routes'&&!['estonia','portugal','other'].includes(item.category)) throw new Error('Choose a supported category.');
+  if(type==='posts'){if(item.attachments!=null&&(!Array.isArray(item.attachments)||item.attachments.length>10||item.attachments.some(file=>typeof file!=='string'||safeUrl(file)==='#'||!/^https?:|^\/assets\/(?:uploads|files)\//.test(file))))throw new Error('Add up to ten valid attachment URLs.');if(item.coverFit!=null&&!['cover','contain'].includes(item.coverFit))throw new Error('Choose cover or contain for the article image.');}
   if (type==='posts'&&item.place!=null&&(typeof item.place!=='string'||(item.place&&!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.place)))) throw new Error('Choose a valid place.');
   if (type==='posts') {const countries=postCountries(item);if(!Array.isArray(countries)||countries.some(country=>typeof country!=='string'||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(country)))throw new Error('Choose countries from the list, or leave empty for General.');if(new Set(countries).size!==countries.length)throw new Error('Select each country only once.');}
   if (item.image && safeUrl(item.image)==='#') throw new Error('Use a local image path or an https image URL.');
