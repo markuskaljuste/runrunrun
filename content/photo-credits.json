@@ -410,5 +410,38 @@
     "labelEn": "Moraira and El Portet bay",
     "labelEt": "Moraira ja El Porteti laht",
     "scope": "story"
+  },
+  {
+    "slug": "barcelona-waterfront-story",
+    "path": "/assets/uploads/barcelona-hills-and-seafront/barcelona-waterfront.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aerial_view_of_the_Promenade_and_Somorrostro_Beach_in_Barcelona_(51225533277).jpg",
+    "author": "dronepicr",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+    "labelEn": "Barcelona waterfront and Somorrostro beach",
+    "labelEt": "Barcelona waterfront and Somorrostro beach",
+    "scope": "story"
+  },
+  {
+    "slug": "park-guell-path",
+    "path": "/assets/uploads/barcelona-hills-and-seafront/park-guell-path.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Park_G%C3%BCell_-_just_below_Casa_Trias_01.jpg",
+    "author": "Joe Mabel",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "labelEn": "A path near Casa Trias in Park Güell",
+    "labelEt": "A path near Casa Trias in Park Güell",
+    "scope": "story"
+  },
+  {
+    "slug": "barceloneta-promenade",
+    "path": "/assets/uploads/barcelona-hills-and-seafront/barceloneta-promenade.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Promenade_and_beach,_Platja_de_la_Barceloneta,_Barcelona,_2015.jpg",
+    "author": "DimiTalen",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "labelEn": "Barceloneta promenade and beach",
+    "labelEt": "Barceloneta promenade and beach",
+    "scope": "story"
   }
 ]

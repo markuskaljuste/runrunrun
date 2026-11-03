@@ -1,16 +1,11 @@
 import {extname} from 'node:path';
-export const attachmentExtensions=['gpx','kml','pdf','txt','csv','zip'];
+export const attachmentExtensions=['pdf','txt','csv','zip'];
 export function attachmentUpload(input){
  const extension=extname(input.name??'').slice(1).toLowerCase();
- if(!attachmentExtensions.includes(extension))throw new Error('Choose a GPX, KML, PDF, TXT, CSV or ZIP file.');
+ if(!attachmentExtensions.includes(extension))throw new Error('Choose a PDF, TXT, CSV or ZIP file. Route files are not published.');
  const match=/^data:[^;,]*(?:;charset=[^;,]+)?;base64,([A-Za-z0-9+/=]+)$/.exec(input.data??'');
  if(!match)throw new Error('The file could not be read.');
  const bytes=Buffer.from(match[1],'base64');if(!bytes.length||bytes.length>8_000_000)throw new Error('Maximum file size is 8 MB.');
- if(['gpx','kml'].includes(extension)){
-  const text=bytes.toString('utf8');
-  const start=new RegExp('<(?:[a-z\\d_]+:)?'+extension+'\\b','i'),end=new RegExp('<\\/(?:[a-z\\d_]+:)?'+extension+'\\s*>','i');
-  if(!start.test(text)||!end.test(text)||/<!DOCTYPE|<!ENTITY|<script\b/i.test(text))throw new Error(`Choose a valid ${extension.toUpperCase()} file.`);
- }
  if(extension==='pdf'&&bytes.subarray(0,5).toString()!=='%PDF-')throw new Error('Choose a valid PDF file.');
  if(extension==='zip'&&!['504b0304','504b0506','504b0708'].includes(bytes.subarray(0,4).toString('hex')))throw new Error('Choose a valid ZIP file.');
  if(['txt','csv'].includes(extension)&&bytes.includes(0))throw new Error('Choose a plain-text file.');

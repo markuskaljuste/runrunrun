@@ -1,7 +1,8 @@
+import {isRouteFile} from './attachment-policy.js';
 export const escapeText=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const contentUrl=value=>/^(https?:\/\/|\/(?!\/))[^\s<>"']+$/i.test(value??'')?value:'#';
 const assetUrl=(value,base)=>value.startsWith('/')?base+value:value;
-const isDownload=url=>/^\/assets\/(?:uploads|files)\/.+\.(?:gpx|kml|pdf|txt|csv|zip)$/i.test(url);
+const isDownload=url=>/^\/assets\/(?:uploads|files)\/.+\.(?:pdf|txt|csv|zip)$/i.test(url);
 export function inline(value='',base='',depth=0){
  const text=String(value);if(depth>8)return escapeText(text);
  const pattern=/\*\*([^\n]+?)\*\*|\[([^\]\n]+)\]\((https?:\/\/[^\s)]+|\/(?!\/)[^\s)]+)(?:\s+"([^"]*)")?\)|\*([^*\n]+)\*/g;
@@ -9,7 +10,7 @@ export function inline(value='',base='',depth=0){
  for(const match of text.matchAll(pattern)){
   result+=escapeText(text.slice(cursor,match.index));
   if(match[1]!=null)result+=`<strong>${inline(match[1],base,depth+1)}</strong>`;
-  else if(match[2]!=null){const href=contentUrl(match[3]);result+=href==='#'?escapeText(match[0]):`<a href="${escapeText(assetUrl(href,base))}" rel="noopener noreferrer"${isDownload(href)?' download':''}${match[4]?` title="${escapeText(match[4])}"`:''}>${inline(match[2],base,depth+1)}</a>`;}
+  else if(match[2]!=null){const href=contentUrl(match[3]);result+=isRouteFile(href)?inline(match[2],base,depth+1):href==='#'?escapeText(match[0]):`<a href="${escapeText(assetUrl(href,base))}" rel="noopener noreferrer"${isDownload(href)?' download':''}${match[4]?` title="${escapeText(match[4])}"`:''}>${inline(match[2],base,depth+1)}</a>`;}
   else result+=`<em>${inline(match[5],base,depth+1)}</em>`;
   cursor=match.index+match[0].length;
  }

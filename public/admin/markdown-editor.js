@@ -13,7 +13,7 @@ export function insertMarkup(value,start,end,kind,{url='',label=''}={}){
 }
 export function attachMarkdownToolbar({textarea,uploadImage,uploadFile,changed,notify,lang='en'}){
  const et=lang==='et',bar=document.createElement('div');bar.className='markdown-toolbar';bar.setAttribute('role','toolbar');bar.setAttribute('aria-label',et?'Teksti vormindamine':'Text formatting');
- bar.innerHTML=`<button type="button" data-format="bold" title="${et?'Rasvane tekst':'Bold text'}"><strong>B</strong></button><button type="button" data-format="link">${et?'Lisa link':'Add link'}</button><button type="button" data-format="image">${et?'Lisa pilt':'Add image'}</button><button type="button" data-format="file">${et?'Lisa fail':'Add file'}</button><input type="file" data-insert-image accept="image/jpeg,image/png,image/webp" hidden><input type="file" data-insert-file accept=".gpx,.kml,.pdf,.txt,.csv,.zip" hidden>`;
+ bar.innerHTML=`<button type="button" data-format="bold" title="${et?'Rasvane tekst':'Bold text'}"><strong>B</strong></button><button type="button" data-format="link">${et?'Lisa link':'Add link'}</button><button type="button" data-format="image">${et?'Lisa pilt':'Add image'}</button><button type="button" data-format="file">${et?'Lisa fail':'Add file'}</button><input type="file" data-insert-image accept="image/jpeg,image/png,image/webp" hidden><input type="file" data-insert-file accept=".pdf,.txt,.csv,.zip" hidden>`;
  const label=textarea.parentElement;
  if(label?.tagName==='LABEL'){
   textarea.id||='markdown-'+lang+'-'+textarea.dataset.key;

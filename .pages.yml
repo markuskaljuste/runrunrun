@@ -7,8 +7,6 @@
       "jpeg",
       "png",
       "webp",
-      "gpx",
-      "kml",
       "pdf",
       "txt",
       "csv",
@@ -114,8 +112,6 @@
           "type": "file",
           "options": {
             "extensions": [
-              "gpx",
-              "kml",
               "pdf",
               "txt",
               "csv",
@@ -126,7 +122,8 @@
             },
             "unique": true,
             "rename": "safe"
-          }
+          },
+          "description": "PDF, TXT, CSV või ZIP. Rajafaile veebilehel ei avaldata. / Route files are not published."
         },
         {
           "name": "coverFit",

@@ -7,7 +7,7 @@ An English running and travel journal with optional translations on individual s
 1. Open https://app.pagescms.org/ and select your repository.
 2. Choose **Journal / Päevik**, create a post, and write its **English original**.
 3. Select the countries and all catalog places covered by the run. Add extra town or village names under **Add other towns and places**.
-4. Add a cover photograph, inline photographs and any GPX, PDF, TXT, CSV or ZIP attachments.
+4. Add a cover photograph, inline photographs and any PDF, TXT, CSV or ZIP attachments.
 5. Use Draft while writing. Publish the English story when its title, introduction and body are complete.
 
 ### Add a translation later
@@ -16,7 +16,7 @@ Inside the same post, open **Add translations / Lisa tõlge**. Add an item, choo
 
 Only published, complete language versions appear on story cards, for example **EN · ES**. Each badge opens its own version. Translations remain separate from the site's English navigation and general pages. A draft translation does not create a public article URL, language badge, search result, alternate-language link or sitemap entry. Publishing the original is also required before a translation can appear publicly.
 
-Cover images, media files, countries, places, GPX attachments and scores belong to the shared post. A translated story automatically includes English-original photographs not already placed in its translated body, with their original captions and credits. Reuse a photograph's URL in translated text to control its placement without uploading a duplicate.
+Cover images, media files, countries, places, attachments and scores belong to the shared post. A translated story automatically includes English-original photographs not already placed in its translated body, with their original captions and credits. Reuse a photograph's URL in translated text to control its placement without uploading a duplicate.
 
 No translations are created automatically. The language choices prepare the editor; choosing a language does not translate the original for you. Each language can be added once, and each translation can be returned to Draft independently.
 
@@ -92,3 +92,5 @@ There is no dependency installation step. `BASE_PATH=/repository-name` supports 
 For GitHub, include `.pages.yml`, `.github/`, `.gitignore`, `content/`, `public/` and `scripts/`. The `.openai/` folder belongs to the separate private Sites hosting copy. Edit source files rather than generated `dist/` output.
 
 Checks cover links and assets, English settings, optional story translations, published/draft isolation, language metadata, legacy redirects, shared media and scores, multiple countries and places, safe rendering, cookie consent, contact/comment prerequisites and the public Coming soon boundary.
+
+GPX and KML exports are used privately to prepare stories. They are not uploaded to the website, linked in articles or included in builds. Maps or screenshots revealing exact start and finish locations are omitted.
