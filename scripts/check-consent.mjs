@@ -33,7 +33,7 @@ b=browser({saved:remembered()});b.storageEvent(remembered(false));assert.equal(b
 b=browser();b.storageEvent(remembered());assert.equal(b.scripts.length,1);
 console.log('Passed consent checks: no pre-consent requests, rejection, opt-in, one page view, sanitized URLs, returning visits, expiry/version renewal, withdrawal, cross-tab changes, disabled previews and blocked storage.');
 
-const built=readFileSync(new URL('../dist/en/index.html',import.meta.url),'utf8');
+const built=readFileSync(new URL('../dist/index.html',import.meta.url),'utf8');
 const builtConfig=JSON.parse(built.match(/<script type="application\/json" id="runograph-integrations">([\s\S]*?)<\/script>/)[1]);
 const active=builtConfig.enabled===true&&builtConfig.allowAnalytics===true;
 b=browser({config:builtConfig,origin:'https://runograph.com'});assert.equal(b.scripts.length,0);b.click('deny');assert.equal(b.scripts.length,0);

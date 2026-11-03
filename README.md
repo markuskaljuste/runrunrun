@@ -30,17 +30,17 @@ Use Node.js 22 or later. Double-click **Start preview.command** on a Mac, or run
 npm run dev
 ```
 
-Open **http://localhost:4173/en/** to browse and **http://localhost:4173/admin/** to edit. The local editor has **Add translation**, language tabs and per-translation Draft/Published controls. It also supports bold text, links, inline photographs, file uploads and a live Markdown preview.
+Open **http://localhost:4173/** to browse and **http://localhost:4173/admin/** to edit. The local editor has **Add translation**, language tabs and per-translation Draft/Published controls. It also supports bold text, links, inline photographs, file uploads and a live Markdown preview.
 
 Saving changes updates local content and rebuilds the local preview. A local save does not update GitHub Pages or the owner-private Sites preview. Upload your changes to the chosen hosting copy to update it. The editing endpoints are local-only and protected by origin and editor-token checks.
 
 ## English website and old links
 
-The homepage, country pages, place catalog, About, contact and privacy pages use English. There is no global English/Estonian switch. Existing `/et/` general-page addresses redirect to their `/en/` counterparts using static redirect pages with canonical links. A deliberately published Estonian story translation can still use its `/et/journal/<slug>/` address.
+The homepage, country pages, place catalog, About, contact and privacy pages use English. There is no global English/Estonian switch. English pages live at the domain root, for example `/`, `/journal/`, `/countries/` and `/privacy/`. Existing `/en/` and `/et/` general-page addresses redirect to their English counterparts using static redirect pages with canonical links. A deliberately published Estonian story translation can still use its `/et/journal/<slug>/` address.
 
-Each published story translation uses `/<language>/journal/<slug>/`. It has its own title, description, HTML language, canonical URL and Open Graph locale. Reciprocal language links and sitemap entries include only published versions.
+English originals use `/journal/<slug>/`; published translations use `/<language>/journal/<slug>/`. It has its own title, description, HTML language, canonical URL and Open Graph locale. Reciprocal language links and sitemap entries include only published versions.
 
-For local/owner-private builds, `DRAFT_PREVIEW=1 PUBLIC_BUILD=0` enables noindex draft previews at `/<language>/preview/<slug>/`. Public builds ignore that flag. Draft previews have no share or comment controls.
+For local/owner-private builds, `DRAFT_PREVIEW=1 PUBLIC_BUILD=0` enables noindex draft previews at `/preview/<slug>/` for English and `/<language>/preview/<slug>/` for translations. Public builds ignore that flag. Draft previews have no share or comment controls.
 
 ## Public Coming soon mode
 

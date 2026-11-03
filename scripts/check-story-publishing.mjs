@@ -1,3 +1,4 @@
+import {languagePath} from '../public/assets/paths.js';
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
 import {resolve} from 'node:path';
@@ -9,7 +10,7 @@ import {storyLanguages,storyHasTranslation,storyLanguage,storyPath,publishedStor
 const post={slug:'language-and-score-check',status:'published',date:'2026-11-02',countries:['france','monaco'],place:'nice',en:{title:'A coastal run',excerpt:'The owner’s introduction.',body:'The owner’s **latest story**.'}};
 validateRecord('posts',post);
 assert.equal(storyLanguage(post,'et'),'en');
-assert.equal(storyPath(post,'et'),'/en/journal/language-and-score-check/');
+assert.equal(storyPath(post,'et'),'/journal/language-and-score-check/');
 assert(!storyHasTranslation(post,'et'));
 const estonian={...post,en:undefined,et:{title:'Rannikujooks',excerpt:'Autori sissejuhatus.',body:'Autori tekst.'}};
 assert.throws(()=>validateRecord('posts',estonian),'The original must be written in English.');
@@ -37,10 +38,10 @@ for(const lang of storyLanguages){const group=fields.find(f=>f.name===lang);asse
 
 const data=readContent(),base=(process.env.BASE_PATH??'').replace(/\/$/,'');
 for(const record of data.posts.filter(p=>p.status==='published'))for(const lang of publishedStoryLanguages(record)){
- const page=readFileSync(resolve(root,'dist',lang,'journal',record.slug,'index.html'),'utf8');
+ const page=readFileSync(resolve(root,'dist',lang==='en'?'':lang,'journal',record.slug,'index.html'),'utf8');
  if(storyHasTranslation(record,lang))assert(page.includes(markdown(translationFields(record,lang).body,base)),'A story must render its own saved body.');
  else{assert(page.includes('translation-notice'));assert(page.includes('content="noindex,follow"'));assert(page.includes(`href="${base+storyPath(record,lang)}"`));assert(!page.includes('<div class="article-layout section">'));}
- for(const country of record.countries){const listing=readFileSync(resolve(root,'dist','en','countries',country,'index.html'),'utf8');assert(listing.includes(`href="${base+storyPath(record,lang)}"`));}
- const sitemap=resolve(root,'dist/sitemap.xml');if(existsSync(sitemap))assert.equal(readFileSync(sitemap,'utf8').includes(`/${lang}/journal/${record.slug}/`),storyHasTranslation(record,lang));
+ for(const country of record.countries){const listing=readFileSync(resolve(root,'dist','countries',country,'index.html'),'utf8');assert(listing.includes(`href="${base+storyPath(record,lang)}"`));}
+ const sitemap=resolve(root,'dist/sitemap.xml');if(existsSync(sitemap))assert.equal(readFileSync(sitemap,'utf8').includes(languagePath(lang,'journal/'+record.slug+'/')),storyHasTranslation(record,lang));
 }
 console.log('Passed story publishing checks: independent post scores, optional notes, 1 to 10 limits, automatic averages, single-language publishing, correct destination links and saved story bodies.');

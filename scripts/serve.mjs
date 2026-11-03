@@ -62,4 +62,4 @@ const server=http.createServer(async(req,res)=>{
   send(res,200,req.method==='HEAD'?'':readFileSync(file),mime[extname(file)]||'application/octet-stream');
  }catch(error){send(res,400,{error:error.message});}
 });
-server.listen(port,'127.0.0.1',()=>console.log(`Runograph\nLocal: http://localhost:${port}/en/\nEditor: http://localhost:${port}/admin/\nLocal editing writes to content/ and rebuilds the preview. Press Ctrl+C to stop.`));
+server.listen(port,'127.0.0.1',()=>console.log(`Runograph\nLocal: http://localhost:${port}/\nEditor: http://localhost:${port}/admin/\nLocal editing writes to content/ and rebuilds the preview. Press Ctrl+C to stop.`));

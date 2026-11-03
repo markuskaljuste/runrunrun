@@ -25,8 +25,8 @@ buttons.find(b=>b.dataset.filter==='czechia').listeners.click();assert(cards.eve
 buttons[0].listeners.click();select.listeners.change({target:{value:'all'}});input.value='Prague';input.listeners.input();assert(cards[0].hidden);assert(!cards[1].hidden);
 const data=readContent();
 for(const lang of ['en']){
- for(const group of countryGroups(data,lang)){const page=readFileSync(resolve(root,'dist',lang,'countries',group.slug,'index.html'),'utf8');assert(!page.includes('place-card'));}
- const journal=readFileSync(resolve(root,'dist',lang,'journal/index.html'),'utf8');assert(journal.includes('data-place-filter'));
+ for(const group of countryGroups(data,lang)){const page=readFileSync(resolve(root,'dist',lang==='en'?'':lang,'countries',group.slug,'index.html'),'utf8');assert(!page.includes('place-card'));}
+ const journal=readFileSync(resolve(root,'dist',lang==='en'?'':lang,'journal/index.html'),'utf8');assert(journal.includes('data-place-filter'));
  for(const post of data.posts.filter(p=>p.status==='published'))for(const entry of storyPlaceEntries(post,data,lang))assert(journal.includes(`value="${esc(storyPlaceKey(entry))}"`));
 }
 console.log('Passed country story view checks: no duplicate place tiles, combined country/city/text filters, multi-place matches and safe photo credits shown once as small captions.');

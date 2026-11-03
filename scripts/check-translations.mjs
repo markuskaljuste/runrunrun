@@ -11,7 +11,7 @@ const es={...blankTranslation('es'),title:'ES fixture',excerpt:'ES introduction.
 const fr={...blankTranslation('fr'),status:'published',title:'FR fixture',excerpt:'FR introduction.',body:'FR body.'};
 const post={slug:'translation-fixture',status:'published',date:'2026-11-02',countries:[],en:english,translations:[es,fr]};
 validateRecord('posts',post);assert.deepEqual(publishedStoryLanguages(post),['en','fr']);
-assert.equal(storyPath(post,'es'),'/en/journal/translation-fixture/');assert.equal(storyPath(post,'fr'),'/fr/journal/translation-fixture/');
+assert.equal(storyPath(post,'es'),'/journal/translation-fixture/');assert.equal(storyPath(post,'fr'),'/fr/journal/translation-fixture/');
 es.status='published';validateRecord('posts',post);assert.deepEqual(publishedStoryLanguages(post),['en','es','fr']);
 es.body='';assert.throws(()=>validateRecord('posts',post));es.status='draft';validateRecord('posts',post);assert.deepEqual(publishedStoryLanguages(post),['en','fr']);
 assert.throws(()=>validateRecord('posts',{...post,translations:[fr,fr]}));
@@ -35,7 +35,7 @@ function noMandatoryEstonian(fields){for(const field of fields){assert.notEqual(
 for(const collection of config.content)noMandatoryEstonian(collection.fields);
 const base=(process.env.BASE_PATH??'').replace(/\/$/,'');
 for(const path of ['','about/','journal/','countries/','privacy/','contact/']){
- const englishPage=readFileSync(resolve(root,'dist/en',path,'index.html'),'utf8');assert(!englishPage.includes('class="languages"'));assert(!englishPage.split('</head>')[0].includes('hreflang="et"'));
- const legacy=readFileSync(resolve(root,'dist/et',path,'index.html'),'utf8');assert(legacy.includes('url='+base+'/en/'+path));assert(legacy.includes('noindex,follow'));
+ const englishPage=readFileSync(resolve(root,'dist',path,'index.html'),'utf8');assert(!englishPage.includes('class="languages"'));assert(!englishPage.split('</head>')[0].includes('hreflang="et"'));
+ for(const prefix of ['en','et']){const legacy=readFileSync(resolve(root,'dist',prefix,path,'index.html'),'utf8');assert(legacy.includes('url='+base+'/'+path));assert(legacy.includes('noindex,follow'));}
 }
 console.log('Passed translation workflow checks: English originals, optional language/status fields, published-only badges and URLs, validation, shared media, localized metadata, English settings and legacy redirects.');

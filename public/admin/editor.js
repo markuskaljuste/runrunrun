@@ -1,3 +1,4 @@
+import {languagePath} from '../assets/paths.js';
 import {languageOptions,languageLabel,blankTranslation} from '../assets/story-languages.js';
 import {markdown} from '../assets/markdown.js';
 import {attachMarkdownToolbar} from './markdown-editor.js';
@@ -108,7 +109,7 @@ function renderLanguage(){
  for(const textarea of $('#language-fields').querySelectorAll('textarea[data-key="body"],textarea[data-key="aboutBody"]'))attachMarkdownToolbar({textarea,lang,uploadImage,uploadFile:uploadAttachment,notify:message,changed:value=>{languageRecord()[textarea.dataset.key]=value;change();renderPreview();}});
  $('#language-fields').querySelectorAll('[data-key]').forEach(input=>input.addEventListener('input',()=>{languageRecord()[input.dataset.key]=input.value;change();renderPreview();}));renderPreview();
 }
-function renderPagePreviewLink(){document.querySelector('#page-preview-link')?.remove();if(type!=='posts'||!record||!originalSlug)return;const a=document.createElement('a');a.id='page-preview-link';a.className='text-link';a.target='_blank';a.rel='noopener noreferrer';const isDraft=record.status==='draft'||(lang!=='en'&&languageRecord().status!=='published');a.href='/'+lang+'/'+(isDraft?'preview/':'journal/')+record.slug+'/';a.textContent=isDraft?'Open draft / Ava mustand':'Open story / Ava lugu';$('#save').before(a);}
+function renderPagePreviewLink(){document.querySelector('#page-preview-link')?.remove();if(type!=='posts'||!record||!originalSlug)return;const a=document.createElement('a');a.id='page-preview-link';a.className='text-link';a.target='_blank';a.rel='noopener noreferrer';const isDraft=record.status==='draft'||(lang!=='en'&&languageRecord().status!=='published');a.href=languagePath(lang,(isDraft?'preview/':'journal/')+record.slug+'/');a.textContent=isDraft?'Open draft / Ava mustand':'Open story / Ava lugu';$('#save').before(a);}
 function renderPreview(){const text=languageRecord()?.[type==='site'?'aboutBody':'body']||'';$('#body-preview').innerHTML=markdown(text);renderPagePreviewLink();}
 
 document.querySelectorAll('[data-collection]').forEach(button=>button.onclick=()=>{if(!confirmSwitch())return;type=button.dataset.collection;record=null;originalSlug=null;dirty=false;document.querySelectorAll('[data-collection]').forEach(b=>b.classList.toggle('selected',b===button));if(settingTypes.includes(type))selectRecord(content[type]);else if(content[type].length)selectRecord(content[type][0]);else{renderList();render();}message('');});

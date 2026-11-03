@@ -1,3 +1,4 @@
+import {languagePath} from '../assets/paths.js';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const safeImage=value=>/^(https?:\/\/|\/(?!\/))[^\s<>"']*$/i.test(value??'')?value:'';
 const control=(label,value,attrs='',multiline=false)=>`<label>${label}${multiline?`<textarea ${attrs}>${esc(value)}</textarea>`:`<input ${attrs} value="${esc(value)}">`}</label>`;
@@ -32,6 +33,6 @@ export function renderSeo({root,record,site,changed,upload,notify}){
     for(const input of root.querySelectorAll('[data-upload]'))input.onchange=async()=>{const file=input.files[0];if(!file)return;const targetPage=page,targetLang=lang;root.querySelectorAll('input,select,button,textarea').forEach(e=>e.disabled=true);try{const path=await upload(file);if(input.dataset.upload==='default')record.defaultSocialImage=path;else record.pages[targetPage][targetLang].socialImage=path;changed();notify('Jagamispilt üles laaditud. Salvesta muudatused. / Sharing image uploaded. Save changes.');}catch(error){notify(error.message,true);}finally{render();}};
     updatePreview();
   }
-  function updatePreview(){const value=record.pages[page][lang];root.querySelector('#title-count').textContent=`${value.title.length} tähemärki / characters`;root.querySelector('#description-count').textContent=`${value.description.length} tähemärki / characters`;root.querySelector('#preview-title').textContent=value.title.trim()||fallbackTitle()+' | '+site.brand;root.querySelector('#preview-description').textContent=value.description.trim()||fallbackDescription()||'Lehe sissejuhatus / Page introduction';root.querySelector('#preview-url').textContent=`sinu-leht.ee / ${lang}${page==='home'?'':' / '+page}`;}
+  function updatePreview(){const value=record.pages[page][lang];root.querySelector('#title-count').textContent=`${value.title.length} tähemärki / characters`;root.querySelector('#description-count').textContent=`${value.description.length} tähemärki / characters`;root.querySelector('#preview-title').textContent=value.title.trim()||fallbackTitle()+' | '+site.brand;root.querySelector('#preview-description').textContent=value.description.trim()||fallbackDescription()||'Lehe sissejuhatus / Page introduction';root.querySelector('#preview-url').textContent='runograph.com'+languagePath(lang,page==='home'?'':page+'/');}
   render();
 }

@@ -34,9 +34,9 @@ for(const post of dataSet.posts){
  const invalid={...structuredClone(post),attachments:['javascript:alert(1)']};assert.throws(()=>validateRecord('posts',invalid));
  if(post.status!=='draft')continue;
  for(const lang of ['en']){
-  const page=resolve(root,'dist',lang,'preview',post.slug,'index.html');const expected=process.env.DRAFT_PREVIEW==='1'&&process.env.PUBLIC_BUILD!=='1';assert.equal(existsSync(page),expected);
+  const page=resolve(root,'dist',lang==='en'?'':lang,'preview',post.slug,'index.html');const expected=process.env.DRAFT_PREVIEW==='1'&&process.env.PUBLIC_BUILD!=='1';assert.equal(existsSync(page),expected);
   if(expected){const html=readFileSync(page,'utf8');assert(html.includes('content="noindex,follow"'));assert(!html.includes('data-copy-link'));}
-  assert(!existsSync(resolve(root,'dist',lang,'journal',post.slug,'index.html')));
+  assert(!existsSync(resolve(root,'dist',lang==='en'?'':lang,'journal',post.slug,'index.html')));
  }
 }
 console.log('Passed authoring checks: bold and nested links, photos/captions, linked screenshots, file downloads, upload formats, safe rendering, rich-text CMS and guarded draft previews.');

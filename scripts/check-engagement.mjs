@@ -13,6 +13,6 @@ const fixture=structuredClone(data);fixture.engagement.comments={enabled:true,re
 fixture.engagement.comments.moderationConfirmed=false;assert(!commentsSection({data:fixture,lang:'et',path:'/et/places/tallinn/',title:'Tallinn'}).includes('data-load-comments'));
 const share=shareBar({data,lang:'et',path:'/et/places/tallinn/',title:'A & B'});assert(share.includes(encodeURIComponent('https://runograph.com/et/places/tallinn/')));assert(!share.includes('chatgpt.site'));assert(!share.includes('<script'));
 const files=folder=>readdirSync(folder).flatMap(n=>{const p=resolve(folder,n);return statSync(p).isDirectory()?files(p):[p];});
-for(const file of files(resolve(root,'dist')).filter(p=>p.endsWith('.html'))){const html=readFileSync(file,'utf8');for(const match of html.matchAll(/[A-Z0-9._%+-]+@gmail\.com/gi))assert(file.endsWith('/en/privacy/index.html')&&match[0]===data.integrations.privacyContactEmail,'Only the approved privacy email may appear, and only on the privacy page.');}
+for(const file of files(resolve(root,'dist')).filter(p=>p.endsWith('.html'))){const html=readFileSync(file,'utf8');for(const match of html.matchAll(/[A-Z0-9._%+-]+@gmail\.com/gi))assert(file===resolve(root,'dist/privacy/index.html')&&match[0]===data.integrations.privacyContactEmail,'Only the approved privacy email may appear, and only on the privacy page.');}
 console.log('Passed reader-feature checks: rating averages/ranges, escaped notes, inactive defaults, sharing URLs, moderation prerequisites and recipient privacy.');
 await import('./check-reader-ui.mjs');

@@ -1,3 +1,4 @@
+import {canonicalPath} from '../public/assets/paths.js';
 import { mkdirSync, writeFileSync, rmSync, cpSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { root, readContent, validateAll, esc, safeUrl, markdown } from './core.mjs';
@@ -17,7 +18,7 @@ const base=(process.env.BASE_PATH??'').replace(/\/$/,'');
 if(base && !/^\/[a-zA-Z0-9_./-]+$/.test(base)) throw new Error('BASE_PATH must be a safe path starting with /.');
 const origin=(process.env.SITE_URL??'').replace(/\/$/,'');
 if(origin&&!/^https?:\/\/[a-z0-9.:[\]-]+$/i.test(origin)) throw new Error('SITE_URL must be an http(s) origin without a path.');
-const url=p=>`${base}${p}`;
+const url=p=>`${base}${canonicalPath(p)}`;
 const previewDrafts=process.env.DRAFT_PREVIEW==='1'&&process.env.PUBLIC_BUILD!=='1';
 if(isComingSoon(data)){buildComingSoon({data,base,origin});process.exit(0);}
 const image=p=>p?.startsWith('/')?url(p):safeUrl(p||'/assets/hero-mountains.jpg');
@@ -52,8 +53,9 @@ function shell(lang,path,title,description,content,{hero=false,ogImage,seo,noind
  const meta=renderMetadata({lang,path,title,description,ogImage,seo,data,base,origin,noindex,ogType,availableLanguages});
  return `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">${meta}<meta name="theme-color" content="#26362c"><link rel="icon" href="${esc(image(data.images.favicon))}"><link rel="stylesheet" href="${url('/assets/style.css')}"><link rel="stylesheet" href="${url('/assets/consent.css')}"><script src="${url('/assets/site.js')}" defer></script><script src="${url('/assets/engagement.js')}" defer></script></head><body class="${hero?'has-hero':''}"><a class="skip-link" href="#main">${t.skip}</a><header class="site-header">${wordmark('en')}<button class="menu-toggle" aria-expanded="false" aria-controls="navigation">${t.menu} <span aria-hidden="true">☰</span></button><nav id="navigation" aria-label="${t.menu}">${nav.map(([p,label])=>`<a href="${url('/en/'+p)}" ${active===(p.split('/')[0]||'home')?'aria-current="page"':''}>${label}</a>`).join('')}</nav></header><main id="main">${content}</main><footer class="footer"><div class="footer-top"><div class="footer-brand">${wordmark('en',true)}<p>${t.footer}</p></div>${sponsorSection('en')}<a class="back-top" href="#main" aria-label="${'Back to top'}">${'Top'}</a></div>${socialLinks(data,'en')}<div class="footer-bottom"><span>© ${new Date().getUTCFullYear()} ${esc(data.site.brand)} · ${t.footerSmall}</span><div><a href="${url('/en/contact/')}">${'Contact'}</a><a href="${url('/en/credits/')}">${t.credits}</a><a href="${url('/en/privacy/')}">${'Privacy'}</a><button type="button" data-cookie-settings>${'Cookie settings'}</button><a href="${url('/admin/')}">${t.editor}</a></div></div></footer>${consentMarkup({data,lang:'en',url,base,origin})}</body></html>`;
 }
-const writtenPaths=new Set();
-function write(path,body){writtenPaths.add(path);const file=resolve(dist,'.'+path,'index.html');mkdirSync(resolve(file,'..'),{recursive:true});writeFileSync(file,body);}
+const writtenPaths=new Set(),englishPaths=new Set();
+function writeRaw(path,body){const file=resolve(dist,'.'+path,'index.html');mkdirSync(resolve(file,'..'),{recursive:true});writeFileSync(file,body);}
+function write(path,body){const target=canonicalPath(path);writtenPaths.add(target);if(path.startsWith('/en/'))englishPaths.add(target);writeRaw(target,body);}
 function storyLanguageLinks(post,current=null){
  const languages=publishedStoryLanguages(post);if(!languages.length)return '';
  return `<nav class="story-languages" aria-label="Available story languages">${languages.map(code=>`<a href="${url('/'+code+'/journal/'+post.slug+'/')}" hreflang="${code}" aria-label="Read in ${languageLabel(code)}"${code===current?' aria-current="page"':''}>${code.toUpperCase()}</a>`).join('<span aria-hidden="true">·</span>')}</nav>`;
@@ -102,8 +104,7 @@ for(const post of data.posts)for(const entry of post.translations??[]){
   if(previewDrafts)write('/'+entry.language+'/preview/'+post.slug+'/',redirectPage(url('/'+entry.language+'/journal/'+post.slug+'/'),{origin}));
  }else if(previewDrafts)renderStoryPage(post,entry.language,true);
 }
-for(const path of [...writtenPaths].filter(p=>p.startsWith('/en/'))){const legacy='/et/'+path.slice(4);if(!writtenPaths.has(legacy))write(legacy,redirectPage(url(path),{origin}));}
-write('/',redirectPage(url('/en/'),{origin}));
+for(const path of englishPaths)for(const prefix of ['en','et']){const legacy='/'+prefix+path;if(!writtenPaths.has(legacy))writeRaw(legacy,redirectPage(url(path),{origin}));}
 writeFileSync(resolve(dist,'404.html'),`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lost track? | ${esc(data.site.brand)}</title><meta name="robots" content="noindex,follow"><link rel="stylesheet" href="${url('/assets/style.css')}"><link rel="stylesheet" href="${url('/assets/consent.css')}"></head><body><main class="section page-heading"><div class="eyebrow">404 / Runograph</div><h1>A little off route.</h1><p>This page could not be found.</p><a class="button button-green" href="${url('/en/')}">Back to the journal</a></main></body></html>`);
 writeFileSync(resolve(dist,'.nojekyll'),'');
 if(origin){const paths=[];for(const lang of ['en']){for(const page of ['','journal/','about/','contact/','privacy/','countries/','places/',...publishedPlaces(data).filter(p=>placeHasContent(p,data)).map(p=>'places/'+p.slug+'/'),...countryGroups(data,lang).map(g=>'countries/'+g.slug+'/')])paths.push(`/${lang}/${page}`);for(const type of ['posts'])for(const p of published(type).filter(p=>storyHasTranslation(p,lang)))paths.push(`/${lang}/${type==='posts'?'journal':'routes'}/${p.slug}/`);}for(const post of published('posts'))for(const code of publishedStoryLanguages(post).filter(l=>l!=='en'))paths.push('/'+code+'/journal/'+post.slug+'/');writeFileSync(resolve(dist,'sitemap.xml'),`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${paths.map(p=>`<url><loc>${esc(origin+url(p))}</loc></url>`).join('')}</urlset>`);writeFileSync(resolve(dist,'robots.txt'),`User-agent: *\nAllow: /\nDisallow: ${url('/admin/')}\nSitemap: ${origin+url('/sitemap.xml')}\n`);}else writeFileSync(resolve(dist,'robots.txt'),`User-agent: *\nAllow: /\nDisallow: ${url('/admin/')}\n`);
