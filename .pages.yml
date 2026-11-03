@@ -155,6 +155,12 @@
               "default": false
             },
             {
+              "name": "googleMyMapsUrl",
+              "label": "Google My Mapsi link / Google My Maps link",
+              "type": "string",
+              "description": "Kleebi siia oma avaliku Google My Mapsi kaardi jagamislink. Kaart avaneb loos automaatselt. / Paste the sharing link of your public Google My Maps map. It opens automatically in the story. Leave blank to use a prepared map below."
+            },
+            {
               "name": "mapId",
               "label": "Ettevalmistatud kaart / Prepared map",
               "type": "select",

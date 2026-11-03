@@ -1,3 +1,4 @@
+import {googleMyMap} from './google-maps.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync,readdirSync} from 'node:fs';
 import {resolve} from 'node:path';
@@ -16,6 +17,15 @@ assert.equal(prepareRoute([...track,[41,3],[41,3.001]]).length,2,'Long GPS gaps 
 assert.throws(()=>prepareRoute([[41,2],[NaN,1]]));
 assert.throws(()=>prepareRoute([[41,2,120],[41,2.001,121]]));
 
+const mapId='test-map-ABC123';
+for(const path of ['edit','viewer','embed','u/0/edit']){
+ const map=googleMyMap('https://www.google.com/maps/d/'+path+'?mid='+mapId+'&usp=sharing');
+ assert.equal(map.embedUrl,'https://www.google.com/maps/d/embed?mid='+mapId+'&hl=en');
+ assert.equal(map.viewerUrl,'https://www.google.com/maps/d/viewer?mid='+mapId);
+}
+assert.equal(googleMyMap('   '),null);
+for(const url of ['http://www.google.com/maps/d/viewer?mid='+mapId,'https://www.google.com.evil.example/maps/d/viewer?mid='+mapId,'https://name@www.google.com/maps/d/viewer?mid='+mapId,'https://www.google.com:8443/maps/d/viewer?mid='+mapId,'https://www.google.com/maps?mid='+mapId,'https://www.google.com/maps/d/viewer?mid='+mapId+'&mid=other','https://www.google.com/maps/d/viewer?mid=%22%3E%3Cscript%3E','<iframe src="https://www.google.com/maps/d/embed?mid='+mapId+'"></iframe>',42])assert.throws(()=>googleMyMap(url));
+
 const data=readContent(),base=(process.env.BASE_PATH??'').replace(/\/$/,''),home=readFileSync(resolve(root,'dist/index.html'),'utf8'),launch=home.includes('data-publication="coming-soon"');
 for(const name of readdirSync(resolve(root,'public/assets/maps'))){
  const map=validateMapData(JSON.parse(readFileSync(resolve(root,'public/assets/maps',name),'utf8')));
@@ -31,12 +41,20 @@ for(const fields of [{version:1,layers:[]},{...barcelona,rawTrack:[]},{version:1
 for(const post of data.posts){
  if(!post.routeMap?.enabled)continue;
  assert.throws(()=>validateRecord('posts',{...post,routeMap:{enabled:true,mapId:'../private'}}));
- const markup=renderStoryMap(post,p=>base+p);assert(markup.includes(base+'/assets/maps/'+post.routeMap.mapId+'.json'));assert(markup.includes('data-retry-map hidden'));assert(!markup.includes('data-open-map'));assert(markup.includes('aria-label="Running routes map"></div>'));assert(!markup.includes('start and finish omitted'));
+ assert.throws(()=>validateRecord('posts',{...post,routeMap:{enabled:true,googleMyMapsUrl:'https://evil.example/maps/d/viewer?mid='+mapId}}));
+ const google=googleMyMap(post.routeMap.googleMyMapsUrl),markup=renderStoryMap(post,p=>base+p);
+ if(google){
+  validateRecord('posts',{...post,routeMap:{enabled:true,googleMyMapsUrl:google.viewerUrl}});
+  assert(markup.includes(google.embedUrl.replaceAll('&','&amp;')));assert(markup.includes('loading="eager"'));assert(markup.includes('data-google-story-map'));assert(!markup.includes('data-story-map'));assert(!markup.includes('/edit?'));assert(markup.includes('Open in Google Maps'));
+  assert.equal(renderStoryMap({...post,routeMap:{...post.routeMap,enabled:false}},p=>p),'');
+ }else{
+  assert(markup.includes(base+'/assets/maps/'+post.routeMap.mapId+'.json'));assert(markup.includes('data-retry-map hidden'));assert(!markup.includes('data-open-map'));assert(markup.includes('aria-label="Running routes map"></div>'));assert(!markup.includes('start and finish omitted'));
+ }
  if(!launch&&post.status==='published'){
-  const html=readFileSync(resolve(root,'dist/journal',post.slug,'index.html'),'utf8');assert(html.includes(markup));assert(html.includes(base+'/assets/story-maps.js'));assert(!html.includes('https://tile.openstreetmap.org/'));
+  const html=readFileSync(resolve(root,'dist/journal',post.slug,'index.html'),'utf8');assert(html.includes(markup));assert.equal(html.includes(base+'/assets/story-maps.js'),!google);assert(!html.includes('https://tile.openstreetmap.org/'));
  }
 }
-if(launch){assert(!home.includes('data-story-map'));assert(!existsSync(resolve(root,'dist/assets/maps')));}
+if(launch){assert(!home.includes('data-story-map'));assert(!home.includes('data-google-story-map'));assert(!existsSync(resolve(root,'dist/assets/maps')));}
 
 function el(extra={}){return {hidden:false,disabled:false,textContent:'',dataset:{},listeners:{},setAttribute(k,v){this[k]=v;},addEventListener(k,fn){this.listeners[k]=fn;},...extra};}
 async function exercise(failInitially=false){
@@ -64,4 +82,4 @@ async function exercise(failInitially=false){
  }finally{for(const [key,value] of Object.entries(saved))if(value===undefined)delete globalThis[key];else globalThis[key]=value;}
 }
 await exercise();await exercise(true);
-console.log('Passed maps: full route lines without endpoint markers or sensor fields, separate sourced seafront guide, automatic maps with three selectable routes, layer switching, base paths, retry states and launch isolation.');
+console.log('Passed maps: full route lines without endpoint markers or sensor fields, separate sourced seafront guide, validated public Google embeds, automatic maps with three selectable routes, layer switching, base paths, retry states and launch isolation.');

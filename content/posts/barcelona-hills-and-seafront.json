@@ -45,6 +45,7 @@
   },
   "routeMap": {
     "enabled": true,
-    "mapId": "barcelona"
+    "mapId": "barcelona",
+    "googleMyMapsUrl": "https://www.google.com/maps/d/viewer?mid=1xWkoJq9iJNVJHdSrRUVnuFwyf5Cxgpo"
   }
 }
