@@ -45,7 +45,7 @@ for(const post of data.posts){
  const google=googleMyMap(post.routeMap.googleMyMapsUrl),markup=renderStoryMap(post,p=>base+p);
  if(google){
   validateRecord('posts',{...post,routeMap:{enabled:true,googleMyMapsUrl:google.viewerUrl}});
-  assert(markup.includes(google.embedUrl.replaceAll('&','&amp;')));assert(markup.includes('loading="eager"'));assert(markup.includes('data-google-story-map'));assert(!markup.includes('data-story-map'));assert(!markup.includes('/edit?'));assert(markup.includes('Open in Google Maps'));
+  assert(markup.includes(google.embedUrl.replaceAll('&','&amp;')));assert(markup.includes('loading="eager"'));assert(markup.includes('data-google-story-map'));assert(!markup.includes('data-story-map'));assert(!markup.includes('/edit?'));assert(markup.includes('Open in Google Maps'));assert(markup.includes('aria-label="Route colors"'));assert(!markup.includes('OpenStreetMap / FOSSGIS'));assert(!markup.includes('routing.openstreetmap.de'));
   assert.equal(renderStoryMap({...post,routeMap:{...post.routeMap,enabled:false}},p=>p),'');
  }else{
   assert(markup.includes(base+'/assets/maps/'+post.routeMap.mapId+'.json'));assert(markup.includes('data-retry-map hidden'));assert(!markup.includes('data-open-map'));assert(markup.includes('aria-label="Running routes map"></div>'));assert(!markup.includes('start and finish omitted'));

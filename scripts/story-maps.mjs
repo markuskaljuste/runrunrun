@@ -9,7 +9,7 @@ export function renderStoryMap(post,url){
  if(google){
   const id=post.routeMap.mapId,sourceFile=/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id??'')?resolve(root,'public/assets/maps',id+'.json'):null;
   const layers=sourceFile&&existsSync(sourceFile)?validateMapData(JSON.parse(readFileSync(sourceFile,'utf8'))).layers:[];
-  return `<section class="story-map story-map-google" data-google-story-map><h2>Explore the map</h2><iframe class="google-map-frame" title="${esc(post.en?.title??'Running routes')} on Google Maps" src="${esc(google.embedUrl)}" loading="eager" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><p class="map-source"><a href="${esc(google.viewerUrl)}" target="_blank" rel="noopener noreferrer">Open in Google Maps</a></p>${mapSources(layers)}</section>`;
+  return `<section class="story-map story-map-google" data-google-story-map><h2>Explore the map</h2><iframe class="google-map-frame" title="${esc(post.en?.title??'Running routes')} on Google Maps" src="${esc(google.embedUrl)}" loading="eager" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>${googleLegend(layers)}<p class="map-source"><a href="${esc(google.viewerUrl)}" target="_blank" rel="noopener noreferrer">Open in Google Maps</a></p></section>`;
  }
  const id=post.routeMap.mapId;
  if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id??''))throw new Error('Choose a prepared map.');
@@ -19,3 +19,5 @@ export function renderStoryMap(post,url){
 }
 
 function mapSources(layers){return layers.filter(l=>l.kind==='guide').map(l=>`<p class="map-source">${esc(l.label)}: <a href="${esc(l.sourceUrl)}" rel="noopener noreferrer">${esc(l.sourceLabel)}</a>.</p>`).join('');}
+
+function googleLegend(layers){return layers.length?`<ul class="google-map-legend" aria-label="Route colors">${layers.map(layer=>`<li><span class="route-color-swatch" style="background:${esc(layer.color)}" aria-hidden="true"></span><span>${esc(layer.label)}</span></li>`).join('')}</ul>`:'';}
