@@ -174,7 +174,7 @@
                   }
                 ]
               },
-              "description": "Kaartidel on isikliku jooksu alguse ja lõpu ümbrus eemaldatud. / Private start and finish areas are omitted."
+              "description": "Kaardid avanevad automaatselt. Starti ega finišit eraldi ei märgita. / Maps open automatically without start or finish markers."
             }
           ]
         },
@@ -372,7 +372,7 @@
               "summary": "{language} · {status}"
             }
           },
-          "description": "Add an item, choose its language and write the translation. Keep Draft while writing; only Published translations receive a language badge. Photos, GPX files and scores are shared. Add each language once.",
+          "description": "Add an item, choose its language and write the translation. Keep Draft while writing; only Published translations receive a language badge. Photos, maps and scores are shared. Add each language once.",
           "fields": [
             {
               "name": "language",

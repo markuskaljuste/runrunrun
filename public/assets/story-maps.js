@@ -1,5 +1,6 @@
 import {validateMapData} from './map-data.js';
 let leafletPromise;
+const startedMaps=new WeakSet();
 function loadLeaflet(base){
  if(globalThis.L)return Promise.resolve(globalThis.L);
  if(leafletPromise)return leafletPromise;
@@ -10,14 +11,16 @@ function loadLeaflet(base){
  return leafletPromise;
 }
 export function setupStoryMaps(){
+ const pending=[];
  for(const root of document.querySelectorAll('[data-story-map]')){
-  const button=root.querySelector('[data-open-map]'),status=root.querySelector('.map-status'),canvas=root.querySelector('.map-canvas'),tools=root.querySelector('.map-tools');let loading=false,map;
-  button.addEventListener('click',async()=>{
-   if(loading||map)return;loading=true;button.disabled=true;status.textContent='Loading map…';
+  if(startedMaps.has(root))continue;
+  startedMaps.add(root);
+  const button=root.querySelector('[data-retry-map]'),status=root.querySelector('.map-status'),canvas=root.querySelector('.map-canvas'),tools=root.querySelector('.map-tools');let loading=false,map;
+  async function open(){
+   if(loading||map)return;loading=true;button.disabled=true;button.hidden=true;canvas.hidden=false;status.textContent='Loading map…';canvas.setAttribute('aria-busy','true');
    try{
     const response=await fetch(root.dataset.mapUrl,{credentials:'same-origin'});if(!response.ok)throw new Error('The route could not load.');
     const data=validateMapData(await response.json()),L=await loadLeaflet(root.dataset.mapAssets);
-    canvas.hidden=false;
     map=L.map(canvas,{scrollWheelZoom:false});
     const tiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,referrerPolicy:'strict-origin-when-cross-origin',attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
     let tileNotice=false;tiles.on('tileerror',()=>{if(!tileNotice){tileNotice=true;status.textContent='Some map tiles could not load. Your route is still shown. Try again later.';}});
@@ -29,11 +32,14 @@ export function setupStoryMaps(){
      for(const control of tools.querySelectorAll('[data-map-layer]'))control.setAttribute('aria-pressed',String(control.dataset.mapLayer===id));
     }
     for(const control of tools.querySelectorAll('[data-map-layer]'))control.addEventListener('click',()=>select(control.dataset.mapLayer));
-    root.querySelector('.map-gate').hidden=true;tools.hidden=data.layers.length<2;status.textContent='';
+    tools.hidden=data.layers.length<2;status.textContent='';
     select(data.layers.length>1?'all':data.layers[0].id);
-   }catch(error){if(map){map.remove();map=null;}canvas.hidden=true;button.disabled=false;status.textContent='The map could not load. Please try again.';}
-   finally{loading=false;}
-  });
+   }catch(error){if(map){map.remove();map=null;}canvas.hidden=true;tools.hidden=true;button.hidden=false;status.textContent='The map could not load. Please try again.';}
+   finally{loading=false;button.disabled=false;canvas.setAttribute('aria-busy','false');}
+  }
+  button.addEventListener('click',open);
+  pending.push(open());
  }
+ return Promise.all(pending);
 }
 if(typeof document!=='undefined')setupStoryMaps();
