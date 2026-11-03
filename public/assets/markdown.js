@@ -1,7 +1,7 @@
 export const escapeText=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const contentUrl=value=>/^(https?:\/\/|\/(?!\/))[^\s<>"']+$/i.test(value??'')?value:'#';
 const assetUrl=(value,base)=>value.startsWith('/')?base+value:value;
-const isDownload=url=>/^\/assets\/(?:uploads|files)\/.+\.(?:gpx|pdf|txt|csv|zip)$/i.test(url);
+const isDownload=url=>/^\/assets\/(?:uploads|files)\/.+\.(?:gpx|kml|pdf|txt|csv|zip)$/i.test(url);
 export function inline(value='',base='',depth=0){
  const text=String(value);if(depth>8)return escapeText(text);
  const pattern=/\*\*([^\n]+?)\*\*|\[([^\]\n]+)\]\((https?:\/\/[^\s)]+|\/(?!\/)[^\s)]+)(?:\s+"([^"]*)")?\)|\*([^*\n]+)\*/g;

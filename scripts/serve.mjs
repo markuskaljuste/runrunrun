@@ -57,7 +57,7 @@ const server=http.createServer(async(req,res)=>{
    file=resolve(file,'index.html');
   }
   if(!existsSync(file))return send(res,404,readFileSync(resolve(dist,'404.html')),'text/html; charset=utf-8');
-  const mime={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json','.svg':'image/svg+xml','.jpg':'image/jpeg','.png':'image/png','.webp':'image/webp','.woff2':'font/woff2','.ttf':'font/ttf','.xml':'application/xml','.txt':'text/plain','.gpx':'application/gpx+xml','.pdf':'application/pdf','.csv':'text/csv; charset=utf-8','.zip':'application/zip'};
+  const mime={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json','.svg':'image/svg+xml','.jpg':'image/jpeg','.png':'image/png','.webp':'image/webp','.woff2':'font/woff2','.ttf':'font/ttf','.xml':'application/xml','.txt':'text/plain','.gpx':'application/gpx+xml','.kml':'application/vnd.google-earth.kml+xml','.pdf':'application/pdf','.csv':'text/csv; charset=utf-8','.zip':'application/zip'};
   if(path.startsWith('/assets/uploads/')&&attachmentExtensions.includes(extname(file).slice(1)))res.setHeader('Content-Disposition',`attachment; filename="${file.split(sep).pop()}"`);
   send(res,200,req.method==='HEAD'?'':readFileSync(file),mime[extname(file)]||'application/octet-stream');
  }catch(error){send(res,400,{error:error.message});}

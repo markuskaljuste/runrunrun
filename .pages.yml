@@ -8,6 +8,7 @@
       "png",
       "webp",
       "gpx",
+      "kml",
       "pdf",
       "txt",
       "csv",
@@ -114,6 +115,7 @@
           "options": {
             "extensions": [
               "gpx",
+              "kml",
               "pdf",
               "txt",
               "csv",

@@ -399,5 +399,16 @@
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:%C3%88ze-Bord-de-Mer_01.jpg",
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+  },
+  {
+    "slug": "moraira-seafront",
+    "path": "/assets/uploads/benissa-moraira-fanadix/moraira-seafront.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bah%C3%ADa_de_Moraira.jpg",
+    "author": "Luciamaldofer",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "labelEn": "Moraira and El Portet bay",
+    "labelEt": "Moraira ja El Porteti laht",
+    "scope": "story"
   }
 ]
