@@ -2,7 +2,7 @@
 
 ## Homepage photograph
 
-The homepage photograph was supplied by the author as the edited `IMG_0671.jpg`. It is stored unchanged at `public/assets/uploads/runograph-homepage.jpg`.
+The homepage photograph was supplied by the author as the edited `IMG_0671_mirror copy.jpg`. It is stored unchanged at `public/assets/uploads/runograph-homepage-v2.jpg`.
 
 ## Stock editorial photography
 

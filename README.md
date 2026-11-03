@@ -44,7 +44,7 @@ For local/owner-private builds, `DRAFT_PREVIEW=1 PUBLIC_BUILD=0` enables noindex
 
 ## Public Coming soon mode
 
-`content/publication.json` controls the public website. With `PUBLIC_BUILD=1` and `mode: coming-soon`, the output contains only the English coming-soon page, root/legacy redirects and a small allowlist of assets. Full stories, photographs, admin files, Analytics and draft previews are excluded.
+`content/publication.json` controls the public website. With `PUBLIC_BUILD=1` and `mode: coming-soon`, the output contains only the English coming-soon page, root/legacy redirects and a small allowlist of assets. The selected homepage photograph is also the Coming soon background and is the only photograph included. Full stories, other photographs, admin files, Analytics and draft previews are excluded.
 
 The owner-private Sites preview is a separate deployment and shows the full journal. Pages CMS saves to GitHub; subsequent CMS edits need a separate private-preview deployment to appear there.
 
@@ -70,7 +70,7 @@ The score at the end of the story is their equally weighted average, rounded to 
 
 **SEO** contains the English general-page title, description and sharing-image settings. Each story and translation also has its own optional SEO fields. Empty story SEO fields use its title, introduction and cover image.
 
-Photographs should be your own or licensed for the intended use. A `Photo:` or `Foto:` paragraph directly after a Markdown image is rendered once in its small caption. Include author, source and license links. `content/photo-credits.json`, `CREDITS.md` and bundled license files record stock-photo and font sources. The homepage uses the edited photograph supplied by the author (IMG_0671.jpg).
+Photographs should be your own or licensed for the intended use. A `Photo:` or `Foto:` paragraph directly after a Markdown image is rendered once in its small caption. Include author, source and license links. `content/photo-credits.json`, `CREDITS.md` and bundled license files record stock-photo and font sources. The homepage uses the edited photograph supplied by the author (IMG_0671_mirror copy.jpg).
 
 ## Contact, comments, Analytics and cookies
 
