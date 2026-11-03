@@ -9,7 +9,7 @@ import {storyPath,storyHasTranslation,publishedStoryLanguages} from './story-lan
 import {placeHasContent,storiesForPlace} from './story-places.mjs';
 const data=readContent();validateAll(data);
 const dist=resolve(root,'dist'),base=(process.env.BASE_PATH??'').replace(/\/$/,'');
-if(isComingSoon(data)){checkComingSoon({data,base});process.exit(0);}
+if(isComingSoon(data)){checkComingSoon({data,base});await import('./check-consent.mjs');process.exit(0);}
 assert(existsSync(resolve(dist,'en/index.html')),'Build the site before running checks.');
 function files(folder){return readdirSync(folder).flatMap(n=>{const path=resolve(folder,n);return statSync(path).isDirectory()?files(path):[path];});}
 let pages=0,links=0;

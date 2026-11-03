@@ -44,7 +44,7 @@ For local/owner-private builds, `DRAFT_PREVIEW=1 PUBLIC_BUILD=0` enables noindex
 
 ## Public Coming soon mode
 
-`content/publication.json` controls the public website. With `PUBLIC_BUILD=1` and `mode: coming-soon`, the output contains only the English coming-soon page, root/legacy redirects and a small allowlist of assets. The selected homepage photograph is also the Coming soon background and is the only photograph included. Full stories, other photographs, admin files, Analytics and draft previews are excluded.
+`content/publication.json` controls the public website. With `PUBLIC_BUILD=1` and `mode: coming-soon`, the output contains only the English coming-soon page, root/legacy redirects and a small allowlist of assets. The selected homepage photograph is also the Coming soon background and is the only photograph included. Full stories, other photographs, admin files and draft previews are excluded. The Coming soon page includes privacy information and the shared consent controls; Analytics is loaded only after opt-in when enabled.
 
 The owner-private Sites preview is a separate deployment and shows the full journal. Pages CMS saves to GitHub; subsequent CMS edits need a separate private-preview deployment to appear there.
 
@@ -78,7 +78,7 @@ Social, contact, sharing and comment settings are in `content/engagement.json`. 
 
 Remarkbox comments remain off until its real public embed key is supplied and moderation is enabled in the provider's Namespace Settings. Comment approval happens in Remarkbox. The website acknowledgement does not configure provider moderation automatically.
 
-GA4 and Search Console fields are prepared in **Google & cookies**. Analytics remains disabled until a real measurement ID and privacy contact details are supplied, enabled and accepted by the visitor. Cookie choices can be changed from the footer. No recipient email, API token or secret belongs in public content files.
+GA4 is configured in **Google & cookies** using the supplied measurement ID and approved privacy contact. It runs on the public Coming soon page and the future full site only after opt-in. Private Sites and local previews do not collect Analytics data. Search Console remains unconfigured. Cookie choices can be changed from the footer. The approved privacy email appears only on the privacy page. Contact-form recipients, API tokens and secrets stay outside public content files.
 
 ## Build and deploy
 

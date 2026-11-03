@@ -32,3 +32,11 @@ b=browser({storageBlocked:true});assert.equal(b.scripts.length,0);b.click('accep
 b=browser({saved:remembered()});b.storageEvent(remembered(false));assert.equal(b.reloads,1);assert.equal(b.window['ga-disable-G-TEST123456'],true);
 b=browser();b.storageEvent(remembered());assert.equal(b.scripts.length,1);
 console.log('Passed consent checks: no pre-consent requests, rejection, opt-in, one page view, sanitized URLs, returning visits, expiry/version renewal, withdrawal, cross-tab changes, disabled previews and blocked storage.');
+
+const built=readFileSync(new URL('../dist/en/index.html',import.meta.url),'utf8');
+const builtConfig=JSON.parse(built.match(/<script type="application\/json" id="runograph-integrations">([\s\S]*?)<\/script>/)[1]);
+const active=builtConfig.enabled===true&&builtConfig.allowAnalytics===true;
+b=browser({config:builtConfig,origin:'https://runograph.com'});assert.equal(b.scripts.length,0);b.click('deny');assert.equal(b.scripts.length,0);
+b=browser({config:builtConfig,origin:'https://runograph.com'});b.click('accept');assert.equal(b.scripts.length,active?1:0);if(active){assert.equal(b.scripts[0].src,'https://www.googletagmanager.com/gtag/js?id='+builtConfig.id);assert.equal(b.window.dataLayer.filter(c=>c[0]==='event'&&c[1]==='page_view').length,1);b.save(false);assert.equal(b.reloads,1);}
+b=browser({config:builtConfig,saved:remembered(true,{version:builtConfig.version}),origin:'https://test.chatgpt.site'});assert.equal(b.scripts.length,0);
+console.log('Passed built-site consent integration: configured measurement ID, zero requests before opt-in or after rejection, one page view after acceptance, withdrawal and private-preview isolation.');

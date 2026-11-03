@@ -35,3 +35,18 @@ footer>.social-links{margin-right:auto}
  footer{font-size:9px;padding:16px 6%}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+.launch-footer-links{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.launch-footer-links a,.launch-footer-links button{font:inherit;color:#526443;text-decoration:underline;text-underline-offset:3px}
+.launch-footer-links button{border:0;padding:0;background:none;cursor:pointer}
+.launch-privacy{display:block;padding:0;overflow:visible;color:#263b2e}
+.launch-privacy .page-heading{padding:60px 6% 26px}
+.launch-privacy .eyebrow{font-size:11px;letter-spacing:.12em;margin-bottom:16px}
+.launch-privacy h1{font-size:clamp(40px,5vw,64px);letter-spacing:-.045em}
+.launch-privacy .page-heading>p{font-size:13px;margin:20px 0 0;color:#737d69}
+.launch-privacy .privacy-content{padding:0 6% 70px;max-width:none}
+.launch-privacy .prose{max-width:760px;font-size:15px;line-height:1.85}
+.launch-privacy .prose h2{font:700 25px/1.25 Manrope,Arial,sans-serif;letter-spacing:-.03em;margin:30px 0 14px}
+.launch-privacy .prose p{margin:0 0 18px}
+.launch-privacy .prose a{text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+@media(max-width:750px){footer{flex-wrap:wrap}.launch-footer-links{font-size:10px;gap:15px;order:3;width:100%}.launch-privacy .page-heading{padding-top:40px}.launch-privacy .prose{font-size:14px}}
