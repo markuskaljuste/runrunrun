@@ -70,7 +70,7 @@ The score at the end of the story is their equally weighted average, rounded to 
 
 **SEO** contains the English general-page title, description and sharing-image settings. Each story and translation also has its own optional SEO fields. Empty story SEO fields use its title, introduction and cover image.
 
-Photographs should be your own or licensed for the intended use. A `Photo:` or `Foto:` paragraph directly after a Markdown image is rendered once in its small caption. Include author, source and license links. `content/photo-credits.json`, `CREDITS.md` and bundled license files record stock-photo and font sources. The Tenerife homepage runner is an AI-generated illustration, not a verified route photograph.
+Photographs should be your own or licensed for the intended use. A `Photo:` or `Foto:` paragraph directly after a Markdown image is rendered once in its small caption. Include author, source and license links. `content/photo-credits.json`, `CREDITS.md` and bundled license files record stock-photo and font sources. The homepage uses the edited photograph supplied by the author (IMG_0671.jpg).
 
 ## Contact, comments, Analytics and cookies
 

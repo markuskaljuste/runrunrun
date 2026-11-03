@@ -1,13 +1,9 @@
 {
   "favicon": "/assets/favicon-run.svg",
   "homeHero": {
-    "src": "/assets/tenerife-sunrise-runner.png",
+    "src": "/assets/uploads/runograph-homepage.jpg",
     "en": {
-      "alt": "An illustrative scene of a runner seen from behind on a Tenerife mountain road at sunrise",
-      "caption": ""
-    },
-    "et": {
-      "alt": "Illustratiivne vaade jooksjale selja tagant Tenerife mägiteel päikesetõusul",
+      "alt": "A runner on a mountain road beneath a blue and golden sky",
       "caption": ""
     }
   },

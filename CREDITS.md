@@ -1,5 +1,11 @@
 # Assets and sources
 
+## Homepage photograph
+
+The homepage photograph was supplied by the author as the edited `IMG_0671.jpg`. It is stored unchanged at `public/assets/uploads/runograph-homepage.jpg`.
+
+## Stock editorial photography
+
 Editorial photography downloaded from Unsplash on 26 October 2026. Images are not the author's own photographs and do not depict verified routes in this project.
 
 - Mountain landscape: https://images.unsplash.com/photo-1464822759023-fed622ff2c3b
