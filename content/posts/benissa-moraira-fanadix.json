@@ -49,6 +49,7 @@
   },
   "routeMap": {
     "enabled": true,
-    "mapId": "benissa-moraira-fanadix"
+    "mapId": "benissa-moraira-fanadix",
+    "googleMyMapsUrl": "https://www.google.com/maps/d/viewer?mid=1Hd3726JNT4MaE_96bIBQ9a2s60Y1cE0"
   }
 }

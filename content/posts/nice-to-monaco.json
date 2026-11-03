@@ -48,6 +48,7 @@
   },
   "routeMap": {
     "enabled": true,
-    "mapId": "nice-to-monaco"
+    "mapId": "nice-to-monaco",
+    "googleMyMapsUrl": "https://www.google.com/maps/d/viewer?mid=1ozi0iyafrHtvrlnQWkTi5ZaK9FpnlZc"
   }
 }
