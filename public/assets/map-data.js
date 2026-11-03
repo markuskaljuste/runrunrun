@@ -1,0 +1,14 @@
+export function validateMapData(data){
+ if(data?.version!==1||Object.keys(data).some(k=>!['version','layers'].includes(k))||!Array.isArray(data.layers)||!data.layers.length||data.layers.length>5)throw new Error('Invalid map data.');
+ const seen=new Set();
+ for(const layer of data.layers){
+  if(!layer||typeof layer!=='object'||Object.keys(layer).some(k=>!['id','kind','label','color','privateEndsOmitted','paths','sourceUrl','sourceLabel','distanceKm'].includes(k)))throw new Error('Unexpected map fields.');
+  if(!/^[a-z0-9-]+$/.test(layer.id??'')||seen.has(layer.id)||!['personal','guide'].includes(layer.kind)||typeof layer.label!=='string'||!layer.label.trim()||layer.label.length>120||!/^#[0-9a-f]{6}$/i.test(layer.color??''))throw new Error('Invalid map layer.');
+  seen.add(layer.id);
+  if(layer.kind==='personal'&&layer.privateEndsOmitted!==true)throw new Error('Personal maps must omit private ends.');
+  if(layer.kind==='guide'&&(!/^https:\/\//.test(layer.sourceUrl??'')||typeof layer.sourceLabel!=='string'||!Number.isFinite(layer.distanceKm)||layer.distanceKm<=0))throw new Error('Public guide maps need a source and length.');
+  if(!Array.isArray(layer.paths)||!layer.paths.length||layer.paths.length>100)throw new Error('Invalid map paths.');
+  for(const path of layer.paths)if(!Array.isArray(path)||path.length<2||path.length>20000||path.some(p=>!Array.isArray(p)||p.length!==2||!p.every(Number.isFinite)||Math.abs(p[0])>90||Math.abs(p[1])>180))throw new Error('Maps must contain latitude/longitude pairs only.');
+ }
+ return data;
+}

@@ -45,5 +45,9 @@
     "seoTitle": "Nice to Monaco Run: 25.80 km and a Poolside Finish | Runograph",
     "seoDescription": "My 2023 run from near Nice airport to Monaco, with Strava figures, coastal views and a poolside finish.",
     "socialImage": "/assets/uploads/nice-to-monaco/monaco-ice-cream.jpg"
+  },
+  "routeMap": {
+    "enabled": true,
+    "mapId": "nice-to-monaco"
   }
 }

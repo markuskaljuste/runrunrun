@@ -33,4 +33,4 @@ for(const folder of ['public','dist']){
   }
  }
 }
-console.log('Passed route privacy: no route downloads, route uploads, exported coordinates or old start/finish maps in the website output.');
+console.log('Passed route privacy: no route downloads, route uploads, original route exports or old start/finish maps in the website output.');

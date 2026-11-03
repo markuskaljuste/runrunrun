@@ -46,5 +46,9 @@
     "seoTitle": "Running Benissa, Moraira and Fanadix | Runograph",
     "seoDescription": "Long run through Benissa, Moraira and Fanadix, with good asphalt, long climbs, sea views and a paella finish.",
     "socialImage": "/assets/uploads/benissa-moraira-fanadix/benissa-road.jpg"
+  },
+  "routeMap": {
+    "enabled": true,
+    "mapId": "benissa-moraira-fanadix"
   }
 }

@@ -9,7 +9,7 @@ const port=Number(process.env.PORT||4173),token=randomBytes(32).toString('hex');
 const dist=resolve(root,'dist');
 function build(){const result=spawnSync(process.execPath,[resolve(root,'scripts/build.mjs')],{cwd:root,encoding:'utf8',env:{...process.env,BASE_PATH:'',SITE_URL:'',PUBLIC_BUILD:'0',DRAFT_PREVIEW:'1'}});if(result.status!==0)throw new Error(result.stderr||'Build failed.');}
 build();
-function send(res,status,data,type='application/json'){res.writeHead(status,{'Content-Type':type,'X-Content-Type-Options':'nosniff','Referrer-Policy':'same-origin','Cache-Control':'no-store'});res.end(type==='application/json'?JSON.stringify(data):data);}
+function send(res,status,data,type='application/json'){res.writeHead(status,{'Content-Type':type,'X-Content-Type-Options':'nosniff','Referrer-Policy':'same-origin','Cache-Control':'no-store'});res.end(type==='application/json'&&!Buffer.isBuffer(data)?JSON.stringify(data):data);}
 async function body(req){const chunks=[];let length=0;for await (const chunk of req){length+=chunk.length;if(length>12_000_000)throw new Error('File is too large. Maximum 8 MB.');chunks.push(chunk);}return JSON.parse(Buffer.concat(chunks).toString('utf8'));}
 const server=http.createServer(async(req,res)=>{
  try{

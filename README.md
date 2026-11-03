@@ -93,4 +93,4 @@ For GitHub, include `.pages.yml`, `.github/`, `.gitignore`, `content/`, `public/
 
 Checks cover links and assets, English settings, optional story translations, published/draft isolation, language metadata, legacy redirects, shared media and scores, multiple countries and places, safe rendering, cookie consent, contact/comment prerequisites and the public Coming soon boundary.
 
-GPX and KML exports are used privately to prepare stories. They are not uploaded to the website, linked in articles or included in builds. Maps or screenshots revealing exact start and finish locations are omitted.
+GPX and KML exports are used privately to prepare stories. They are not uploaded to the website, linked in articles or included in builds. Interactive maps use prepared route geometry with the areas around personal starts and finishes removed. Original GPX/KML files remain unpublished. Map tiles load from OpenStreetMap only when a reader opens the map. Select a prepared map under Story map in Pages CMS.

@@ -144,6 +144,41 @@
           }
         },
         {
+          "name": "routeMap",
+          "label": "Loo kaart / Story map",
+          "type": "object",
+          "fields": [
+            {
+              "name": "enabled",
+              "label": "Näita kaarti / Show map",
+              "type": "boolean",
+              "default": false
+            },
+            {
+              "name": "mapId",
+              "label": "Ettevalmistatud kaart / Prepared map",
+              "type": "select",
+              "options": {
+                "values": [
+                  {
+                    "value": "nice-to-monaco",
+                    "label": "Nice to Monaco"
+                  },
+                  {
+                    "value": "benissa-moraira-fanadix",
+                    "label": "Benissa, Moraira and Fanadix"
+                  },
+                  {
+                    "value": "barcelona",
+                    "label": "Barcelona + seafront"
+                  }
+                ]
+              },
+              "description": "Kaartidel on isikliku jooksu alguse ja lõpu ümbrus eemaldatud. / Private start and finish areas are omitted."
+            }
+          ]
+        },
+        {
           "name": "ratings",
           "label": "Runographi hinnang / Story score",
           "type": "object",
