@@ -18,6 +18,7 @@ h1{font:700 clamp(54px,7.5vw,106px)/1.02 Manrope,Arial,sans-serif;letter-spacing
 .description{max-width:430px;color:#f2f3ec;font-size:16px;line-height:1.9;margin:30px 0 0}
 footer{padding:20px 6%;display:flex;align-items:center;justify-content:space-between;gap:20px;color:#7b856f;font-size:10px}
 .social-links{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.social-links-label{font-size:12px;line-height:1.5;color:#263b2e}
 footer>.social-links{margin-right:auto}
 .social-links .social-icon-link{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;padding:0;line-height:1;color:#263b2e;text-decoration:none}
 .social-icon{display:block;width:24px;height:24px;flex-shrink:0}
