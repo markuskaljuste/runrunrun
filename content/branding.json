@@ -12,13 +12,13 @@
     {
       "name": "Rocca Sörk Run Club",
       "logo": "/assets/uploads/rocca-sork-logo-black.png",
-      "url": "",
+      "url": "https://www.instagram.com/roccasork/",
       "enabled": true
     },
     {
       "name": "On",
       "logo": "/assets/uploads/on-logo-black.webp",
-      "url": "",
+      "url": "https://www.on.com/",
       "enabled": true
     }
   ]
