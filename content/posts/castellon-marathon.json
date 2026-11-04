@@ -1,0 +1,54 @@
+{
+  "slug": "castellon-marathon",
+  "status": "published",
+  "date": "2026-11-04",
+  "countries": [
+    "spain"
+  ],
+  "places": [
+    "castellon"
+  ],
+  "placeNames": [
+    "El Grau"
+  ],
+  "image": "/assets/uploads/castellon-marathon/race-day.jpg",
+  "coverFit": "cover",
+  "ratings": {
+    "enabled": true,
+    "safety": {
+      "score": 7,
+      "en": "Closed roads made the marathon easy to run. On a normal day, city traffic and crossings still need attention."
+    },
+    "scenery": {
+      "score": 5,
+      "en": "Pleasant near the harbour and sea, but fairly average overall as a running destination."
+    },
+    "surface": {
+      "score": 8,
+      "en": "The marathon course felt good and comfortable to run."
+    },
+    "access": {
+      "score": 7,
+      "en": "For everyday running, I would head towards the harbour and beach rather than follow the full city course."
+    },
+    "experience": {
+      "score": 7,
+      "en": "A well-organised marathon with a good atmosphere. I would consider returning for the race."
+    }
+  },
+  "en": {
+    "title": "Castellón de la Plana",
+    "excerpt": "Castellón seen over 42K: city loops, the old town and El Grau’s harbour front, with a well-organised marathon I would consider returning for.",
+    "body": "I had **stomach pain** during this marathon and asked for medical help at the finish as a precaution.\n\n![Me seated under a foil blanket after the Castellón marathon](/assets/uploads/castellon-marathon/medical-tent.jpg \"After the finish.\")\n\nI got to know **Castellón de la Plana through its marathon**, with 42K linking the inland city streets, the harbour district of **El Grau** and the sea. The course itself felt good and comfortable to run.\n\n## How the route linked the city and coast\n\nThe city sections took in **Plaça de Maria Agustina** and the area around **Parc Ribalta**, with longer stretches through the surrounding neighbourhoods. Later, before the coastal section, the line passed close to the [Museu de Belles Arts](https://ivc.gva.es/es/ivc/mba/museu-de-belles-arts-de-castellon/bellas-artes/visita-el-museo) on Avinguda dels Germans Bou. That gives you an art-museum stop to keep in mind if you want to explore the city outside the race.\n\nAround the middle of the run, the course reached **El Grau**, near **Plaça del Mar** and the **Edificio Moruno**. This is where the setting changes to the public harbour front, with the marina and boats beside the paved waterfront. It was the part of the outing that made me want to aim for the harbour and beach area on an ordinary run.\n\n![Wide paved waterfront beside Gran Casino Castelló with the marina on the right](/assets/uploads/castellon-marathon/el-grau-waterfront.jpg \"The paved harbour front beside Gran Casino Castelló, with the marina alongside.\")\n\nPhoto: [Pacopac / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:2020-07-31_Gran_Casino_Castell%C3%B3_al_Port_del_Grao_de_Castell%C3%B3_de_la_Plana.jpg), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0). Resized.\n\nThe later city loop came back close to **Plaça Major**, with [El Fadrí](https://mucc.castello.es/en/venues/el-fadri/) and **Santa María** nearby. El Fadrí is the free-standing bell tower beside the church, so this corner of the old town gives you a very different backdrop from the harbour. Those landmarks are useful reference points if you want to turn a shorter city run into a little exploration of the centre.\n\n## Race day is different from a normal run\n\nDuring the marathon, the roads were closed and I could just get on with running. That made the course easy to enjoy. On an ordinary day, those same city streets would need more attention to traffic and crossings.\n\nEven so, **Castellón felt easier to run around than Barcelona**. There was less traffic and fewer tourists to work around, so I felt I had a bit more room to run.\n\nFor a normal training run, I would aim **towards the harbour and beach area** rather than trying to follow the whole marathon course through the city. That is the part I would choose if I were putting on my running shoes here without a race taking care of the road closures.\n\n## Would I travel back to run here?\n\nThe views were fine, but overall I would call them fairly average. I would not book another trip to Castellón specifically for the running scenery.\n\n**The marathon would be the exception.** It was well organised and had a good atmosphere. If I decide to start running marathons again, this is one I would consider returning for.\n\nIf I were looking for an alternative to a bigger, more expensive Valencia-style marathon trip, I would put [Marató bp Castelló](https://www.maratonbpcastellon.com/) on the shortlist. The organisation and the feel of the event were what made it worth considering for me.\n",
+    "imageAlt": "Runners and spectators beside the Marató Castelló race arch",
+    "imageCaption": "Race day at Marató Castelló. A photo from my trip.",
+    "seoTitle": "Running in Castellón de la Plana | Runograph",
+    "seoDescription": "Castellón through my marathon: city streets, the harbour and sea, a well-organised race and where I would head for an everyday run.",
+    "socialImage": "/assets/uploads/castellon-marathon/race-day.jpg"
+  },
+  "routeMap": {
+    "enabled": true,
+    "mapId": "castellon",
+    "googleMyMapsUrl": "https://www.google.com/maps/d/viewer?mid=1J-huUGFfgVWAuSjIQ_uZ0sWOXdOIDDg"
+  }
+}

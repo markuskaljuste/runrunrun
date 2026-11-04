@@ -177,6 +177,10 @@
                   {
                     "value": "barcelona",
                     "label": "Barcelona + seafront"
+                  },
+                  {
+                    "value": "castellon",
+                    "label": "Castellón marathon"
                   }
                 ]
               },

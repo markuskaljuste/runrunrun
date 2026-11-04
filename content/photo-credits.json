@@ -443,5 +443,16 @@
     "labelEn": "Barceloneta promenade and beach",
     "labelEt": "Barceloneta promenade and beach",
     "scope": "story"
+  },
+  {
+    "slug": "castellon-waterfront-story",
+    "path": "/assets/uploads/castellon-marathon/el-grau-waterfront.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:2020-07-31_Gran_Casino_Castell%C3%B3_al_Port_del_Grao_de_Castell%C3%B3_de_la_Plana.jpg",
+    "author": "Pacopac",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "labelEn": "Paved harbour front beside Gran Casino Castelló (story illustration)",
+    "labelEt": "Sillutatud sadamapromenaad Gran Casino Castelló kõrval (loo illustratsioon)",
+    "scope": "story"
   }
 ]
