@@ -1,10 +1,11 @@
+import {renderFooter} from './footer.mjs';
 import {canonicalPath} from '../public/assets/paths.js';
 import {isRouteFile} from '../public/assets/attachment-policy.js';
 import { mkdirSync, writeFileSync, rmSync, cpSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { root, readContent, validateAll, esc, safeUrl, inline, markdown } from './core.mjs';
 import {isComingSoon,buildComingSoon} from './publication.mjs';
-import {wordmarkText,socialLinks,shareBar,commentsSection,buildContactPages} from './engagement.mjs';
+import {wordmarkText,shareBar,commentsSection,buildContactPages} from './engagement.mjs';
 import {renderRating} from './ratings.mjs';
 import {renderAttachments} from './attachments.mjs';
 import {renderStoryMap} from './story-maps.mjs';
@@ -42,18 +43,13 @@ function wordmark(lang,footer=false){
  const branding=data.branding,logo=footer?(branding.footerLogo||branding.logo):branding.logo;
  return `<a class="wordmark${logo?' has-logo':''}${footer&&logo&&!branding.footerLogo?' logo-on-tile':''}" href="${url('/'+lang+'/')}" aria-label="${esc(data.site.brand)}: ${translations[lang].home}" style="--logo-width:${branding.logoWidth}px">${logo?`<img src="${esc(image(logo))}" alt="${esc(branding.logoAlt||data.site.brand)}">`:wordmarkText(data.site.brand)}</a>`;
 }
-function sponsorSection(lang){
- const branding=data.branding,sponsors=branding.sponsors.filter(s=>s.enabled&&s.name.trim()&&s.logo.trim());
- if(!branding.sponsorsEnabled||!sponsors.length)return '';
- return `<section class="footer-supporters" aria-labelledby="sponsor-heading"><svg class="sponsor-color" width="0" height="0" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><defs><filter id="sponsor-cream" color-interpolation-filters="sRGB"><feFlood flood-color="#f4f5eb" result="ink"/><feComposite in="ink" in2="SourceAlpha" operator="in"/></filter></defs></svg><h2 id="sponsor-heading">${esc(branding.sponsorTitle[lang])}</h2><div class="sponsor-logos">${sponsors.map(s=>{const logo=`<img src="${esc(image(s.logo))}" alt="${esc(s.name)}" loading="lazy">`;return s.url?`<a href="${esc(safeUrl(s.url))}" target="_blank" rel="sponsored noopener noreferrer" aria-label="${esc(s.name)}: ${lang==='en'?'visit website':'ava veebileht'}">${logo}</a>`:`<div>${logo}</div>`;}).join('')}</div></section>`;
-}
 function shell(lang,path,title,description,content,{hero=false,ogImage,seo,noindex=false,ogType,availableLanguages,maps=false}={}){
  const t=translations.en;
  const active=/^(countries|places)\//.test(path)?'countries':path.split('/')[0]||'home';
  const nav=[['',t.home],['journal/',t.journal],['countries/','Destinations'],['about/',t.about],['contact/','Contact'],...(previewDrafts?[['preview/','Drafts']]:[])];
  const location=`/${lang}/${path}`;
  const meta=renderMetadata({lang,path,title,description,ogImage,seo,data,base,origin,noindex,ogType,availableLanguages});
- return `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">${meta}<meta name="theme-color" content="#26362c"><link rel="icon" href="${esc(image(data.images.favicon))}"><link rel="stylesheet" href="${url('/assets/style.css')}"><link rel="stylesheet" href="${url('/assets/consent.css')}">${maps?`<link rel="stylesheet" href="${url('/assets/story-maps.css')}">${maps==='google'?'':`<script type="module" src="${url('/assets/story-maps.js')}"></script>`}`:''}<script src="${url('/assets/site.js')}" defer></script><script src="${url('/assets/engagement.js')}" defer></script></head><body class="${hero?'has-hero':''}"><a class="skip-link" href="#main">${t.skip}</a><header class="site-header">${wordmark('en')}<button class="menu-toggle" aria-expanded="false" aria-controls="navigation">${t.menu} <span aria-hidden="true">☰</span></button><nav id="navigation" aria-label="${t.menu}">${nav.map(([p,label])=>`<a href="${url('/en/'+p)}" ${active===(p.split('/')[0]||'home')?'aria-current="page"':''}>${label}</a>`).join('')}</nav></header><main id="main">${content}</main><footer class="footer"><div class="footer-top"><div class="footer-brand">${wordmark('en',true)}<p>${t.footer}</p></div>${sponsorSection('en')}<a class="back-top" href="#main" aria-label="${'Back to top'}">${'Top'}</a></div>${socialLinks(data,'en')}<div class="footer-bottom"><span>© ${new Date().getUTCFullYear()} ${esc(data.site.brand)} · ${t.footerSmall}</span><div><a href="${url('/en/contact/')}">${'Contact'}</a><a href="${url('/en/credits/')}">${t.credits}</a><a href="${url('/en/privacy/')}">${'Privacy'}</a><button type="button" data-cookie-settings>${'Cookie settings'}</button><a href="${url('/admin/')}">${t.editor}</a></div></div></footer>${consentMarkup({data,lang:'en',url,base,origin})}</body></html>`;
+ return `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">${meta}<meta name="theme-color" content="#26362c"><link rel="icon" href="${esc(image(data.images.favicon))}"><link rel="stylesheet" href="${url('/assets/style.css')}"><link rel="stylesheet" href="${url('/assets/footer.css')}"><link rel="stylesheet" href="${url('/assets/consent.css')}">${maps?`<link rel="stylesheet" href="${url('/assets/story-maps.css')}">${maps==='google'?'':`<script type="module" src="${url('/assets/story-maps.js')}"></script>`}`:''}<script src="${url('/assets/site.js')}" defer></script><script src="${url('/assets/engagement.js')}" defer></script></head><body class="${hero?'has-hero':''}"><a class="skip-link" href="#main">${t.skip}</a><header class="site-header">${wordmark('en')}<button class="menu-toggle" aria-expanded="false" aria-controls="navigation">${t.menu} <span aria-hidden="true">☰</span></button><nav id="navigation" aria-label="${t.menu}">${nav.map(([p,label])=>`<a href="${url('/en/'+p)}" ${active===(p.split('/')[0]||'home')?'aria-current="page"':''}>${label}</a>`).join('')}</nav></header><main id="main">${content}</main>${renderFooter({data,url,image})}${consentMarkup({data,lang:'en',url,base,origin})}</body></html>`;
 }
 const writtenPaths=new Set(),englishPaths=new Set();
 function writeRaw(path,body){const file=resolve(dist,'.'+path,'index.html');mkdirSync(resolve(file,'..'),{recursive:true});writeFileSync(file,body);}
