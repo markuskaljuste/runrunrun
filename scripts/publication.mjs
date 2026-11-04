@@ -1,3 +1,4 @@
+import {renderSignup} from './newsletter.mjs';
 import {canonicalPath} from '../public/assets/paths.js';
 import {wordmarkText} from './engagement.mjs';
 import {renderFooter,footerSponsors} from './footer.mjs';
@@ -7,7 +8,7 @@ import assert from 'node:assert/strict';
 import {root,esc,safeUrl} from './core.mjs';
 import {redirectPage} from './redirects.mjs';
 import {verificationTag,consentMarkup,buildPrivacyPages} from './privacy.mjs';
-const launchAssets=['manrope-700.ttf','manrope-800.ttf','dm-sans-400.ttf','LICENSE-manrope.txt','LICENSE-dm-sans.txt','favicon.svg','favicon-run.svg','launch.css','footer.css','consent.css','privacy.js'];
+const launchAssets=['manrope-700.ttf','manrope-800.ttf','dm-sans-400.ttf','LICENSE-manrope.txt','LICENSE-dm-sans.txt','favicon.svg','favicon-run.svg','launch.css','footer.css','consent.css','privacy.js','newsletter.css','newsletter.js'];
 function footerAssetPaths(data){
  const paths=[data.branding.footerLogo||data.branding.logo,...footerSponsors(data).map(s=>s.logo)];
  return [...new Set(paths.filter(src=>src.startsWith('/')).map(src=>{
@@ -24,19 +25,22 @@ function launchPhoto(data){
  assert(file.startsWith(resolve(root,'public/assets')+'/')&&/\.(?:jpe?g|png|webp|avif|svg)$/i.test(asset),'The Coming soon background must be an image inside public/assets.');
  return {src,asset,file};
 }
+export function renderComingSoonPage({data,base='',origin='',lang='en',path='',title,description,content,privacy=false,signupPreview=false}){
+ const url=p=>base+canonicalPath(p),photo=launchPhoto(data);
+ const photoUrl=photo.src.startsWith('/')?url(photo.src):photo.src;
+ const image=src=>src.startsWith('/')?url(src):safeUrl(src);
+ const signup=privacy?'':renderSignup({data,url,preview:signupPreview});
+  const text={title:title??data.publication[lang].title,description:description??data.publication[lang].description};
+  const body=content??`<img class="launch-background" src="${esc(photoUrl)}" alt="" width="4966" height="2333" fetchpriority="high"><div class="launch-shade" aria-hidden="true"></div><section class="launch-copy"><h1>${esc(text.title)}</h1><p class="description">${esc(text.description)}</p>${signup}</section>`;
+  return `<!doctype html><html lang="${lang}" data-publication="coming-soon"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(text.title)} | ${esc(data.site.brand)}</title><meta name="description" content="${esc(text.description)}"><meta name="robots" content="noindex,follow"><meta name="theme-color" content="#263b2e">${verificationTag(data)}${origin?`<link rel="canonical" href="${esc(origin+url('/'+lang+'/'+path))}"><link rel="alternate" hreflang="en" href="${esc(origin+url('/en/'+path))}">`:''}<link rel="icon" type="image/svg+xml" href="${url('/assets/favicon-run.svg')}"><link rel="stylesheet" href="${url('/assets/launch.css')}"><link rel="stylesheet" href="${url('/assets/footer.css')}"><link rel="stylesheet" href="${url('/assets/consent.css')}">${signup?`<link rel="stylesheet" href="${url('/assets/newsletter.css')}"><script src="${url('/assets/newsletter.js')}" defer></script>`:''}${origin?`<meta property="og:image" content="${esc(photoUrl.startsWith('/')?origin+photoUrl:photoUrl)}">`: ''}</head><body class="${privacy?'launch-policy':'launch-home'}"><header><a class="launch-brand" href="${url('/'+lang+'/')}">${wordmarkText(data.site.brand)}</a></header><main id="main"${privacy?' class="launch-privacy"':''}>${body}</main>${renderFooter({data,url,image,comingSoon:true})}${consentMarkup({data,lang:'en',url,base,origin})}</body></html>`;
+}
 export function buildComingSoon({data,base,origin}){
  const dist=resolve(root,'dist'),assets=resolve(dist,'assets');rmSync(dist,{recursive:true,force:true});mkdirSync(assets,{recursive:true});
  for(const name of launchAssets)cpSync(resolve(root,'public/assets',name),resolve(assets,name));
  for(const asset of footerAssetPaths(data)){const target=resolve(dist,asset);mkdirSync(resolve(target,'..'),{recursive:true});cpSync(resolve(root,'public',asset),target);}
  const photo=launchPhoto(data);if(photo.asset){const target=resolve(dist,photo.asset);mkdirSync(resolve(target,'..'),{recursive:true});cpSync(photo.file,target);}
  const url=p=>base+canonicalPath(p);
- const photoUrl=photo.src.startsWith('/')?url(photo.src):photo.src;
- const image=src=>src.startsWith('/')?url(src):safeUrl(src);
- function page(lang,{path='',title,description,content,privacy=false}={}){
-  const text={title:title??data.publication[lang].title,description:description??data.publication[lang].description};
-  const body=content??`<img class="launch-background" src="${esc(photoUrl)}" alt="" width="4966" height="2333" fetchpriority="high"><div class="launch-shade" aria-hidden="true"></div><section class="launch-copy"><h1>${esc(text.title)}</h1><p class="description">${esc(text.description)}</p></section>`;
-  return `<!doctype html><html lang="${lang}" data-publication="coming-soon"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(text.title)} | ${esc(data.site.brand)}</title><meta name="description" content="${esc(text.description)}"><meta name="robots" content="noindex,follow"><meta name="theme-color" content="#263b2e">${verificationTag(data)}${origin?`<link rel="canonical" href="${esc(origin+url('/'+lang+'/'+path))}"><link rel="alternate" hreflang="en" href="${esc(origin+url('/en/'+path))}">`:''}<link rel="icon" type="image/svg+xml" href="${url('/assets/favicon-run.svg')}"><link rel="stylesheet" href="${url('/assets/launch.css')}"><link rel="stylesheet" href="${url('/assets/footer.css')}"><link rel="stylesheet" href="${url('/assets/consent.css')}">${origin?`<meta property="og:image" content="${esc(photoUrl.startsWith('/')?origin+photoUrl:photoUrl)}">`: ''}</head><body class="${privacy?'launch-policy':'launch-home'}"><header><a class="launch-brand" href="${url('/'+lang+'/')}">${wordmarkText(data.site.brand)}</a></header><main id="main"${privacy?' class="launch-privacy"':''}>${body}</main>${renderFooter({data,url,image,comingSoon:true})}${consentMarkup({data,lang:'en',url,base,origin})}</body></html>`;
- }
+ const page=(lang,options={})=>renderComingSoonPage({data,base,origin,lang,...options});
  writeFileSync(resolve(dist,'index.html'),page('en'));mkdirSync(resolve(dist,'en'),{recursive:true});writeFileSync(resolve(dist,'en/index.html'),redirectPage(url('/'),{origin,publication:true}));
  buildPrivacyPages({data,lang:'en',url,includeEngagement:false,write:(path,html)=>{const file=resolve(dist,'.'+canonicalPath(path),'index.html');mkdirSync(resolve(file,'..'),{recursive:true});writeFileSync(file,html);},shell:(lang,path,title,description,content)=>page(lang,{path,title,description,content,privacy:true})});
  mkdirSync(resolve(dist,'et/privacy'),{recursive:true});writeFileSync(resolve(dist,'et/privacy/index.html'),redirectPage(url('/en/privacy/'),{origin,publication:true}));
@@ -52,7 +56,7 @@ export function checkComingSoon({data,base}){
  const list=folder=>readdirSync(folder).flatMap(n=>{const p=resolve(folder,n);return statSync(p).isDirectory()?list(p):[p];});
  for(const file of list(dist)){const relative=file.slice(dist.length+1);assert(allowed.has(relative),`Full-site content leaked into the public coming-soon build: ${relative}`);if(file.endsWith('.html')){const html=readFileSync(file,'utf8');assert(html.includes('data-publication="coming-soon"'));assert(html.includes('content="noindex,follow"'));for(const script of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)){
  if(/type="application\/json"/.test(script[1])&&/id="runograph-integrations"/.test(script[1])){const config=JSON.parse(script[2]);assert.equal(config.id,data.integrations.gaMeasurementId);assert.equal(config.enabled,data.integrations.analyticsEnabled);assert.equal(config.version,data.integrations.consentVersion);}
- else{assert(script[1].includes(`src="${base}/assets/privacy.js"`)&&/\bdefer\b/.test(script[1]),'Only the consent-managed local script belongs on Coming soon.');assert.equal(script[2].trim(),'');}
+ else{assert(['privacy.js','newsletter.js'].some(name=>script[1].includes(`src="${base}/assets/${name}"`))&&/\bdefer\b/.test(script[1]),'Only the local consent and email-signup scripts belong on Coming soon.');assert.equal(script[2].trim(),'');}
  }for(const link of html.matchAll(/(?:href|src)="([^"#]+)"/g)){if(/^(?:https?:|mailto:)/.test(link[1]))continue;const local=link[1].split(/[?#]/)[0];assert(local.startsWith(base+'/'));assert(statSync(resolve(dist,'.'+local.slice(base.length))));}}}
  assert(readFileSync(resolve(dist,'index.html'),'utf8').includes(esc(data.publication.en.title)));
  assert(readFileSync(resolve(dist,'et/index.html'),'utf8').includes('url='+base+'/'));assert(!readFileSync(resolve(dist,'en/index.html'),'utf8').includes('hreflang="et"'));assert(!readFileSync(resolve(dist,'en/index.html'),'utf8').includes('aria-label="Language"'));

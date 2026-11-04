@@ -4,7 +4,7 @@ import {isRouteFile} from '../public/assets/attachment-policy.js';
 import { mkdirSync, writeFileSync, rmSync, cpSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { root, readContent, validateAll, esc, safeUrl, inline, markdown } from './core.mjs';
-import {isComingSoon,buildComingSoon} from './publication.mjs';
+import {isComingSoon,buildComingSoon,renderComingSoonPage} from './publication.mjs';
 import {wordmarkText,shareBar,commentsSection,buildContactPages} from './engagement.mjs';
 import {renderRating} from './ratings.mjs';
 import {renderAttachments} from './attachments.mjs';
@@ -82,7 +82,8 @@ for(const lang of ['en']){
  for(const p of items){renderStoryPage(p,'en');if(previewDrafts)write('/en/preview/'+p.slug+'/',redirectPage(url('/en/journal/'+p.slug+'/'),{origin}));}
  if(previewDrafts){
   const drafts=data.posts.filter(p=>p.status==='draft');
-  write('/'+lang+'/preview/',shell(lang,'preview/',lang==='et'?'Mustandid':'Drafts',lang==='et'?'Avaldamata lugude eelvaade.':'Preview unpublished stories.',`<section class="section page-heading"><h1>${lang==='et'?'Mustandid':'Drafts'}</h1><p>${lang==='et'?'Need lood ei ole avalikul veebilehel.':'These stories are not on the public website.'}</p><ul class="draft-list">${drafts.map(p=>`<li><a href="${url('/'+lang+'/preview/'+p.slug+'/')}">${esc(p[lang].title||p.en.title||p.slug)}</a></li>`).join('')}</ul></section>`,{noindex:true}));
+  write('/en/preview/coming-soon/',renderComingSoonPage({data,base,origin,path:'preview/coming-soon/',signupPreview:true}));
+  write('/'+lang+'/preview/',shell(lang,'preview/',lang==='et'?'Mustandid':'Drafts',lang==='et'?'Avaldamata lugude eelvaade.':'Preview unpublished stories.',`<section class="section page-heading"><h1>${lang==='et'?'Mustandid':'Drafts'}</h1><p>${lang==='et'?'Need lood ei ole avalikul veebilehel.':'These stories are not on the public website.'}</p><ul class="draft-list"><li><a href="${url('/preview/coming-soon/')}">Coming soon signup preview</a></li>${drafts.map(p=>`<li><a href="${url('/'+lang+'/preview/'+p.slug+'/')}">${esc(p[lang].title||p.en.title||p.slug)}</a></li>`).join('')}</ul></section>`,{noindex:true}));
   for(const p of drafts)renderStoryPage(p,'en',true);
  }
 

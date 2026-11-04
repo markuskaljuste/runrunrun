@@ -1402,6 +1402,25 @@
               "default": false
             }
           ]
+        },
+        {
+          "name": "newsletter",
+          "label": "Email signup / Google Sheets",
+          "type": "object",
+          "fields": [
+            {
+              "name": "enabled",
+              "label": "Enable email signup after connecting Google Sheets",
+              "type": "boolean",
+              "default": false
+            },
+            {
+              "name": "appsScriptUrl",
+              "label": "Deployed Google Apps Script web app URL ending in /exec",
+              "type": "string",
+              "description": "Use the public submission URL from Deploy. Do not enter passwords, OAuth tokens or the spreadsheet link."
+            }
+          ]
         }
       ]
     }

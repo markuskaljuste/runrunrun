@@ -12,6 +12,7 @@ const data=readContent();validateAll(data);
 const dist=resolve(root,'dist'),base=(process.env.BASE_PATH??'').replace(/\/$/,'');
 await import('./check-route-privacy.mjs');
 await import('./check-maps.mjs');
+await import('./check-newsletter.mjs');
 if(isComingSoon(data)){checkComingSoon({data,base});await import('./check-consent.mjs');await import('./check-root-routing.mjs');process.exit(0);}
 assert(existsSync(resolve(dist,'index.html')),'Build the site before running checks.');
 function files(folder){return readdirSync(folder).flatMap(n=>{const path=resolve(folder,n);return statSync(path).isDirectory()?files(path):[path];});}

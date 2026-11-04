@@ -21,5 +21,9 @@
   "contact": {
     "enabled": false,
     "formspreeId": ""
+  },
+  "newsletter": {
+    "enabled": false,
+    "appsScriptUrl": ""
   }
 }
