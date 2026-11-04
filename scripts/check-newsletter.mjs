@@ -44,10 +44,10 @@ s=server({busy:true});s.setup();assert.equal(s.post().code,'busy');assert.equal(
 s=server({collision:true});assert.throws(()=>s.setup());assert.equal(s.rows[0][0],'Existing owner data');assert.equal(s.writes,0);
 
 const client=readFileSync(new URL('../public/assets/newsletter.js',import.meta.url),'utf8');
-function browser({url=endpoint,throwOnSubmit=false}={}){
+function browser({url=endpoint,throwOnSubmit=false,buttonText='Join the waitlist',successMessage}={}){
  const listeners=new Map(),timers=new Map(),created=[],body=[];let sequence=0,submissions=0,resets=0;
- const status={textContent:''},button={textContent:'Join the waitlist'},fieldset={disabled:false},email={value:'runner@example.com'},consent={checked:true},trap={value:''};
- const form={dataset:{endpoint:url,consentVersion:signupConsentVersion},reportValidity:()=>true,querySelector:selector=>({'fieldset':fieldset,'[name="email"]':email,'[name="consent"]':consent,'[name="website"]':trap,'button[type="submit"]':button,'.signup-status':status})[selector],addEventListener:(name,fn)=>listeners.set('form:'+name,fn),reset(){resets++;email.value='';consent.checked=false;}};
+ const status={textContent:''},button={textContent:buttonText},fieldset={disabled:false},email={value:'runner@example.com'},consent={checked:true},trap={value:''};
+ const form={dataset:{endpoint:url,consentVersion:signupConsentVersion,successMessage},reportValidity:()=>true,querySelector:selector=>({'fieldset':fieldset,'[name="email"]':email,'[name="consent"]':consent,'[name="website"]':trap,'button[type="submit"]':button,'.signup-status':status})[selector],addEventListener:(name,fn)=>listeners.set('form:'+name,fn),reset(){resets++;email.value='';consent.checked=false;}};
  const document={querySelectorAll:()=>[form],body:{append(...nodes){body.push(...nodes);}},createElement(tag){const node={tag,children:[],setAttribute(k,v){this[k]=v;},append(child){this.children.push(child);},remove(){this.removed=true;},submit(){submissions++;if(throwOnSubmit)throw Error('Blocked');}};created.push(node);return node;}};
  const window={location:{origin:'https://runograph.com'},addEventListener:(name,fn)=>listeners.set(name,fn),removeEventListener:name=>listeners.delete(name)};
  runInNewContext(client,{document,window,URL,Uint8Array,Date,crypto:{getRandomValues(bytes){bytes.fill(7);}},setTimeout(fn){const id=++sequence;timers.set(id,fn);return id;},clearTimeout:id=>timers.delete(id)});
@@ -58,4 +58,7 @@ b.ack({origin:'https://script.googleusercontent.com.evil.example'});b.ack({nonce
 b.ack();assert.equal(b.resets,1);assert(b.status.textContent.includes('You’re on the waitlist'));assert.equal(b.fieldset.disabled,false);assert(b.created.filter(n=>n.tag==='iframe'||n.tag==='form').every(n=>n.removed));
 for(const failure of ['server','timeout','transport']){b=browser({throwOnSubmit:failure==='transport'});b.submit();if(failure==='server')b.ack({ok:false,code:'unavailable'});if(failure==='timeout')b.timeout();assert.equal(b.resets,0);assert.equal(b.email.value,'runner@example.com');assert.equal(b.consent.checked,true);assert(!b.status.textContent.includes('You’re on the waitlist'));assert.equal(b.fieldset.disabled,false);b.ack();assert.equal(b.resets,0,'Late acknowledgements after timeout must not change the result.');}
 b=browser({url:'https://evil.example/collect'});b.submit();assert.equal(b.submissions,0);
+const footerButton='New stories by email',footerSuccess='Thanks for subscribing! You’ll receive new Runograph stories by email.';
+for(const result of ['saved','timeout']){b=browser({buttonText:footerButton,successMessage:footerSuccess});b.submit();if(result==='saved')b.ack();else b.timeout();assert.equal(b.button.textContent,footerButton,'Keep the footer button label after every submission.');assert.equal(b.resets,result==='saved'?1:0);if(result==='saved')assert.equal(b.status.textContent,footerSuccess);}
+
 console.log('Passed email signup checks: endpoint validation, inactive public defaults, consent, private sheet setup, deduplication, formula escaping, failed writes, request limits, no subscriber reads, authenticated response origin/nonces and honest success/timeout states.');
