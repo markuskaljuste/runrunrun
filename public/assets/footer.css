@@ -3,8 +3,7 @@
 .footer a:hover{color:#d6e58a}
 .footer a:focus-visible,.footer button:focus-visible{outline:2px solid #f4f5eb;outline-offset:5px}
 .footer-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px 32px;padding-bottom:18px;border-bottom:1px solid #ffffff2c}
-.footer-supporters{display:flex;align-items:center;gap:14px;margin:0;padding-left:24px;border-left:1px solid #ffffff2c}
-.footer-supporters h2{font:500 10px/1.5 'DM Sans',Arial,sans-serif;letter-spacing:.08em;color:#dce4cf;margin:0}
+.footer-supporters{display:flex;align-items:center;margin:0 0 0 auto}
 .footer .sponsor-color{position:absolute;width:0;height:0;overflow:hidden}
 .footer .sponsor-logos{display:flex;align-items:center;gap:30px;margin:0}
 .footer .sponsor-logos>a,.footer .sponsor-logos>div{display:flex;align-items:center;justify-content:center;min-width:44px;height:48px;max-width:130px;background:none;border:0;padding:0}
@@ -20,11 +19,10 @@
 .footer-bottom{display:flex;justify-content:space-between;gap:16px;padding-top:14px;color:#c0cbb4;font-size:10px}
 .footer-bottom>div{display:flex;flex-wrap:wrap;gap:20px}
 .footer-bottom button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
-@media(max-width:900px){.footer-supporters{border-left:0;padding-left:0}}
 @media(max-width:720px){
  .footer{padding:24px 6% 16px}
  .footer-top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;padding-bottom:14px}
- .footer-supporters{order:2;flex-direction:column;align-items:flex-start;gap:6px}
+ .footer-supporters{order:2;justify-self:end}
  .footer .sponsor-logos{gap:16px}
  .footer .sponsor-logos>a,.footer .sponsor-logos>div{height:32px;min-width:32px;max-width:100px}
  .footer .sponsor-logos img{height:32px;max-width:100px;max-height:32px}
