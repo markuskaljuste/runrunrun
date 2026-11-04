@@ -90,3 +90,15 @@
 .journal-tools{flex-wrap:wrap}.journal-tools .filters{flex:1 1 100%}.city-select{display:flex;align-items:center;gap:14px;font-size:11px;color:var(--muted)}.city-select select{color:var(--ink);background:transparent;border:0;border-bottom:1px solid #a4ad96;min-height:36px;max-width:260px;font-size:13px;padding:4px 25px 4px 0}.journal-tools .search{margin-left:auto}.country-empty{font-size:15px;padding:8px 0 36px}@media(max-width:720px){.journal-tools .city-select,.journal-tools .search{width:100%;margin-left:0}.city-select select{flex:1;max-width:none}.journal-tools .search input{max-width:none;width:100%}}
 
 .story-languages{display:flex;align-items:center;gap:8px;margin:12px 0 16px;font-size:11px;line-height:1.4}.story-languages a{display:inline-flex;min-height:28px;align-items:center;padding:4px 8px;border:1px solid #bbc6b0;border-radius:3px;color:var(--ink);font-weight:600}.story-languages a:hover,.story-languages a[aria-current]{background:var(--green);border-color:var(--green);color:var(--cream)}.story-languages>span{color:var(--muted)}.article-heading>.story-languages{margin-top:22px}.shared-story-media{margin-top:34px}.site-header nav{margin-right:0}
+
+/* Header over the homepage photograph */
+.has-hero .site-header{position:absolute;inset:0 0 auto;background:rgba(19,41,31,.62);color:#f4f5eb;border-bottom:1px solid #ffffff20;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.has-hero .site-header .brand-ograph{color:#dde3d7}
+.has-hero .site-header .wordmark.has-logo>img{filter:brightness(0) invert(1)}
+.has-hero .site-header nav>a[aria-current]:after{background:currentColor}
+.has-hero .menu-toggle{color:inherit}
+.has-hero .hero-content{padding-top:140px}
+@media(max-width:720px){
+ .has-hero .site-header nav{color:#24372d}
+ .has-hero .hero-content{padding-top:114px;padding-bottom:50px}
+}

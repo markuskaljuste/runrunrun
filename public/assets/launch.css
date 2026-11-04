@@ -41,3 +41,9 @@ h1{font:700 clamp(54px,7.5vw,106px)/1.02 Manrope,Arial,sans-serif;letter-spacing
 .launch-privacy .prose p{margin:0 0 18px}
 .launch-privacy .prose a{text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
 @media(max-width:750px){.launch-privacy .page-heading{padding-top:40px}.launch-privacy .prose{font-size:14px}}
+
+.launch-home>header{position:absolute;inset:0 0 auto;z-index:5;background:rgba(19,41,31,.62);border-bottom:1px solid #ffffff20;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.launch-home .launch-brand .wordmark-label,.launch-home .launch-brand .brand-run{color:#f4f5eb}
+.launch-home .launch-brand .brand-ograph{color:#dde3d7}
+.launch-home>main{padding-top:140px}
+@media(max-width:750px){.launch-home>main{padding-top:130px}}
