@@ -1296,15 +1296,6 @@
           }
         },
         {
-          "name": "launchDate",
-          "label": "Launch date shown on Coming soon",
-          "type": "date",
-          "options": {
-            "format": "yyyy-MM-dd"
-          },
-          "description": "Displays the planned date only. Publish the full blog separately when ready."
-        },
-        {
           "name": "en",
           "label": "English",
           "type": "object",

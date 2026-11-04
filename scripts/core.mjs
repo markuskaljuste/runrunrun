@@ -47,7 +47,6 @@ export function validateRecord(type, item) {
   }
   if(type==='publication'){
     if(!['coming-soon','live'].includes(item.mode))throw new Error('Choose Coming soon or Live.');
-    if(item.launchDate&&(!/^\d{4}-\d{2}-\d{2}$/.test(item.launchDate)||!Number.isFinite(Date.parse(item.launchDate))||new Date(item.launchDate).toISOString().slice(0,10)!==item.launchDate))throw new Error('Add a valid launch date in YYYY-MM-DD format.');
     for(const lang of ['en'])for(const key of ['title','description'])if(typeof item[lang]?.[key]!=='string'||!item[lang][key].trim())throw new Error(`Add the coming-soon ${key} in ${lang.toUpperCase()}.`);
     return;
   }

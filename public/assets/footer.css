@@ -9,6 +9,7 @@
 .footer .sponsor-logos{display:flex;align-items:center;gap:30px;margin:0}
 .footer .sponsor-logos>a,.footer .sponsor-logos>div{display:flex;align-items:center;justify-content:center;min-width:44px;height:48px;max-width:130px;background:none;border:0;padding:0}
 .footer .sponsor-logos img{display:block;object-fit:contain;width:auto;height:44px;max-width:130px;max-height:44px;filter:url(#sponsor-cream)}
+.footer .sponsor-logos .sponsor-logo-on{height:36px;max-height:36px}
 .footer .sponsor-logos a:hover{opacity:.78}
 .footer .social-links{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;padding:0;color:#d8e0ce;margin:0}
 .footer .social-links-label{font-size:12px;line-height:1.5;color:inherit}
@@ -27,6 +28,7 @@
  .footer .sponsor-logos{gap:16px}
  .footer .sponsor-logos>a,.footer .sponsor-logos>div{height:32px;min-width:32px;max-width:100px}
  .footer .sponsor-logos img{height:32px;max-width:100px;max-height:32px}
+ .footer .sponsor-logos .sponsor-logo-on{height:26px;max-height:26px}
  .footer .social-links{order:1;gap:6px 14px}
  .footer .social-links-label{flex-basis:100%}
  .footer-bottom{flex-wrap:wrap;gap:10px 20px;font-size:10px}
