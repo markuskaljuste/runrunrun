@@ -3,8 +3,8 @@
 const RUNOGRAPH_SIGNUP = Object.freeze({
   sheetName: 'Runograph subscribers',
   origins: ['https://runograph.com', 'https://www.runograph.com', 'https://run-roam-journal-mk.markuskaljuste.chatgpt.site'],
-  consentVersion: '2026-11-04-v1',
-  consentText: 'I agree to receive occasional Runograph emails about new stories and updates. I can unsubscribe at any time.',
+  consentVersion: '2026-11-04-v2',
+  consentText: 'I agree to receive occasional Runograph emails about new stories and updates.',
   headers: ['Joined at (UTC)', 'Email', 'Consent', 'Consent version', 'Source', 'Status', 'ID'],
   dailyLimit: 1000
 });
@@ -21,7 +21,7 @@ function setup() {
 }
 
 function doGet() {
-  return ContentService.createTextOutput(JSON.stringify({service:'runograph-signup',version:1})).setMimeType(ContentService.MimeType.JSON);
+  return ContentService.createTextOutput(JSON.stringify({service:'runograph-signup',version:1,consentVersion:RUNOGRAPH_SIGNUP.consentVersion})).setMimeType(ContentService.MimeType.JSON);
 }
 
 function doPost(event) {

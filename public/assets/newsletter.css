@@ -1,18 +1,16 @@
-.signup{max-width:430px;margin-top:28px;color:#f4f5eb;text-shadow:none}
-.signup h2{font:400 15px/1.5 'DM Sans',Arial,sans-serif;letter-spacing:0;margin:0 0 12px;color:inherit}
+.signup{max-width:400px;margin-top:24px;color:#f4f5eb;text-shadow:none}
 .signup fieldset{border:0;padding:0;margin:0;min-width:0}
 .signup-label{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .signup-fields{display:flex;gap:8px}
-.signup-fields input{min-width:0;flex:1;width:100%;min-height:48px;padding:12px 14px;border:1px solid #f4f5eb99;border-radius:2px;background:#f7f6ef;color:#263b2e;font:400 14px/1.5 'DM Sans',Arial,sans-serif}
-.signup-fields button{flex-shrink:0;border:1px solid #f4f5eb88;border-radius:2px;background:#263b2e;color:#f4f5eb;padding:12px 18px;min-height:48px;font:400 13px/1.5 'DM Sans',Arial,sans-serif;cursor:pointer}
+.signup-fields input{min-width:0;flex:1;width:100%;min-height:44px;padding:10px 12px;border:1px solid #f4f5eb99;border-radius:2px;background:#f7f6ef;color:#263b2e;font:400 13px/1.5 'DM Sans',Arial,sans-serif}
+.signup-fields button{flex-shrink:0;border:1px solid #f4f5eb88;border-radius:2px;background:#263b2e;color:#f4f5eb;padding:10px 14px;min-height:44px;font:400 13px/1.5 'DM Sans',Arial,sans-serif;cursor:pointer}
 .signup-fields button:hover{background:#364e3e}
 .signup input:focus-visible,.signup button:focus-visible{outline:2px solid #d6e58a;outline-offset:3px}
 .signup-consent{display:flex;align-items:flex-start;gap:9px;margin-top:12px;font:400 11px/1.7 'DM Sans',Arial,sans-serif;color:#f4f5eb}
 .signup-consent input{width:15px;height:15px;flex-shrink:0;margin:3px 0 0;accent-color:#263b2e}
-.signup-consent a{color:inherit;text-decoration:underline;text-underline-offset:3px}
 .signup .signup-trap{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
 .signup-status{font:400 12px/1.7 'DM Sans',Arial,sans-serif;margin:12px 0 0;color:inherit}
 .signup-status:empty{margin:0}
 .signup fieldset:disabled{opacity:.6}
 .signup fieldset:disabled button{cursor:default}
-@media(max-width:750px){.signup{max-width:390px;margin-top:24px}.signup-fields button{padding:12px}.signup-consent{font-size:10px}}
+@media(max-width:750px){.signup{max-width:390px;margin-top:24px}.signup-fields button{padding:10px 12px}.signup-consent{font-size:10px}}
