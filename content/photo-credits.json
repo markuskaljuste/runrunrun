@@ -423,14 +423,14 @@
     "scope": "story"
   },
   {
-    "slug": "park-guell-path",
-    "path": "/assets/uploads/barcelona-hills-and-seafront/park-guell-path.jpg",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Park_G%C3%BCell_-_just_below_Casa_Trias_01.jpg",
-    "author": "Joe Mabel",
+    "slug": "turo-del-carmel-view",
+    "path": "/assets/uploads/barcelona-hills-and-seafront/turo-del-carmel-view.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Vistes_des_del_Tur%C3%B3_del_Carmel.jpg",
+    "author": "Brunnaiz",
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-    "labelEn": "A path near Casa Trias in Park Güell",
-    "labelEt": "A path near Casa Trias in Park Güell",
+    "labelEn": "Barcelona and the sea viewed from Turó del Carmel",
+    "labelEt": "Vaade Turó del Carmelilt Barcelonale ja merele",
     "scope": "story"
   },
   {
