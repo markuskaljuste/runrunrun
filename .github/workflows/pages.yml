@@ -19,11 +19,16 @@ jobs:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: '11.25.0'
+      - name: Install build dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
       - name: Set up Pages
         id: pages
         uses: actions/configure-pages@v5
-      - name: Build both languages
+      - name: Build public website
         run: npm run build
         env:
           BASE_PATH: ${{ steps.pages.outputs.base_path }}
@@ -31,6 +36,11 @@ jobs:
       - name: Check content and internal links
         run: npm run check
         env:
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+      - name: Build and verify encrypted reader preview
+        run: node scripts/build-backdoor.mjs && node scripts/check-backdoor.mjs
+        env:
+          READER_PREVIEW_PASSWORD: ${{ secrets.READER_PREVIEW_PASSWORD }}
           BASE_PATH: ${{ steps.pages.outputs.base_path }}
       - uses: actions/upload-pages-artifact@v4
         with:

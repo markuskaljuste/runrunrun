@@ -9,6 +9,12 @@
   "scripts": {
     "dev": "node scripts/serve.mjs",
     "build": "node scripts/build.mjs",
-    "check": "node scripts/check.mjs"
-  }
+    "check": "node scripts/check.mjs",
+    "build:readers": "node scripts/build-backdoor.mjs",
+    "check:readers": "node scripts/check-backdoor.mjs"
+  },
+  "devDependencies": {
+    "staticrypt": "3.5.4"
+  },
+  "packageManager": "pnpm@11.25.0"
 }
