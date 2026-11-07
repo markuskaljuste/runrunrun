@@ -5,10 +5,9 @@
   "countries": [
     "spain"
   ],
-  "places": [
-    "seville"
+  "placeNames": [
+    "Seville"
   ],
-  "placeNames": [],
   "image": "/assets/uploads/seville-marathon/guadalquivir-riverside.jpg",
   "coverFit": "cover",
   "ratings": {

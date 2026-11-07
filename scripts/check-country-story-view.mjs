@@ -30,3 +30,7 @@ for(const lang of ['en']){
  for(const post of data.posts.filter(p=>p.status==='published'))for(const entry of storyPlaceEntries(post,data,lang))assert(journal.includes(`value="${esc(storyPlaceKey(entry))}"`));
 }
 console.log('Passed country story view checks: no duplicate place tiles, combined country/city/text filters, multi-place matches and safe photo credits shown once as small captions.');
+
+input.value='';select.options=['all','place:nice','place:monaco','name:cap roux'].map(value=>({value}));
+runInNewContext(readFileSync(resolve(root,'public/assets/site.js'),'utf8'),{document,location:{pathname:'/journal/',search:'?place=name%3Acap%20roux'},URLSearchParams});
+assert.equal(select.value,'name:cap roux');assert(!cards[0].hidden);assert(cards[1].hidden);assert.equal(counter.textContent,'1 story');

@@ -3,7 +3,7 @@ import {readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {readContent,root,validateRecord,validateAll} from './core.mjs';
 import {countryGroups,countryBrowse,placeCard,buildCountryPages,buildPlacePages} from './countries.mjs';
-import {postPlaceSlugs,storyPlaceEntries,storiesForPlace,placeHasContent,comparePlaces} from './story-places.mjs';
+import {postPlaceSlugs,storyPlaceEntries,storiesForPlace,placeHasContent,comparePlaces,publishedStoryPlaces} from './story-places.mjs';
 
 const data=readContent(),record={slug:'destination-check',status:'published',date:'2026-11-02',countries:['france','monaco'],places:['nice','monaco'],placeNames:['Nitsa','Quiet coastal village'],en:{title:'A coastal run',excerpt:'My introduction.',body:'My written story.'},et:{title:'Rannikujooks',excerpt:'Sissejuhatus.',body:'Kirjutatud lugu.'}};
 const fixture=structuredClone(data);fixture.posts=[record];fixture.places=fixture.places.filter(p=>['nice','monaco','tallinn','genk'].includes(p.slug));
@@ -35,5 +35,15 @@ for(const lang of ['en','et']){
  buildPlacePages(options);const nice=pages.get(`/${lang}/places/nice/`);assert(nice.includes(`data-story="${record.slug}"`));assert(!nice.includes('class="place-image"'));assert(!nice.includes('Info coming soon.'));assert(!nice.includes('Info varsti.'));
 }
 const config=JSON.parse(readFileSync(resolve(root,'.pages.yml'),'utf8')),fields=config.content.find(c=>c.name==='posts').fields;
-assert(fields.some(f=>f.name==='places'&&f.type==='reference'&&f.options.multiple));assert(fields.some(f=>f.name==='placeNames'&&f.type==='string'&&f.list));
+assert(!fields.some(f=>f.name==='places'));assert(fields.some(f=>f.name==='placeNames'&&f.type==='string'&&f.list));
 console.log('Passed destination checks: written content first, blurred placeholder labels, compact country grids, story-first place pages, multiple places, manual name matching, legacy records and draft isolation.');
+
+const tagged={...record,places:[],placeNames:['New riverside village']};
+const taggedData={...fixture,posts:[tagged]},onlyPlaces=publishedStoryPlaces(taggedData,'en');
+assert.equal(onlyPlaces.length,1);assert.equal(onlyPlaces[0].name,'New riverside village');
+const listing=new Map();buildPlacePages({data:taggedData,lang:'en',url:p=>p,write:(path,html)=>listing.set(path,html),shell:(_lang,_path,_title,_description,html)=>html,card:()=>'',base:''});
+assert(listing.get('/en/places/').includes('New riverside village'));assert(listing.get('/en/places/').includes('?place=name%3Anew%20riverside%20village'));assert(!listing.get('/en/places/').includes('Genk'));
+const hiddenBrowse=countryBrowse({data:noStories,lang:'en',url:p=>p,full:true});assert(hiddenBrowse.includes('Belgium'));assert(hiddenBrowse.includes('Coming soon'));assert(!hiddenBrowse.includes('Genk'));assert(!hiddenBrowse.includes('Tallinn'));assert(!hiddenBrowse.includes('destination-count'));
+const franceGroup=countryGroups(fixture,'en').find(g=>g.slug==='france');assert(franceGroup.storyPlaces.some(e=>e.name==='Nice'));assert(!franceGroup.storyPlaces.some(e=>e.name==='Monaco'));
+assert.equal(publishedStoryPlaces({...taggedData,posts:[{...tagged,status:'draft'}]},'en').length,0);
+console.log('Passed story-tag checks: one free-form field, automatic new place cards, published-only labels/counts, country placeholders without city names, correct country matching and draft exclusion.');

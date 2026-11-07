@@ -5,9 +5,6 @@
   "countries": [
     "spain"
   ],
-  "places": [
-    "barcelona"
-  ],
   "image": "/assets/uploads/barcelona-hills-and-seafront/barcelona-waterfront.jpg",
   "coverFit": "cover",
   "routeMap": {
@@ -47,5 +44,8 @@
     "seoTitle": "Running in Barcelona | Runograph",
     "seoDescription": "My Barcelona runs: Parc del Carmel and the surrounding hills, city views and flatter jogging beside the sea.",
     "socialImage": "/assets/uploads/barcelona-hills-and-seafront/barcelona-waterfront.jpg"
-  }
+  },
+  "placeNames": [
+    "Barcelona"
+  ]
 }

@@ -15,3 +15,11 @@ input?.addEventListener('input',filter);
 cityFilter?.addEventListener('change',event=>{selectedCity=event.target.value;filter();});
 
 document.querySelector('[data-country-filter]')?.addEventListener('change',event=>{selected=event.target.value;filter();});
+
+// Place cards for newly written tags open the Journal with that tag selected.
+if(cityFilter&&typeof URLSearchParams!=='undefined'){
+ const requested=new URLSearchParams(location.search||'').get('place');
+ if(requested&&[...cityFilter.options].some(option=>option.value===requested)){
+  selectedCity=requested;cityFilter.value=requested;filter();
+ }
+}

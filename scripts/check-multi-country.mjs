@@ -32,7 +32,7 @@ for(const lang of ['en','et']){
  }
  assert(!pages.get(`/${lang}/countries/estonia/`).includes(`data-story="${journey.slug}"`));
  const hidden=structuredClone(fixture);hidden.posts[0].status='draft';hidden.places=[];
- assert(!countryGroups(hidden,lang).some(g=>g.slug==='france'||g.slug==='monaco'));
+ assert(countryGroups(hidden,lang).filter(g=>g.slug==='france'||g.slug==='monaco').every(g=>!g.hasContent),'Configured countries can remain Coming soon without exposing draft places.');
 }
 
 // Exercise the actual browser filter: the same card matches either country.

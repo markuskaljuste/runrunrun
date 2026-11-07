@@ -15,3 +15,21 @@ export function storyPlaceEntries(post,data,lang){
 export const storiesForPlace=(data,place)=>data.posts.filter(post=>post.status==='published'&&storyPlaceEntries(post,data,'en').some(entry=>entry.place?.slug===place.slug)).sort((a,b)=>b.date.localeCompare(a.date));
 export const placeHasContent=(place,data)=>place.status==='published'&&(!place.comingSoon||storiesForPlace(data,place).length>0);
 export const comparePlaces=(data,lang)=>(a,b)=>Number(placeHasContent(b,data))-Number(placeHasContent(a,data))||a[lang].name.localeCompare(b[lang].name,lang);
+
+// Public place lists come from published stories, including free-form tags.
+export function publishedStoryPlaces(data,lang,{country}={}){
+ const groups=new Map();
+ for(const post of data.posts.filter(p=>p.status==='published').sort((a,b)=>b.date.localeCompare(a.date))){
+  const countries=post.countries??(post.country?[post.country]:[]);
+  if(country&&!countries.includes(country))continue;
+  for(const entry of storyPlaceEntries(post,data,lang)){
+   if(country&&entry.place&&entry.place.country!==country)continue;
+   const key=storyPlaceKey(entry);
+   if(!groups.has(key))groups.set(key,{...entry,key,posts:[],countries:[]});
+   const group=groups.get(key);if(!group.posts.includes(post))group.posts.push(post);
+   const related=entry.place?[entry.place.country]:countries;
+   group.countries=[...new Set([...group.countries,...related])];
+  }
+ }
+ return [...groups.values()].sort((a,b)=>a.name.localeCompare(b.name,lang));
+}

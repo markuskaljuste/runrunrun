@@ -6,7 +6,7 @@ An English running and travel journal with optional translations on individual s
 
 1. Open https://app.pagescms.org/ and select your repository.
 2. Choose **Journal / Päevik**, create a post, and write its **English original**.
-3. Select the countries and all catalog places covered by the run. Add extra town or village names under **Add other towns and places**.
+3. Select the countries covered by the run. Under **Cities, villages and places**, add every place as a separate tag. New names work immediately; no place catalog entry is required.
 4. Add a cover photograph, inline photographs and any PDF, TXT, CSV or ZIP attachments.
 5. Use Draft while writing. Publish the English story when its title, introduction and body are complete.
 
@@ -52,9 +52,9 @@ To open the public blog, choose **Publishing** and switch the public mode to **L
 
 ## Destinations and places
 
-The catalog contains the author's 34 confirmed running places in 20 countries. Country cards with published stories appear first. Unwritten country and place cards have blurred cover images and Coming soon labels. Draft posts do not affect readiness or ordering.
+Configured countries remain visible, with countries that have published stories first. Countries without stories retain blurred Coming soon cover images, with no prewritten city labels or place counts. City names, place counts and the All running places listing come only from published story tags. Draft posts do not affect readiness or ordering.
 
-Country pages show story cards only, avoiding duplicate city/place cards beside the same story. The Journal has combined country, city/place and text filters. A story covering several cities matches each one. Known catalog places can be selected together; manual place names appear on the story and exact catalog-name matches are linked automatically. New names remain labels and do not create separate destination pages.
+Country pages show story cards only, avoiding duplicate city/place cards beside the same story. The Journal has combined country, city/place and text filters. A story covering several cities matches each one. The post editor has one free-form list, **Cities, villages and places**. Known names retain their old place-page links. A new name automatically appears in the place listing and links to the Journal with that place filter selected, without a separate setup step. Existing catalog records are retained internally for old URLs and country cover photographs; they are no longer a CMS collection.
 
 A single post can appear under several countries without duplicating its content. Catalog place references must belong to one of its selected countries. Old single-place records remain readable.
 
