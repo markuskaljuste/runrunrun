@@ -3,6 +3,7 @@ import {existsSync,readFileSync,readdirSync,statSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {root,readContent,validateRecord,markdown} from './core.mjs';
 import {isRouteFile} from '../public/assets/attachment-policy.js';
+import {safeRoutePath,validateSanitizedGpx,renderRouteDownloads} from './route-downloads.mjs';
 import {renderAttachments} from './attachments.mjs';
 import {attachmentUpload} from './upload-files.mjs';
 
@@ -24,13 +25,18 @@ const retired=['garmin-course.svg','route-line.svg','strava-activity.jpg'];
 for(const folder of ['public','dist']){
  const directory=resolve(root,folder);if(!existsSync(directory))continue;
  for(const file of files(directory)){
-  assert(!isRouteFile(file),`Private route export is present in ${folder}: ${file}`);
+  if(isRouteFile(file)){const route='/'+file.slice(directory.length+1);assert(safeRoutePath(route),`Unprepared route export is present in ${folder}: ${file}`);validateSanitizedGpx(readFileSync(file,'utf8'));}
   assert(!retired.includes(file.split('/').pop()),`Retired geographic route asset is present: ${file}`);
   if(file.endsWith('.html')){
    const html=readFileSync(file,'utf8');
-   for(const match of html.matchAll(/(?:href|src)="([^"]+)"/g))assert(!isRouteFile(match[1]),'A built page exposes a route download.');
+   for(const match of html.matchAll(/(?:href|src)="([^"]+)"/g))assert(!isRouteFile(match[1])||safeRoutePath(match[1].replace(process.env.BASE_PATH??'','')),'A built page exposes an unprepared route export.');
    for(const name of retired)assert(!html.includes(name),'A built page still shows an exact geographic route.');
   }
  }
 }
-console.log('Passed route privacy: no route downloads, route uploads, original route exports or old start/finish maps in the website output.');
+for(const file of files(resolve(root,'public/assets/routes'))){const xml=readFileSync(file,'utf8');assert(validateSanitizedGpx(xml)>2);for(const extra of ['<time>2024-02-18T07:31:10Z</time>','<extensions><hr>160</hr></extensions>','<speed>4</speed>','<wpt lat="1" lon="2"/>','<metadata/>'])assert.throws(()=>validateSanitizedGpx(xml.replace('</trkseg>',extra+'</trkseg>')));}
+for(const post of data.posts.filter(p=>p.status==='published'&&p.routeMap?.enabled)){
+ const markup=renderRouteDownloads(post,p=>p);assert(markup.includes('download>'));assert(!markup.includes('application/gpx'));assert.equal(renderRouteDownloads({...post,routeMap:{...post.routeMap,downloadsEnabled:false}},p=>p),'');
+ const home=readFileSync(resolve(root,'dist/index.html'),'utf8');if(!home.includes('data-publication="coming-soon"')){const page=readFileSync(resolve(root,'dist/journal',post.slug,'index.html'),'utf8');assert(page.includes(markup));assert(page.indexOf('class="route-downloads"')>page.indexOf('class="destination-rating"'));}
+}
+console.log('Passed route privacy: prepared coordinate/elevation-only GPX downloads after scores; timestamps, sensors, waypoints, original exports and arbitrary route uploads rejected.');

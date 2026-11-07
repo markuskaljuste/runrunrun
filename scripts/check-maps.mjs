@@ -35,6 +35,8 @@ for(const name of readdirSync(resolve(root,'public/assets/maps'))){
 const barcelona=validateMapData(JSON.parse(readFileSync(resolve(root,'public/assets/maps/barcelona.json'),'utf8'))),guide=barcelona.layers.find(l=>l.id==='seafront');
 assert(guide?.kind==='guide'&&guide.distanceKm>4.4&&guide.distanceKm<4.6);
 assert.equal(barcelona.layers.length,3);
+const legend=renderStoryMap(data.posts.find(p=>p.slug==='barcelona'),p=>p);assert(legend.includes('9.0 km out-and-back total (4.5 km each way)'));assert(legend.includes('9.4 km out-and-back total'));assert(legend.includes('m elevation gain (GPX)'));assert(!legend.includes('9.4 km one way'));
+for(const patch of [{ascentM:-1},{distanceKm:0},{distanceMode:'unknown'},{routeFile:'/assets/uploads/raw.gpx'}])assert.throws(()=>validateMapData({version:1,layers:[{...barcelona.layers[0],...patch}]}));
 assert.equal(barcelona.layers.find(l=>l.id==='gentler-run')?.kind,'personal');
 assert.equal(barcelona.layers.filter(l=>l.kind==='personal').length,2);
 for(const fields of [{version:1,layers:[]},{...barcelona,rawTrack:[]},{version:1,layers:[{...barcelona.layers[0],privateEndsOmitted:false}]},{version:1,layers:[{...barcelona.layers[0],paths:[[[1,2,3],[1,2,4]]]}]}])assert.throws(()=>validateMapData(fields));

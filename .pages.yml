@@ -123,7 +123,7 @@
             "unique": true,
             "rename": "safe"
           },
-          "description": "PDF, TXT, CSV või ZIP. Rajafaile veebilehel ei avaldata. / Route files are not published."
+          "description": "PDF, TXT, CSV or ZIP. Prepared GPX downloads are added automatically after the score; original activity exports are not uploaded."
         },
         {
           "name": "coverFit",
@@ -181,10 +181,21 @@
                   {
                     "value": "castellon",
                     "label": "Castellón marathon"
+                  },
+                  {
+                    "value": "seville",
+                    "label": "Seville marathon"
                   }
                 ]
               },
               "description": "Kaardid avanevad automaatselt. Starti ega finišit eraldi ei märgita. / Maps open automatically without start or finish markers."
+            },
+            {
+              "name": "downloadsEnabled",
+              "label": "Show prepared GPX downloads",
+              "type": "boolean",
+              "default": true,
+              "description": "Prepared routes contain coordinates and elevation only, without timestamps or training data. Downloads appear after the score."
             }
           ]
         },

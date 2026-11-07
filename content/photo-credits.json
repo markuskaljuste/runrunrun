@@ -454,5 +454,27 @@
     "labelEn": "Paved harbour front beside Gran Casino Castelló (story illustration)",
     "labelEt": "Sillutatud sadamapromenaad Gran Casino Castelló kõrval (loo illustratsioon)",
     "scope": "story"
+  },
+  {
+    "slug": "seville-riverside-story",
+    "path": "/assets/uploads/seville-marathon/guadalquivir-riverside.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Guadalquivir_embankment_in_Seville._Spain.jpg",
+    "author": "Ввласенко",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "labelEn": "Guadalquivir riverside path and Seville skyline (story illustration)",
+    "labelEt": "Guadalquivir riverside path and Seville skyline (story illustration)",
+    "scope": "story"
+  },
+  {
+    "slug": "seville-marathon-story",
+    "path": "/assets/uploads/seville-marathon/seville-marathon-2020.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Wmarat%C3%B3n_sevilla_2020An001.jpg",
+    "author": "Anual",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "labelEn": "Seville Marathon, 23 February 2020 (story illustration)",
+    "labelEt": "Seville Marathon, 23 February 2020 (story illustration)",
+    "scope": "story"
   }
 ]

@@ -106,3 +106,11 @@ The public homepage and its waitlist remain unchanged. Every Pages CMS save rebu
 This protects hosted HTML from casual access; it does not make a public source repository private. Photographs, route assets and source already saved in the public GitHub repository remain publicly accessible. Reader URLs are noindex and omitted from the public Coming soon sitemap.
 
 Build order: `pnpm install --frozen-lockfile --ignore-scripts`, public `build` and `check`, then `build:readers` and `check:readers` with the secret provided through the environment. Verification checks every encrypted page and internal link, exercises actual browser login JavaScript with WebCrypto, and tests incorrect credentials, session expiry, sign-out and cached Back navigation.
+
+## Prepared GPX downloads and map totals
+
+Stories with prepared personal map layers offer GPX downloads after the score. Disable them with **Show prepared GPX downloads** in the story map settings. Raw GPX/KML uploads and attachments stay blocked. Only validated files under `/assets/routes/` can be shipped; they contain latitude, longitude and elevation only. Timestamps, heart rate, cadence, temperature, other extensions, waypoints and private metadata are not copied. Without timestamps there is no recorded pace or elapsed time. A route still contains its complete ordered geometry; the website adds no start/finish pins.
+
+Map legends use the full recorded distance, including both legs of out-and-back runs. The Barcelona seafront guide states both its one-way length and the doubled out-and-back total. It has no GPX-based ascent estimate. Personal route distance is calculated from the original GPX coordinates. Elevation gain is an estimate from successive GPX elevations with changes smaller than 3 m ignored, rounded to 10 m, to reduce GPS noise. It is not an official course measurement or a claim to match Garmin's proprietary corrected totals.
+
+Seville's story describes the 18 February 2024 recording. Its approximately 42.3 km GPS length is distinguished from the official 42.195 km marathon distance. The train collision note refers to the Madrid to Seville line on 28 October 2026, without claiming the same physical train. Licensed illustrative race photography is explicitly dated 2020.
