@@ -476,5 +476,16 @@
     "labelEn": "Seville Marathon, 23 February 2020 (story illustration)",
     "labelEt": "Seville Marathon, 23 February 2020 (story illustration)",
     "scope": "story"
+  },
+  {
+    "slug": "presa-del-rio-story",
+    "path": "/assets/uploads/tenerife-el-rio-arico/presa-del-rio-landscape.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Presa_de_El_R%C3%ADo_-_panoramio_(3).jpg",
+    "author": "javiersanp",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "labelEn": "Presa del Río and its ravine (story illustration)",
+    "labelEt": "Presa del Río and its ravine (story illustration)",
+    "scope": "story"
   }
 ]
