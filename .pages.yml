@@ -171,6 +171,10 @@
                   {
                     "value": "seville",
                     "label": "Seville marathon"
+                  },
+                  {
+                    "value": "tenerife-south-coast",
+                    "label": "Tenerife south coast"
                   }
                 ]
               },
