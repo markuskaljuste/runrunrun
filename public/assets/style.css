@@ -96,3 +96,14 @@
 .runograph-score>small{display:inline;margin:0;font-size:11px;color:#52634e}
 .card-image>.runograph-score{position:absolute;top:14px;right:14px;background:var(--cream);box-shadow:0 2px 12px #182c281a;pointer-events:none}
 @media(max-width:720px){.card-image>.runograph-score{top:10px;right:10px}.runograph-score{padding:6px 9px}.runograph-score>strong{font-size:18px}}
+
+.about-hero{width:89%;max-width:1100px;margin:0 auto;padding:48px 0;grid-template-columns:minmax(0,1fr) 260px;gap:56px}
+.about-hero h1{font-size:clamp(36px,4.2vw,54px)}
+.about-hero .eyebrow{margin-bottom:16px}
+.about-hero p{margin-top:20px;max-width:650px}
+.about-hero figure{width:100%;max-width:260px;margin:0;justify-self:end}
+.about-hero img{width:100%;height:auto;aspect-ratio:1;object-fit:cover}
+.about-body{padding-top:12px}
+.about-body>.prose{width:100%;max-width:900px}
+.about-body .story-media img[src$="/karting.jpg"]{height:auto;aspect-ratio:20/7;object-fit:cover;object-position:center top}
+@media(max-width:720px){.about-hero{grid-template-columns:1fr;gap:24px;padding:36px 0}.about-hero figure{max-width:230px;justify-self:start}.about-hero h1{font-size:36px}.about-body{padding-top:4px}}

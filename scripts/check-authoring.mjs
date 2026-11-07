@@ -6,6 +6,9 @@ import {attachmentUpload} from './upload-files.mjs';
 import {insertMarkup} from '../public/admin/markdown-editor.js';
 
 assert.equal(inline('A **bold** word'),'A <strong>bold</strong> word');
+assert.equal(markdown('A paragraph.\n## Free run clubs\nA club introduction.'),'<p>A paragraph.</p>\n<h2>Free run clubs</h2>\n<p>A club introduction.</p>');
+assert.equal(markdown('A paragraph.\r\n###\tClub name\r\nDetails.'),'<p>A paragraph.</p>\n<h3>Club name</h3>\n<p>Details.</p>');
+assert.equal(markdown('Use ## marks inside a sentence.'),'<p>Use ## marks inside a sentence.</p>');
 assert(inline('**[Strava](https://strava.com/athletes/example)**').includes('<strong><a '));
 assert(inline('[**Strava**](https://strava.com/athletes/example)').includes('><strong>Strava</strong></a>'));
 assert(!markdown('[Download GPX](/assets/uploads/course.gpx)','/blog').includes('href='));

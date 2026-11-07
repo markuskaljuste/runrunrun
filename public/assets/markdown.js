@@ -27,11 +27,11 @@ function picture(block,base,credit=''){
  return `<figure class="story-media">${target?`<a href="${escapeText(assetUrl(target,base))}" rel="noopener noreferrer">${img}</a>`:img}${caption?`<figcaption>${caption}</figcaption>`:''}</figure>`;
 }
 export function markdown(body='',base=''){
- const blocks=String(body).split(/\n\s*\n/).map(block=>block.trim()).filter(Boolean),isCredit=text=>/^(?:Photo|Foto):\s/i.test(text??'');
+ const blocks=String(body).replace(/\r\n?/g,'\n').replace(/^(#{1,3}[ \t]+[^\n]+)$/gm,'\n$1\n').split(/\n\s*\n/).map(block=>block.trim()).filter(Boolean),isCredit=text=>/^(?:Photo|Foto):\s/i.test(text??'');
  return blocks.map((text,index)=>{
   if(isCredit(text)&&index>0&&picture(blocks[index-1],base))return '';
   const image=picture(text,base,isCredit(blocks[index+1])?blocks[index+1]:'');if(image)return image;
-  const heading=/^(#{1,3})\s+([^\n]+)$/.exec(text);if(heading){const level=heading[1].length===3?3:2;return `<h${level}>${inline(heading[2],base)}</h${level}>`;}
+  const heading=/^(#{1,3})[ \t]+([^\n]+)$/.exec(text);if(heading){const level=heading[1].length===3?3:2;return `<h${level}>${inline(heading[2],base)}</h${level}>`;}
   if(/^> /.test(text))return `<blockquote>${inline(text.replace(/^> /gm,''),base).replaceAll('\n','<br>')}</blockquote>`;
   if(/^\d+\. /.test(text))return `<ol>${text.split('\n').map(line=>`<li>${inline(line.replace(/^\d+\. /,''),base)}</li>`).join('')}</ol>`;
   if(/^[-*] /.test(text))return `<ul>${text.split('\n').map(line=>`<li>${inline(line.replace(/^[-*] /,''),base)}</li>`).join('')}</ul>`;

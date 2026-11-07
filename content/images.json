@@ -19,14 +19,14 @@
     }
   },
   "about": {
-    "src": "/assets/forest.jpg",
+    "src": "/assets/uploads/my-story/markus-portrait.jpg",
     "en": {
-      "alt": "Sunlight in a green forest",
-      "caption": "Editorial imagery; not the author’s own photograph."
+      "alt": "Markus Kaljuste wearing glasses and a dark green polo shirt",
+      "caption": ""
     },
     "et": {
-      "alt": "Päikesevalgus rohelises metsas",
-      "caption": "Illustratiivne foto; see ei ole autori isiklik foto."
+      "alt": "Markus Kaljuste prillide ja tumerohelise polosärgiga",
+      "caption": ""
     }
   }
 }
