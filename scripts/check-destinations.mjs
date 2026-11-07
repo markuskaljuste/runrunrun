@@ -18,6 +18,9 @@ for(const slug of ['nice','monaco'])assert.equal(storiesForPlace({...fixture,pos
 for(const changes of [{places:'nice'},{places:['nice','nice']},{placeNames:'Village'},{placeNames:['']},{placeNames:['Village','village']},{placeNames:['x'.repeat(121)]}])assert.throws(()=>validateRecord('posts',{...record,...changes}));
 assert.throws(()=>validateAll({...fixture,posts:[{...record,places:['nice','genk']}]}),'Every linked place must belong to a selected country.');
 const noStories={...fixture,posts:[{...record,status:'draft'}]};
+const hiddenCountry=structuredClone(fixture);hiddenCountry.countries.find(c=>c.slug==='monaco').listed=false;
+const hiddenCountryCards=countryBrowse({data:hiddenCountry,lang:'en',url:p=>p,full:true});
+assert(!hiddenCountryCards.includes('data-category="monaco"'));assert(hiddenCountryCards.includes('data-category="france"'));
 assert(!placeHasContent(fixture.places.find(p=>p.slug==='nice'),noStories));
 assert(placeHasContent(tallinn,noStories));
 

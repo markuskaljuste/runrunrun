@@ -8,5 +8,6 @@
     "name": "Monaco",
     "description": ""
   },
-  "coverImage": "/assets/uploads/nice-to-monaco/monaco-street-cropped.jpg"
+  "coverImage": "/assets/uploads/nice-to-monaco/monaco-street-cropped.jpg",
+  "listed": false
 }

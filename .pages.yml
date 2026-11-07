@@ -956,6 +956,13 @@
           "required": true
         },
         {
+          "name": "listed",
+          "label": "Show in Destinations",
+          "type": "boolean",
+          "default": true,
+          "description": "Turn off to keep a country out of the destination list when it is covered within another country’s story."
+        },
+        {
           "name": "coverImage",
           "label": "Destination cover image",
           "type": "image",

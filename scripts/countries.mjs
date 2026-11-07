@@ -15,7 +15,7 @@ const pendingBadge=lang=>`<span class="destination-state">${pendingLabel(lang)}<
 export function countryGroups(data,lang){
  const posts=data.posts.filter(p=>p.status==='published').sort((a,b)=>b.date.localeCompare(a.date)),places=publishedPlaces(data);
  const groups=data.countries.map(country=>{
-  const group={slug:country.slug,coverImage:country.coverImage||'',name:country[lang].name,description:country[lang].description||'',posts:posts.filter(p=>postCountries(p).includes(country.slug)),places:places.filter(p=>p.country===country.slug).sort(comparePlaces(data,lang)),storyPlaces:publishedStoryPlaces(data,lang,{country:country.slug})};
+  const group={listed:country.listed!==false,slug:country.slug,coverImage:country.coverImage||'',name:country[lang].name,description:country[lang].description||'',posts:posts.filter(p=>postCountries(p).includes(country.slug)),places:places.filter(p=>p.country===country.slug).sort(comparePlaces(data,lang)),storyPlaces:publishedStoryPlaces(data,lang,{country:country.slug})};
   group.hasContent=group.posts.length>0;
   return group;
  }).sort((a,b)=>b.posts.length-a.posts.length||a.name.localeCompare(b.name,lang));
@@ -31,7 +31,7 @@ function countryCard(group,{data,lang,url}){
 }
 
 export function countryBrowse({data,lang,url,full=false}){
- const groups=countryGroups(data,lang),countries=groups.filter(g=>g.slug!=='general');
+ const groups=countryGroups(data,lang),countries=groups.filter(g=>g.slug!=='general'&&g.listed!==false);
  if(full)return `<div class="destination-grid" data-list data-count-kind="countries">${countries.map(g=>countryCard(g,{data,lang,url})).join('')}</div>${groups.some(g=>g.slug==='general')?`<a class="text-link general-stories" href="${url('/'+lang+'/countries/general/')}">${lang==='et'?'Üldised jooksulood':'General running stories'}</a>`:''}`;
  if(!countries.length)return '';
  return `<div class="country-discovery"><div class="destination-discovery-heading"><h2>${lang==='et'?'Kus olen jooksnud':'Where I’ve run'}</h2><a class="text-link" href="${url('/'+lang+'/countries/')}">${lang==='et'?'Vaata kõiki riike':'Explore all countries'}</a></div><div class="country-links">${countries.slice(0,6).map(g=>`<a class="country-link" href="${url('/'+lang+'/countries/'+g.slug+'/')}"><span>${esc(g.name)}</span><small>${g.hasContent?quantity(g.posts.length,lang,'stories'):pendingLabel(lang)}</small></a>`).join('')}</div></div>`;
@@ -43,7 +43,7 @@ export function placeCard(place,{data,lang,url}){
 }
 
 export function buildCountryPages({data,lang,url,write,shell,card}){
- const groups=countryGroups(data,lang),countries=groups.filter(g=>g.slug!=='general'),et=lang==='et',heading=et?'Kus olen jooksnud':'Where I’ve run';
+ const groups=countryGroups(data,lang),countries=groups.filter(g=>g.slug!=='general'&&g.listed!==false),et=lang==='et',heading=et?'Kus olen jooksnud':'Where I’ve run';
  const intro=et?'Riigid, linnad ja paigad, kuhu jooksutossud on mind viinud.':'Countries, cities and places I’ve explored in my running shoes.';
  write('/'+lang+'/countries/',shell(lang,'countries/',heading,intro,`<section class="section page-heading destination-heading"><div class="eyebrow">${et?'Runograph / Jooksupaigad':'Runograph / Running places'}</div><h1>${heading}</h1><p>${intro}</p><div class="destination-totals"><span>${quantity(countries.length,lang,'countries')}</span><span>${quantity(publishedStoryPlaces(data,lang).length,lang,'places')}</span><a href="${url('/'+lang+'/places/')}">${et?'Kõik jooksukohad':'All running places'}</a></div></section><section class="section destination-index"><div class="listing-tools"><span class="results-count" aria-live="polite">${quantity(countries.length,lang,'countries')}</span><label class="search"><span aria-hidden="true">⌕</span><input type="search" placeholder="${et?'Otsi riiki või kohta':'Search countries or places'}" aria-label="${et?'Otsi riiki või kohta':'Search countries or places'}"></label></div>${countryBrowse({data,lang,url,full:true})}<p class="empty-state" hidden>${et?'Vasteid ei leitud.':'No matches found.'}</p></section>`));
  for(const group of groups){
