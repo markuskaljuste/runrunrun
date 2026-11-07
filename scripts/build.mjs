@@ -8,7 +8,7 @@ import { resolve } from 'node:path';
 import { root, readContent, validateAll, esc, safeUrl, inline, markdown } from './core.mjs';
 import {isComingSoon,buildComingSoon,renderComingSoonPage} from './publication.mjs';
 import {wordmarkText,shareBar,commentsSection,buildContactPages} from './engagement.mjs';
-import {renderRating} from './ratings.mjs';
+import {renderRating,renderScoreBadge,ratingAverage} from './ratings.mjs';
 import {renderAttachments} from './attachments.mjs';
 import {renderStoryMap} from './story-maps.mjs';
 import {storyPlaceEntries,storyPlaceKey,placeHasContent,storiesForPlace} from './story-places.mjs';
@@ -37,9 +37,9 @@ const published=type=>data[type].filter(p=>p.status==='published').sort((a,b)=>b
 const minutes=text=>Math.max(1,Math.ceil(text.split(/\s+/).length/200));
 const category=(p,t)=>t[p.category+'Cat']??p.category;
 function postCountryLinks(post,lang){return countrySlugs(post).map(slug=>`<a href="${url('/'+lang+'/countries/'+slug+'/')}">${esc(countryName(slug,lang,data))}</a>`).join(' <span aria-hidden="true">·</span> ');}
-function card(p,lang){
+function card(p,lang,{showScore=false}={}){
  const t=translations[lang],contentLang=storyLanguage(p,lang),v=storyFields(p,lang),href=url(storyPath(p,lang));
- return `<article class="card" data-search="${esc((v.title+' '+v.excerpt+' '+storyPlaceEntries(p,data,lang).map(e=>e.name).join(' ')+' '+countrySlugs(p).map(slug=>countryName(slug,lang,data)).join(' ')).toLowerCase())}" data-category="${esc(countrySlugs(p).join(' '))}" data-places="${esc(JSON.stringify(storyPlaceEntries(p,data,lang).map(storyPlaceKey)))}"><a class="card-image" aria-label="${esc(v.title)}" href="${href}"><img src="${esc(image(p.image))}" alt="" width="900" height="650" loading="lazy"></a><div class="card-content"><div class="eyebrow">${postCountryLinks(p,lang)} <span>·</span> ${minutes(v.body)} ${t.minutes}${contentLang!==lang?` <span>·</span> <span lang="${contentLang}">${contentLang==='en'?'English':'Eesti'}</span>`:''}</div><h3><a lang="${contentLang}" href="${href}">${esc(v.title)}</a></h3>${storyLanguageLinks(p)}<p lang="${contentLang}">${esc(v.excerpt)}</p><span class="card-date">${formattedDate(p.date,lang)}</span></div></article>`;
+ return `<article class="card" data-search="${esc((v.title+' '+v.excerpt+' '+storyPlaceEntries(p,data,lang).map(e=>e.name).join(' ')+' '+countrySlugs(p).map(slug=>countryName(slug,lang,data)).join(' ')).toLowerCase())}" data-category="${esc(countrySlugs(p).join(' '))}" data-places="${esc(JSON.stringify(storyPlaceEntries(p,data,lang).map(storyPlaceKey)))}"><a class="card-image" aria-label="${esc(v.title)}" href="${href}"><img src="${esc(image(p.image))}" alt="" width="900" height="650" loading="lazy">${showScore?renderScoreBadge(ratingAverage(p.ratings),lang):''}</a><div class="card-content"><div class="eyebrow">${postCountryLinks(p,lang)} <span>·</span> ${minutes(v.body)} ${t.minutes}${contentLang!==lang?` <span>·</span> <span lang="${contentLang}">${contentLang==='en'?'English':'Eesti'}</span>`:''}</div><h3><a lang="${contentLang}" href="${href}">${esc(v.title)}</a></h3>${storyLanguageLinks(p)}<p lang="${contentLang}">${esc(v.excerpt)}</p><span class="card-date">${formattedDate(p.date,lang)}</span></div></article>`;
 }
 function wordmark(lang,footer=false){
  const branding=data.branding,logo=footer?(branding.footerLogo||branding.logo):branding.logo;

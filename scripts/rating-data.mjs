@@ -6,3 +6,10 @@ export function validateRatings(ratings){
  for(const [key] of ratingCriteria){const r=ratings[key]??{};if(!['en','et'].every(lang=>r[lang]==null||(typeof r[lang]==='string'&&r[lang].length<=240)))throw new Error('Add short rating notes, up to 240 characters per language.');if(r.score!=null&&(!Number.isInteger(r.score)||r.score<1||r.score>10))throw new Error('Rating scores must be whole numbers from 1 to 10.');if(ratings.enabled&&r.score==null)throw new Error('Fill in all five scores before showing the destination rating.');}
 }
 export function ratingAverage(ratings){if(!ratings?.enabled)return null;validateRatings(ratings);return Math.round(ratingCriteria.reduce((sum,[key])=>sum+ratings[key].score,0)/ratingCriteria.length*10)/10;}
+export function publishedRatingAverage(posts){
+ const scores=posts.filter(p=>p.status==='published').map(p=>ratingAverage(p.ratings)).filter(score=>score!==null);
+ return scores.length?Math.round(scores.reduce((sum,score)=>sum+score,0)/scores.length*10)/10:null;
+}
+export function compareStoryRatings(a,b){
+ return (ratingAverage(b.ratings)??-1)-(ratingAverage(a.ratings)??-1)||b.date.localeCompare(a.date)||a.slug.localeCompare(b.slug);
+}

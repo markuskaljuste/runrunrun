@@ -98,6 +98,7 @@ await import('./check-authoring.mjs');
 await import('./check-story-publishing.mjs');
 
 await import('./check-destinations.mjs');
+await import('./check-destination-scores.mjs');
 
 await import('./check-country-story-view.mjs');
 
