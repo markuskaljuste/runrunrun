@@ -111,3 +111,5 @@
 .about-body{padding-bottom:38px}.about-contact{padding-top:0}.about-contact-inner{max-width:900px;margin:0 auto;padding-top:36px;border-top:1px solid var(--line)}.about-contact h2{font-size:32px}.about-contact .contact-intro{margin:16px 0 24px}.about-contact .social-links{margin:0 0 26px}.about-contact .contact-form{max-width:700px}.about-contact .contact-form textarea{min-height:160px}
 
 .about-intro{background:var(--green);color:#f4f5eb}.about-intro .about-hero h1,.about-intro .about-hero .eyebrow{color:inherit}.about-intro .about-hero p{color:#e0e5d9}
+
+.about-body{padding-top:60px}.about-body>.prose>h2:first-child{margin-top:0}@media(max-width:720px){.about-body{padding-top:40px}}
