@@ -82,6 +82,7 @@ export function validateRecord(type, item) {
   }
 
   if (type === 'countries') {
+    if(item.coverImage!=null&&(typeof item.coverImage!=='string'||(item.coverImage&&safeUrl(item.coverImage)==='#')))throw new Error('Choose a valid country cover image.');
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.slug??'') || item.slug==='general') throw new Error('Choose a country URL using lowercase letters and hyphens; general is reserved.');
     for (const lang of ['en']) if (!item[lang]?.name?.trim() || (item[lang].description!=null&&typeof item[lang].description!=='string')) throw new Error(`Add the country name in ${lang.toUpperCase()}.`);
     return;

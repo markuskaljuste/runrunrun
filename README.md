@@ -58,6 +58,8 @@ Country pages show story cards only, avoiding duplicate city/place cards beside 
 
 A single post can appear under several countries without duplicating its content. Catalog place references must belong to one of its selected countries. Old single-place records remain readable.
 
+Each country can have its own **Destination cover image** under **Countries** in Pages CMS. This overrides the country card and social preview without changing the linked story or its cover. Leave it empty to keep automatic cover selection.
+
 ## Scores
 
 Open a post's **Runograph score / Runographi hinnang** section. Enter whole-number scores from 1 to 10 for safety, scenery, running surface, access and running experience. Add optional English notes, up to 240 characters, and enable **Show rating**. All five scores are required when enabled.

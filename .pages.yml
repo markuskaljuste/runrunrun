@@ -952,6 +952,12 @@
           "required": true
         },
         {
+          "name": "coverImage",
+          "label": "Destination cover image",
+          "type": "image",
+          "description": "Optional country-card photograph, independent of a story’s cover. Leave empty to use the latest published story or the Coming soon image."
+        },
+        {
           "name": "en",
           "type": "object",
           "label": "English",

@@ -14,7 +14,7 @@ const pendingBadge=lang=>`<span class="destination-state">${pendingLabel(lang)}<
 export function countryGroups(data,lang){
  const posts=data.posts.filter(p=>p.status==='published').sort((a,b)=>b.date.localeCompare(a.date)),places=publishedPlaces(data);
  const groups=data.countries.map(country=>{
-  const group={slug:country.slug,name:country[lang].name,description:country[lang].description||'',posts:posts.filter(p=>postCountries(p).includes(country.slug)),places:places.filter(p=>p.country===country.slug).sort(comparePlaces(data,lang)),storyPlaces:publishedStoryPlaces(data,lang,{country:country.slug})};
+  const group={slug:country.slug,coverImage:country.coverImage||'',name:country[lang].name,description:country[lang].description||'',posts:posts.filter(p=>postCountries(p).includes(country.slug)),places:places.filter(p=>p.country===country.slug).sort(comparePlaces(data,lang)),storyPlaces:publishedStoryPlaces(data,lang,{country:country.slug})};
   group.hasContent=group.posts.length>0;
   return group;
  }).sort((a,b)=>Number(b.hasContent)-Number(a.hasContent)||a.name.localeCompare(b.name,lang));
@@ -26,7 +26,7 @@ export function countryGroups(data,lang){
 function countryCard(group,{data,lang,url}){
  const cover=group.posts.find(p=>p.image)??group.places.find(p=>placeHasContent(p,data))??group.places[0];
  const search=[group.name,...group.storyPlaces.map(p=>p.name),...group.posts.flatMap(p=>[p.en?.title,p.et?.title,...storyPlaceEntries(p,data,lang).map(e=>e.name)])].filter(Boolean).join(' ');
- return `<article class="card destination-card${group.hasContent?'':' destination-pending'}" data-has-content="${group.hasContent}" data-search="${esc(search)}" data-category="${esc(group.slug)}"><a class="destination-cover" aria-label="${esc(group.name)}${group.hasContent?'':': '+pendingLabel(lang)}" href="${url('/'+lang+'/countries/'+group.slug+'/')}"><img src="${esc(asset(cover?.image,url))}" width="1000" height="700" alt="" loading="lazy">${group.storyPlaces.length?`<span class="destination-count">${quantity(group.storyPlaces.length,lang,'places')}</span>`:''}${group.hasContent?'':pendingBadge(lang)}</a><div class="destination-copy"><h2><a href="${url('/'+lang+'/countries/'+group.slug+'/')}">${esc(group.name)}</a></h2>${group.storyPlaces.length?`<p>${esc(group.storyPlaces.map(p=>p.name).join(' · '))}</p>`:''}${group.posts.length?`<small>${quantity(group.posts.length,lang,'stories')}</small>`:''}</div></article>`;
+ return `<article class="card destination-card${group.hasContent?'':' destination-pending'}" data-has-content="${group.hasContent}" data-search="${esc(search)}" data-category="${esc(group.slug)}"><a class="destination-cover" aria-label="${esc(group.name)}${group.hasContent?'':': '+pendingLabel(lang)}" href="${url('/'+lang+'/countries/'+group.slug+'/')}"><img src="${esc(asset(group.coverImage||cover?.image,url))}" width="1000" height="700" alt="" loading="lazy">${group.storyPlaces.length?`<span class="destination-count">${quantity(group.storyPlaces.length,lang,'places')}</span>`:''}${group.hasContent?'':pendingBadge(lang)}</a><div class="destination-copy"><h2><a href="${url('/'+lang+'/countries/'+group.slug+'/')}">${esc(group.name)}</a></h2>${group.storyPlaces.length?`<p>${esc(group.storyPlaces.map(p=>p.name).join(' · '))}</p>`:''}${group.posts.length?`<small>${quantity(group.posts.length,lang,'stories')}</small>`:''}</div></article>`;
 }
 
 export function countryBrowse({data,lang,url,full=false}){
@@ -51,7 +51,7 @@ export function buildCountryPages({data,lang,url,write,shell,card}){
   const header=`<section class="section country-heading"><a class="breadcrumb" href="${url('/'+lang+'/countries/')}">${heading}</a><h1>${esc(group.name)}</h1><p>${description}</p></section>`;
   const items=group.posts.map(p=>card(p,lang)).join('');
   const grid=`<section class="section country-content" aria-label="${description}"><div class="destination-grid country-content-grid">${items}</div>${items?'':`<p class="country-empty">${et?'Lood on tulekul.':'Stories coming soon.'}</p>`}</section>`;
-  write('/'+lang+'/'+path,shell(lang,path,group.name+' · '+(et?'Jooksupaigad':'Running places'),description,header+grid,{ogImage:cover?.image,noindex:!group.hasContent}));
+  write('/'+lang+'/'+path,shell(lang,path,group.name+' · '+(et?'Jooksupaigad':'Running places'),description,header+grid,{ogImage:group.coverImage||cover?.image,noindex:!group.hasContent}));
  }
 }
 
