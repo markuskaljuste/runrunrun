@@ -3,7 +3,8 @@ import {existsSync,readFileSync,readdirSync,statSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {root,readContent,validateRecord,markdown} from './core.mjs';
 import {isRouteFile} from '../public/assets/attachment-policy.js';
-import {safeRoutePath,validateSanitizedGpx,renderRouteDownloads} from './route-downloads.mjs';
+import {safeRoutePath,validateSanitizedGpx,renderRouteDownload} from './route-downloads.mjs';
+import {renderStoryMap} from './story-maps.mjs';
 import {renderAttachments} from './attachments.mjs';
 import {attachmentUpload} from './upload-files.mjs';
 
@@ -36,7 +37,21 @@ for(const folder of ['public','dist']){
 }
 for(const file of files(resolve(root,'public/assets/routes'))){const xml=readFileSync(file,'utf8');assert(validateSanitizedGpx(xml)>2);for(const extra of ['<time>2024-02-18T07:31:10Z</time>','<extensions><hr>160</hr></extensions>','<speed>4</speed>','<wpt lat="1" lon="2"/>','<metadata/>'])assert.throws(()=>validateSanitizedGpx(xml.replace('</trkseg>',extra+'</trkseg>')));}
 for(const post of data.posts.filter(p=>p.status==='published'&&p.routeMap?.enabled)){
- const markup=renderRouteDownloads(post,p=>p);assert(markup.includes('download>'));assert(!markup.includes('application/gpx'));assert.equal(renderRouteDownloads({...post,routeMap:{...post.routeMap,downloadsEnabled:false}},p=>p),'');
- const home=readFileSync(resolve(root,'dist/index.html'),'utf8');if(!home.includes('data-publication="coming-soon"')){const page=readFileSync(resolve(root,'dist/journal',post.slug,'index.html'),'utf8');assert(page.includes(markup));assert(page.indexOf('class="route-downloads"')>page.indexOf('class="destination-rating"'));}
+ const layers=JSON.parse(readFileSync(resolve(root,'public/assets/maps',post.routeMap.mapId+'.json'),'utf8')).layers;
+ const map=renderStoryMap(post,p=>p);
+ for(const layer of layers){
+  const markup=renderRouteDownload(post,layer,p=>p);
+  if(layer.kind==='guide'){assert.equal(markup,'');continue;}
+  assert(markup.includes('download>'));assert(map.includes(markup));assert(!markup.includes('application/gpx'));
+  assert.equal(renderRouteDownload({...post,routeMap:{...post.routeMap,downloadsEnabled:false}},layer,p=>p),'');
+  assert(renderRouteDownload(post,layer,p=>'/preview'+p).includes('href="/preview'+layer.routeFile+'"'));
+  assert.throws(()=>renderRouteDownload(post,{...layer,routeFile:'/assets/uploads/raw.gpx'},p=>p));
+ }
+ assert(!renderStoryMap({...post,routeMap:{...post.routeMap,downloadsEnabled:false}},p=>p).includes('map-route-download'));
+ const home=readFileSync(resolve(root,'dist/index.html'),'utf8');if(!home.includes('data-publication="coming-soon"')){
+  const page=readFileSync(resolve(root,'dist/journal',post.slug,'index.html'),'utf8');assert(!page.includes('class="route-downloads"'));
+  assert(page.indexOf('class="map-route-download"')<page.indexOf('class="destination-rating"'));
+  assert.equal((page.match(/class="map-route-download"/g)??[]).length,layers.filter(l=>l.kind==='personal'&&l.routeFile).length);
+ }
 }
-console.log('Passed route privacy: prepared coordinate/elevation-only GPX downloads after scores; timestamps, sensors, waypoints, original exports and arbitrary route uploads rejected.');
+console.log('Passed route privacy: prepared coordinate/elevation-only GPX downloads inside map legends; disabled downloads, guide exclusion, base paths and rejection of timestamps, sensors and original exports.');

@@ -1,7 +1,6 @@
-import {readFileSync,existsSync} from 'node:fs';
+import {readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {root,esc} from './core.mjs';
-import {validateMapData} from '../public/assets/map-data.js';
 export const safeRoutePath=value=>/^\/assets\/routes\/[a-z0-9]+(?:-[a-z0-9]+)*\.gpx$/.test(value??'');
 export function validateSanitizedGpx(xml){
  // Accept only the deliberately small export format, never arbitrary Garmin XML.
@@ -11,12 +10,9 @@ export function validateSanitizedGpx(xml){
  if(points.length<2||points.length>20000||points.some(p=>Math.abs(Number(p[1]))>90||Math.abs(Number(p[2]))>180||!Number.isFinite(Number(p[3]))||Math.abs(Number(p[3]))>10000))throw Error('Invalid route coordinates.');
  return points.length;
 }
-export function renderRouteDownloads(post,url){
- if(!post.routeMap?.enabled||post.routeMap.downloadsEnabled===false)return '';
- const id=post.routeMap.mapId;if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id??''))return '';
- const file=resolve(root,'public/assets/maps',id+'.json');if(!existsSync(file))return '';
- const layers=validateMapData(JSON.parse(readFileSync(file,'utf8'))).layers.filter(l=>l.kind==='personal'&&l.routeFile);
- if(!layers.length)return '';
- for(const layer of layers)validateSanitizedGpx(readFileSync(resolve(root,'public','.'+layer.routeFile),'utf8'));
- return `<section class="route-downloads"><h2>Take the route with you</h2><ul>${layers.map(l=>`<li><a class="text-link" href="${url(l.routeFile)}" download>${esc(layers.length===1?'Download GPX':l.label+' · Download GPX')}</a></li>`).join('')}</ul><p>Route line and elevation only. No pace, timestamps or training data.</p></section>`;
+export function renderRouteDownload(post,layer,url){
+ if(!post.routeMap?.enabled||post.routeMap.downloadsEnabled===false||layer.kind!=='personal'||!layer.routeFile)return '';
+ if(!safeRoutePath(layer.routeFile))throw Error('Choose a prepared GPX route.');
+ validateSanitizedGpx(readFileSync(resolve(root,'public','.'+layer.routeFile),'utf8'));
+ return `<a class="map-route-download" aria-label="Download GPX: ${esc(layer.label)}" href="${url(layer.routeFile)}" download>Download GPX</a>`;
 }

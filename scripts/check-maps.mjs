@@ -36,6 +36,10 @@ const barcelona=validateMapData(JSON.parse(readFileSync(resolve(root,'public/ass
 assert(guide?.kind==='guide'&&guide.distanceKm>4.4&&guide.distanceKm<4.6);
 assert.equal(barcelona.layers.length,3);
 const legend=renderStoryMap(data.posts.find(p=>p.slug==='barcelona'),p=>p);assert(legend.includes('9.0 km out-and-back total (4.5 km each way)'));assert(legend.includes('9.4 km out-and-back total'));assert(legend.includes('m elevation gain (GPX)'));assert(!legend.includes('9.4 km one way'));
+const legendItems=[...legend.matchAll(/<li>([\s\S]*?)<\/li>/g)].map(m=>m[1]);
+assert.equal(legendItems.length,3);assert(legendItems[0].includes('barcelona-personal.gpx'));assert(!legendItems[1].includes('Download GPX'));assert(legendItems[2].includes('barcelona-gentler-run.gpx'));
+const fallback=renderStoryMap({...data.posts.find(p=>p.slug==='barcelona'),routeMap:{enabled:true,mapId:'barcelona'}},p=>p);
+assert.equal((fallback.match(/class="map-route-download"/g)??[]).length,2,'Prepared maps also put one GPX button beside each personal route.');
 for(const patch of [{ascentM:-1},{distanceKm:0},{distanceMode:'unknown'},{routeFile:'/assets/uploads/raw.gpx'}])assert.throws(()=>validateMapData({version:1,layers:[{...barcelona.layers[0],...patch}]}));
 assert.equal(barcelona.layers.find(l=>l.id==='gentler-run')?.kind,'personal');
 assert.equal(barcelona.layers.filter(l=>l.kind==='personal').length,2);
