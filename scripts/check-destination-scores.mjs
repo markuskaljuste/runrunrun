@@ -16,7 +16,7 @@ const data={posts,places:[],countries:['belgium','spain','france','italy'].map(s
 data.posts.push(post('italy-unrated',null,['italy']));
 for(const lang of ['en','et']){
  const groups=countryGroups(data,lang);
- assert.deepEqual(groups.map(g=>g.slug),['france','italy','spain','belgium'],'Countries with stories sort alphabetically, independently of scores or story counts; empty countries come last.');
+ assert.deepEqual(groups.map(g=>g.slug),['spain','france','italy','belgium'],'Countries sort by published story count, then alphabetically; drafts do not count and empty countries come last.');
  const html=countryBrowse({data,lang,url:p=>'/test'+p,full:true});
  assert(!html.includes('data-runograph-score'));
  assert(!countryBrowse({data,lang,url:p=>p}).includes('data-runograph-score'));

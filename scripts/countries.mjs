@@ -18,7 +18,7 @@ export function countryGroups(data,lang){
   const group={slug:country.slug,coverImage:country.coverImage||'',name:country[lang].name,description:country[lang].description||'',posts:posts.filter(p=>postCountries(p).includes(country.slug)),places:places.filter(p=>p.country===country.slug).sort(comparePlaces(data,lang)),storyPlaces:publishedStoryPlaces(data,lang,{country:country.slug})};
   group.hasContent=group.posts.length>0;
   return group;
- }).sort((a,b)=>Number(b.hasContent)-Number(a.hasContent)||a.name.localeCompare(b.name,lang));
+ }).sort((a,b)=>b.posts.length-a.posts.length||a.name.localeCompare(b.name,lang));
  const general=posts.filter(p=>!postCountries(p).length);
  if(general.length)groups.push({slug:'general',name:countryName('general',lang,data),description:'',posts:general,places:[],storyPlaces:publishedStoryPlaces({...data,posts:general},lang),hasContent:true});
  return groups;
