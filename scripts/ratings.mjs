@@ -1,12 +1,11 @@
 import {esc} from './core.mjs';
 import {ratingCriteria,ratingAverage} from './rating-data.mjs';
 export {ratingCriteria,ratingAverage} from './rating-data.mjs';
-export function renderScoreBadge(average,lang,{storyCount}={}){
+export function renderScoreBadge(average,lang){
  if(average==null)return '';
  const et=lang==='et',score=new Intl.NumberFormat(et?'et-EE':'en-GB',{maximumFractionDigits:1,minimumFractionDigits:1}).format(average);
  const label=et?'Runographi skoor':'Runograph score';
- const detail=storyCount==null?'':et?`Keskmine ${storyCount} hinnatud loo põhjal.`:`Average of ${storyCount} rated ${storyCount===1?'story':'stories'}.`;
- return `<span class="runograph-score" data-runograph-score="${average}" aria-label="${label}: ${esc(score)} / 10${detail?' · '+detail:''}"${detail?` title="${esc(detail)}"`:''}><strong>${esc(score)}</strong><small>/ 10</small></span>`;
+ return `<span class="runograph-score" data-runograph-score="${average}" aria-label="${label}: ${esc(score)} / 10"><strong>${esc(score)}</strong><small>/ 10</small></span>`;
 }
 export function renderRating(place,lang){
  if(!place?.ratings?.enabled)return '';const et=lang==='et',ratings=place.ratings,average=ratingAverage(ratings),score=new Intl.NumberFormat(et?'et-EE':'en-GB',{maximumFractionDigits:1,minimumFractionDigits:1}).format(average);

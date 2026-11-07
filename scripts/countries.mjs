@@ -1,5 +1,5 @@
-import {renderRating,renderScoreBadge,ratingAverage} from './ratings.mjs';
-import {publishedRatingAverage,compareStoryRatings} from './rating-data.mjs';
+import {renderRating} from './ratings.mjs';
+import {compareStoryRatings} from './rating-data.mjs';
 import {shareBar,commentsSection} from './engagement.mjs';
 import {esc,safeUrl,markdown,postCountries} from './core.mjs';
 import {storiesForPlace,placeHasContent,comparePlaces,storyPlaceEntries,publishedStoryPlaces} from './story-places.mjs';
@@ -17,10 +17,8 @@ export function countryGroups(data,lang){
  const groups=data.countries.map(country=>{
   const group={slug:country.slug,coverImage:country.coverImage||'',name:country[lang].name,description:country[lang].description||'',posts:posts.filter(p=>postCountries(p).includes(country.slug)),places:places.filter(p=>p.country===country.slug).sort(comparePlaces(data,lang)),storyPlaces:publishedStoryPlaces(data,lang,{country:country.slug})};
   group.hasContent=group.posts.length>0;
-  group.score=publishedRatingAverage(group.posts);
-  group.ratedStoryCount=group.posts.filter(p=>ratingAverage(p.ratings)!==null).length;
   return group;
- }).sort((a,b)=>Number(b.hasContent)-Number(a.hasContent)||(b.score??-1)-(a.score??-1)||a.name.localeCompare(b.name,lang));
+ }).sort((a,b)=>Number(b.hasContent)-Number(a.hasContent)||a.name.localeCompare(b.name,lang));
  const general=posts.filter(p=>!postCountries(p).length);
  if(general.length)groups.push({slug:'general',name:countryName('general',lang,data),description:'',posts:general,places:[],storyPlaces:publishedStoryPlaces({...data,posts:general},lang),hasContent:true});
  return groups;
@@ -29,14 +27,14 @@ export function countryGroups(data,lang){
 function countryCard(group,{data,lang,url}){
  const cover=group.posts.find(p=>p.image)??group.places.find(p=>placeHasContent(p,data))??group.places[0];
  const search=[group.name,...group.storyPlaces.map(p=>p.name),...group.posts.flatMap(p=>[p.en?.title,p.et?.title,...storyPlaceEntries(p,data,lang).map(e=>e.name)])].filter(Boolean).join(' ');
- return `<article class="card destination-card${group.hasContent?'':' destination-pending'}" data-has-content="${group.hasContent}" data-search="${esc(search)}" data-category="${esc(group.slug)}"><a class="destination-cover" aria-label="${esc(group.name)}${group.hasContent?'':': '+pendingLabel(lang)}" href="${url('/'+lang+'/countries/'+group.slug+'/')}"><img src="${esc(asset(group.coverImage||cover?.image,url))}" width="1000" height="700" alt="" loading="lazy">${group.storyPlaces.length?`<span class="destination-count">${quantity(group.storyPlaces.length,lang,'places')}</span>`:''}${renderScoreBadge(group.score,lang,{storyCount:group.ratedStoryCount})}${group.hasContent?'':pendingBadge(lang)}</a><div class="destination-copy"><h2><a href="${url('/'+lang+'/countries/'+group.slug+'/')}">${esc(group.name)}</a></h2>${group.storyPlaces.length?`<p>${esc(group.storyPlaces.map(p=>p.name).join(' · '))}</p>`:''}${group.posts.length?`<small>${quantity(group.posts.length,lang,'stories')}</small>`:''}</div></article>`;
+ return `<article class="card destination-card${group.hasContent?'':' destination-pending'}" data-has-content="${group.hasContent}" data-search="${esc(search)}" data-category="${esc(group.slug)}"><a class="destination-cover" aria-label="${esc(group.name)}${group.hasContent?'':': '+pendingLabel(lang)}" href="${url('/'+lang+'/countries/'+group.slug+'/')}"><img src="${esc(asset(group.coverImage||cover?.image,url))}" width="1000" height="700" alt="" loading="lazy">${group.storyPlaces.length?`<span class="destination-count">${quantity(group.storyPlaces.length,lang,'places')}</span>`:''}${group.hasContent?'':pendingBadge(lang)}</a><div class="destination-copy"><h2><a href="${url('/'+lang+'/countries/'+group.slug+'/')}">${esc(group.name)}</a></h2>${group.storyPlaces.length?`<p>${esc(group.storyPlaces.map(p=>p.name).join(' · '))}</p>`:''}${group.posts.length?`<small>${quantity(group.posts.length,lang,'stories')}</small>`:''}</div></article>`;
 }
 
 export function countryBrowse({data,lang,url,full=false}){
  const groups=countryGroups(data,lang),countries=groups.filter(g=>g.slug!=='general');
  if(full)return `<div class="destination-grid" data-list data-count-kind="countries">${countries.map(g=>countryCard(g,{data,lang,url})).join('')}</div>${groups.some(g=>g.slug==='general')?`<a class="text-link general-stories" href="${url('/'+lang+'/countries/general/')}">${lang==='et'?'Üldised jooksulood':'General running stories'}</a>`:''}`;
  if(!countries.length)return '';
- return `<div class="country-discovery"><div class="destination-discovery-heading"><h2>${lang==='et'?'Kus olen jooksnud':'Where I’ve run'}</h2><a class="text-link" href="${url('/'+lang+'/countries/')}">${lang==='et'?'Vaata kõiki riike':'Explore all countries'}</a></div><div class="country-links">${countries.slice(0,6).map(g=>`<a class="country-link" href="${url('/'+lang+'/countries/'+g.slug+'/')}"><span>${esc(g.name)}</span>${renderScoreBadge(g.score,lang,{storyCount:g.ratedStoryCount})}<small>${g.hasContent?quantity(g.posts.length,lang,'stories'):pendingLabel(lang)}</small></a>`).join('')}</div></div>`;
+ return `<div class="country-discovery"><div class="destination-discovery-heading"><h2>${lang==='et'?'Kus olen jooksnud':'Where I’ve run'}</h2><a class="text-link" href="${url('/'+lang+'/countries/')}">${lang==='et'?'Vaata kõiki riike':'Explore all countries'}</a></div><div class="country-links">${countries.slice(0,6).map(g=>`<a class="country-link" href="${url('/'+lang+'/countries/'+g.slug+'/')}"><span>${esc(g.name)}</span><small>${g.hasContent?quantity(g.posts.length,lang,'stories'):pendingLabel(lang)}</small></a>`).join('')}</div></div>`;
 }
 
 export function placeCard(place,{data,lang,url}){
