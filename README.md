@@ -76,6 +76,8 @@ Photographs should be your own or licensed for the intended use. A `Photo:` or `
 
 ## Contact, Analytics and cookies
 
+Story comments use a separate Google Apps Script web app and a private Google Sheet. See `COMMENTAARIUM.md` and `integrations/google-comments/Code.gs`. Public display stays off until the comments deployment URL is configured. The endpoint supports public listing and adding only; replies, hiding and deletion are available through the owner's spreadsheet menu. Subscriber collection uses a separate deployment and remains unchanged.
+
 Social, contact, sharing and comment settings are in `content/engagement.json`. Formspree contact submission remains disabled until its real opaque form ID is added. Configure the private receiving address inside Formspree, not the public content files.
 
 

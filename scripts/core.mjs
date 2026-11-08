@@ -1,4 +1,5 @@
 import {validPublicationTime} from './post-order.mjs';
+import {validateComments} from './comments.mjs';
 import {validateNewsletter} from './newsletter-config.mjs';
 import {googleMyMap} from './google-maps.mjs';
 import {ratingDefaults,validateRatings} from './rating-data.mjs';
@@ -17,6 +18,7 @@ export function readContent() {
   data.photoCredits=JSON.parse(readFileSync(resolve(root,'content/photo-credits.json'),'utf8'));
   for (const type of ['site','branding','images','seo','integrations','publication','engagement']) data[type]=JSON.parse(readFileSync(resolve(root,'content',type+'.json'),'utf8'));
   data.engagement.newsletter ??= {enabled:false,appsScriptUrl:''};
+  data.engagement.comments ??= {enabled:false,appsScriptUrl:''};
   data.engagement.socials ??= [];for(const social of data.engagement.socials)social.enabled ??= false;
   data.engagement.contact.formspreeId ??= '';data.engagement.contact.enabled ??= false;
   for (const key of ['logo','footerLogo','logoAlt']) data.branding[key] ??= '';
@@ -38,6 +40,8 @@ export function readContent() {
 export function validateRecord(type, item) {
   if(type==='engagement'){
     validateNewsletter(item.newsletter??{enabled:false,appsScriptUrl:''});
+    validateComments(item.comments??{enabled:false,appsScriptUrl:''});
+    if(item.comments?.appsScriptUrl&&item.comments.appsScriptUrl===item.newsletter?.appsScriptUrl)throw Error('Use a separate web app for comments, not the email signup URL.');
     if(!/^https:\/\/[a-z0-9.-]+(?::[0-9]+)?$/i.test(item.publicOrigin??''))throw new Error('Use the HTTPS origin of the public website, without a path.');
     if(!Array.isArray(item.socials)||typeof item.sharingEnabled!=='boolean')throw new Error('Check social links and sharing settings.');
     for(const social of item.socials)if(typeof social.name!=='string'||!social.name.trim()||typeof social.url!=='string'||!/^https:\/\//.test(social.url)||safeUrl(social.url)==='#'||typeof social.enabled!=='boolean')throw new Error('Use a name and HTTPS address for each social profile.');

@@ -20,5 +20,9 @@
   "newsletter": {
     "enabled": true,
     "appsScriptUrl": "https://script.google.com/macros/s/AKfycbxsa4uNiPIH5POVzFInQCoLnRKhRdmpic0EupMiXJKS4D9WlYZjn3c_vOCL0MAX60_reg/exec"
+  },
+  "comments": {
+    "enabled": false,
+    "appsScriptUrl": ""
   }
 }

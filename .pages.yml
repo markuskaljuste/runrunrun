@@ -1171,6 +1171,25 @@
               "description": "Use the public submission URL from Deploy. Do not enter passwords, OAuth tokens or the spreadsheet link."
             }
           ]
+        },
+        {
+          "name": "comments",
+          "label": "Comments / Google Sheets",
+          "type": "object",
+          "fields": [
+            {
+              "name": "enabled",
+              "label": "Enable comments after connecting the comments web app",
+              "type": "boolean",
+              "default": false
+            },
+            {
+              "name": "appsScriptUrl",
+              "label": "Comments Google Apps Script URL ending in /exec",
+              "type": "string",
+              "description": "Use the separate comments deployment URL. Do not use the newsletter URL or spreadsheet link."
+            }
+          ]
         }
       ]
     }
