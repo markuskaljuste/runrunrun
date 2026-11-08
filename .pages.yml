@@ -177,11 +177,27 @@
                   },
                   {
                     "value": "seville",
-                    "label": "Seville marathon"
+                    "label": "Sevilla marathon"
                   },
                   {
                     "value": "tenerife-south-coast",
                     "label": "Tenerife south coast"
+                  },
+                  {
+                    "value": "tuscany-chianti",
+                    "label": "Tuscany / Chianti"
+                  },
+                  {
+                    "value": "rome",
+                    "label": "Rome"
+                  },
+                  {
+                    "value": "tenerife-el-rio-arico",
+                    "label": "Tenerife: San Isidro, El Río and Arico"
+                  },
+                  {
+                    "value": "mombaruzzo-cantalupo",
+                    "label": "Mombaruzzo towards Cantalupo"
                   }
                 ]
               },
