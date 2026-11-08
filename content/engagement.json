@@ -22,7 +22,7 @@
     "appsScriptUrl": "https://script.google.com/macros/s/AKfycbxsa4uNiPIH5POVzFInQCoLnRKhRdmpic0EupMiXJKS4D9WlYZjn3c_vOCL0MAX60_reg/exec"
   },
   "comments": {
-    "enabled": false,
-    "appsScriptUrl": ""
+    "enabled": true,
+    "appsScriptUrl": "https://script.google.com/macros/s/AKfycbyaMMzOCeP07cD9axSidzJCIPtiRTh6pWYZl9_pSPtgW2KP_JufX5Ng6jhBlY7hG4dY/exec"
   }
 }
