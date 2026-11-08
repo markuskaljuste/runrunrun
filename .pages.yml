@@ -63,6 +63,15 @@
           "required": true
         },
         {
+          "name": "publishedAt",
+          "label": "Publication time / Kellaaeg (same-day order)",
+          "type": "date",
+          "options": {
+            "time": true,
+            "format": "yyyy-MM-dd'T'HH:mm:ssXXX"
+          }
+        },
+        {
           "name": "countries",
           "type": "reference",
           "label": "Riigid / Countries (mitu valikut; tühi = Üldine)",

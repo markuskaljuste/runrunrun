@@ -105,3 +105,5 @@ await import('./check-country-story-view.mjs');
 await import('./check-translations.mjs');
 
 await import('./check-root-routing.mjs');
+
+await import('./check-journal-listing.mjs');

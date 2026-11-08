@@ -38,7 +38,7 @@ function renderList(){
  $('#entry-list').innerHTML=entries.map(p=>`<button data-slug="${escape(p.slug)}" class="${originalSlug===p.slug?'selected':''}">${escape(['countries','places'].includes(type)?p.en.name:(p.en.title||p.slug))}<small>${type==='countries'?'RIIK / COUNTRY':p.status.toUpperCase()}</small></button>`).join('');
  document.querySelectorAll('[data-slug]').forEach(button=>button.onclick=()=>{if(confirmSwitch())selectRecord(content[type].find(p=>p.slug===button.dataset.slug));});
 }
-function selectRecord(item,isNew=false){record=copy(item);if(type==='posts'){const legacy=(record.places??(record.place?[record.place]:[])).map(slug=>content.places.find(p=>p.slug===slug)?.en.name).filter(Boolean);record.placeNames=[...new Set([...legacy,...(record.placeNames??[])])];delete record.places;delete record.place;}originalSlug=isNew?null:item.slug;dirty=false;lang='en';renderList();render();message('');$('#save').disabled=true;}
+function selectRecord(item,isNew=false){record=copy(item);if(type==='posts'&&isNew)record.publishedAt??=new Date().toISOString();if(type==='posts'){const legacy=(record.places??(record.place?[record.place]:[])).map(slug=>content.places.find(p=>p.slug===slug)?.en.name).filter(Boolean);record.placeNames=[...new Set([...legacy,...(record.placeNames??[])])];delete record.places;delete record.place;}originalSlug=isNew?null:item.slug;dirty=false;lang='en';renderList();render();message('');$('#save').disabled=true;}
 function render(){
  document.querySelector('#page-preview-link')?.remove();
  $('#entry-form').hidden=!record;if(!record)return;
