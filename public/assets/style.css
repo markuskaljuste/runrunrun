@@ -113,3 +113,11 @@
 .about-intro{background:var(--green);color:#f4f5eb}.about-intro .about-hero h1,.about-intro .about-hero .eyebrow{color:inherit}.about-intro .about-hero p{color:#e0e5d9}
 
 .about-body{padding-top:60px}.about-body>.prose>h2:first-child{margin-top:0}@media(max-width:720px){.about-body{padding-top:40px}}
+
+.about-intro .about-hero{align-items:center}
+.about-intro-copy{align-self:center}
+.about-intro .social-links{justify-content:flex-start;gap:18px;margin-top:22px;color:#f4f5eb}
+.about-intro .social-links-label{display:none}
+.about-intro .social-links .social-icon-link,.about-intro .social-links .social-icon-link:hover{color:#f4f5eb;background:none;border:0;border-radius:0;text-decoration:none}
+.about-intro .social-links .social-icon-link:hover{opacity:.72}
+@media(max-width:720px){.about-intro .social-links{margin-top:18px}}
