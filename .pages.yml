@@ -241,7 +241,10 @@
                   "name": "en",
                   "label": "Short note in English",
                   "type": "text",
-                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
+                  "description": "Optional: one short sentence, up to 240 characters. / Soovi korral üks lühike lause, kuni 240 märki.",
+                  "options": {
+                    "maxlength": 240
+                  }
                 }
               ]
             },
@@ -263,7 +266,10 @@
                   "name": "en",
                   "label": "Short note in English",
                   "type": "text",
-                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
+                  "description": "Optional: one short sentence, up to 240 characters. / Soovi korral üks lühike lause, kuni 240 märki.",
+                  "options": {
+                    "maxlength": 240
+                  }
                 }
               ]
             },
@@ -285,7 +291,10 @@
                   "name": "en",
                   "label": "Short note in English",
                   "type": "text",
-                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
+                  "description": "Optional: one short sentence, up to 240 characters. / Soovi korral üks lühike lause, kuni 240 märki.",
+                  "options": {
+                    "maxlength": 240
+                  }
                 }
               ]
             },
@@ -307,7 +316,10 @@
                   "name": "en",
                   "label": "Short note in English",
                   "type": "text",
-                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
+                  "description": "Optional: one short sentence, up to 240 characters. / Soovi korral üks lühike lause, kuni 240 märki.",
+                  "options": {
+                    "maxlength": 240
+                  }
                 }
               ]
             },
@@ -329,7 +341,10 @@
                   "name": "en",
                   "label": "Short note in English",
                   "type": "text",
-                  "description": "Kuni 240 märki, soovi korral. / Optional, up to 240 characters."
+                  "description": "Optional: one short sentence, up to 240 characters. / Soovi korral üks lühike lause, kuni 240 märki.",
+                  "options": {
+                    "maxlength": 240
+                  }
                 }
               ]
             }
@@ -350,6 +365,41 @@
               "name": "excerpt",
               "label": "Introduction / Sissejuhatus",
               "type": "text"
+            },
+            {
+              "name": "practicalSummary",
+              "label": "Practical summary / Praktiline kokkuvõte",
+              "type": "object",
+              "description": "Three short lines at the start of the story; the map link is added automatically when a map is enabled.",
+              "fields": [
+                {
+                  "name": "goodFor",
+                  "label": "Good for / Sobib",
+                  "type": "string",
+                  "options": {
+                    "maxlength": 180
+                  },
+                  "description": "Optional, one short sentence; no need to repeat the map’s distance or elevation."
+                },
+                {
+                  "name": "terrain",
+                  "label": "Terrain / Maastik",
+                  "type": "string",
+                  "options": {
+                    "maxlength": 180
+                  },
+                  "description": "Optional, one short sentence; no need to repeat the map’s distance or elevation."
+                },
+                {
+                  "name": "keepInMind",
+                  "label": "Keep in mind / Arvesta",
+                  "type": "string",
+                  "options": {
+                    "maxlength": 180
+                  },
+                  "description": "Optional, one short sentence; no need to repeat the map’s distance or elevation."
+                }
+              ]
             },
             {
               "name": "body",
@@ -540,6 +590,41 @@
               "name": "excerpt",
               "label": "Introduction / Sissejuhatus",
               "type": "text"
+            },
+            {
+              "name": "practicalSummary",
+              "label": "Practical summary / Praktiline kokkuvõte",
+              "type": "object",
+              "description": "Three short lines at the start of the story; the map link is added automatically when a map is enabled.",
+              "fields": [
+                {
+                  "name": "goodFor",
+                  "label": "Good for / Sobib",
+                  "type": "string",
+                  "options": {
+                    "maxlength": 180
+                  },
+                  "description": "Optional, one short sentence; no need to repeat the map’s distance or elevation."
+                },
+                {
+                  "name": "terrain",
+                  "label": "Terrain / Maastik",
+                  "type": "string",
+                  "options": {
+                    "maxlength": 180
+                  },
+                  "description": "Optional, one short sentence; no need to repeat the map’s distance or elevation."
+                },
+                {
+                  "name": "keepInMind",
+                  "label": "Keep in mind / Arvesta",
+                  "type": "string",
+                  "options": {
+                    "maxlength": 180
+                  },
+                  "description": "Optional, one short sentence; no need to repeat the map’s distance or elevation."
+                }
+              ]
             },
             {
               "name": "body",

@@ -16,7 +16,7 @@
     "enabled": true,
     "safety": {
       "score": 6,
-      "en": "Good stretches beside the road, but traffic and bends needed attention. I would keep headphones quiet."
+      "en": "Traffic and bends need attention even on the better roadside stretches, so I would keep headphones quiet."
     },
     "scenery": {
       "score": 8,
@@ -28,11 +28,11 @@
     },
     "access": {
       "score": 7,
-      "en": "A shop stop helped on the long run. The hills made the full route demanding for a beginner."
+      "en": "A shop stop helped, but the sustained hills make the full long run demanding for beginners."
     },
     "experience": {
       "score": 8,
-      "en": "An enjoyable marathon-training run. I have travelled here to run twice and would happily return."
+      "en": "I have travelled here to run twice, enjoyed the hilly long runs and would happily return."
     }
   },
   "en": {
@@ -43,7 +43,12 @@
     "imageCaption": "One of my photos from the roads around Benissa.",
     "seoTitle": "Running Benissa, Moraira and Fanadix | Runograph",
     "seoDescription": "Long run through Benissa, Moraira and Fanadix, with good asphalt, long climbs, sea views and a paella finish.",
-    "socialImage": "/assets/uploads/benissa-moraira-fanadix/benissa-road.jpg"
+    "socialImage": "/assets/uploads/benissa-moraira-fanadix/benissa-road.jpg",
+    "practicalSummary": {
+      "goodFor": "Hilly long runs with sea views and a quieter setting than a big city.",
+      "terrain": "Mostly asphalt beside roads, with long climbs and descents.",
+      "keepInMind": "Watch for traffic and bends, and allow for the sun and sustained climbing."
+    }
   },
   "routeMap": {
     "enabled": true,

@@ -24,11 +24,11 @@
     },
     "surface": {
       "score": 8,
-      "en": "Park paths + paved promenade beside the sea offer different running options."
+      "en": "Park paths and a paved seafront promenade offer different running options."
     },
     "access": {
       "score": 8,
-      "en": "I would choose the seafront for a beginner or an easier outing. The hills in the upper side of Barca take more effort and navigation."
+      "en": "The seafront suits beginners and easier outings, while the upper-city hills need more effort and navigation."
     },
     "experience": {
       "score": 7,
@@ -43,7 +43,12 @@
     "imageCaption": "Barcelona’s waterfront. Photo: [dronepicr / Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Aerial_view_of_the_Promenade_and_Somorrostro_Beach_in_Barcelona_%2851225533277%29.jpg), [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/). Resized.",
     "seoTitle": "Running in Barcelona | Runograph",
     "seoDescription": "My Barcelona runs: Parc del Carmel and the surrounding hills, city views and flatter jogging beside the sea.",
-    "socialImage": "/assets/uploads/barcelona-hills-and-seafront/barcelona-waterfront.jpg"
+    "socialImage": "/assets/uploads/barcelona-hills-and-seafront/barcelona-waterfront.jpg",
+    "practicalSummary": {
+      "goodFor": "Easy seafront runs or hill sessions around Turó del Carmel.",
+      "terrain": "Paved waterfront, park paths and hilly city streets.",
+      "keepInMind": "Choose the seafront for an easier run; expect traffic and crossings between the parks."
+    }
   },
   "placeNames": [
     "Barcelona"

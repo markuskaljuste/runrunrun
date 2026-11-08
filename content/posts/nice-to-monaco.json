@@ -28,7 +28,7 @@
     },
     "experience": {
       "score": 10,
-      "en": "The coastal run towards Monaco is in my personal top three, with memorable views and a poolside finish. This score reflects the route, rather than running around central Monaco."
+      "en": "This coastal route ranks in my personal top three for its views and poolside finish, rather than for running around central Monaco."
     }
   },
   "en": {
@@ -39,7 +39,12 @@
     "imageCaption": "Nice’s promenade at sunrise and a street in Monaco.",
     "seoTitle": "Nice to Monaco: Coastal Run and Elevation Profile | Runograph",
     "seoDescription": "My 2023 Nice to Monaco coastal run: a 25.3 km GPX route, flatter promenade sections, the main climbs and a poolside finish.",
-    "socialImage": "/assets/uploads/nice-to-monaco/monaco-ice-cream.jpg"
+    "socialImage": "/assets/uploads/nice-to-monaco/monaco-ice-cream.jpg",
+    "practicalSummary": {
+      "goodFor": "A scenic coastal long run with a poolside finish in Monaco.",
+      "terrain": "A flat promenade start, paved roadside hills and a rocky coastal path.",
+      "keepInMind": "Roadside sections need care; central Monaco is much less suited to uninterrupted running."
+    }
   },
   "routeMap": {
     "enabled": true,

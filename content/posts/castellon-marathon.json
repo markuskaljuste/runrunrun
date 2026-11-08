@@ -21,7 +21,7 @@
     "enabled": true,
     "safety": {
       "score": 7,
-      "en": "Closed roads made the marathon easy to run. On a normal day, city traffic and crossings still need attention."
+      "en": "Closed roads helped on marathon day, but ordinary city runs still involve traffic and crossings."
     },
     "scenery": {
       "score": 5,
@@ -29,7 +29,7 @@
     },
     "surface": {
       "score": 7,
-      "en": "The marathon course felt good and comfortable to run. "
+      "en": "The marathon course felt good and comfortable to run."
     },
     "access": {
       "score": 7,
@@ -37,7 +37,7 @@
     },
     "experience": {
       "score": 5,
-      "en": "A well-organised marathon with a good atmosphere. For everyday running, I would choose something else."
+      "en": "The well-organised marathon had a good atmosphere, although I would choose somewhere else for an everyday running trip."
     }
   },
   "en": {
@@ -48,7 +48,12 @@
     "imageCaption": "Race day at Marató Castelló. A photo from my trip.",
     "seoTitle": "Running in Castellón de la Plana | Runograph",
     "seoDescription": "Castellón through my marathon: city streets, the harbour and sea, a well-organised race and where I would head for an everyday run.",
-    "socialImage": "/assets/uploads/castellon-marathon/race-day.jpg"
+    "socialImage": "/assets/uploads/castellon-marathon/race-day.jpg",
+    "practicalSummary": {
+      "goodFor": "A road marathon, or an everyday run around El Grau’s harbour front.",
+      "terrain": "Paved city roads and harbour paths, with a descent to the coast and a climb back.",
+      "keepInMind": "The marathon has closed roads; ordinary runs still involve traffic and crossings."
+    }
   },
   "publishedAt": "2026-11-04T11:04:47+02:00"
 }

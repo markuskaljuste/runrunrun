@@ -17,11 +17,11 @@
     "enabled": true,
     "safety": {
       "score": 9,
-      "en": "The seafront felt comfortable early in the morning. Shared paths become busier later, so I would keep faster sessions for quieter hours."
+      "en": "The seafront felt comfortable early on, while busier shared paths later made faster sessions less convenient."
     },
     "scenery": {
       "score": 10,
-      "en": "Sunrise, the ocean, palms and nearby hills. Views I would happily give 10/10."
+      "en": "Sunrise, ocean views, palms and nearby hills made the scenery a 10/10 for me."
     },
     "surface": {
       "score": 9,
@@ -29,7 +29,7 @@
     },
     "access": {
       "score": 9,
-      "en": "Easy to choose a shorter, fairly flat seafront section or a longer outing. Early mornings give much more room to run."
+      "en": "It is easy to choose a shorter, fairly flat stretch or a longer outing, with more room early in the morning."
     },
     "experience": {
       "score": 10,
@@ -44,7 +44,12 @@
     "imageCaption": "Sunrise on the waterfront, before the promenade gets busy.",
     "seoTitle": "Running in Tenerife: Los Cristianos to La Caleta | Runograph",
     "seoDescription": "My southern Tenerife running experience: Los Cristianos, Las Américas, Costa Adeje and La Caleta, with a 23.2 km coastal route, elevation profile and running scores.",
-    "socialImage": "/assets/uploads/tenerife-south-coast/sunrise-promenade.jpg"
+    "socialImage": "/assets/uploads/tenerife-south-coast/sunrise-promenade.jpg",
+    "practicalSummary": {
+      "goodFor": "Easy runs, intervals and hill sessions beside the sea.",
+      "terrain": "Paved seafront paths, flatter stretches and optional climbs.",
+      "keepInMind": "Go early to avoid crowds, and check air quality when calima is around."
+    }
   },
   "routeMap": {
     "enabled": true,

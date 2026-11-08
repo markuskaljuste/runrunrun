@@ -20,7 +20,7 @@
     "enabled": true,
     "safety": {
       "score": 7,
-      "en": "River paths gave me more room, but bridge approaches and road crossings still meant waiting for cars. I would avoid the crowded historic centre for regular runs."
+      "en": "River paths gave me more room, while road crossings and crowds made the historic centre less suitable for regular runs."
     },
     "scenery": {
       "score": 9,
@@ -28,15 +28,15 @@
     },
     "surface": {
       "score": 7,
-      "en": "Useful paved paths, with cobblestones and changes of surface near the sights. Less uniform than a long seafront promenade."
+      "en": "Paved paths, cobblestones and changes of surface near the sights made this less uniform than a seafront promenade."
     },
     "access": {
       "score": 8,
-      "en": "The Tiber made it easier to connect a longer, relatively flat run. Crowds and crossings make central streets much less convenient."
+      "en": "The Tiber helps connect a longer, relatively flat run, while crowds and crossings interrupt central streets."
     },
     "experience": {
       "score": 9,
-      "en": "Much more enjoyable once I understood where to run. The quiet early morning by the Colosseum is one of my favourite running memories."
+      "en": "Knowing where to run made Rome much more enjoyable, and the quiet morning near the Colosseum remains a favourite memory."
     }
   },
   "en": {
@@ -47,7 +47,12 @@
     "imageCaption": "Room to run, the Colosseum and quiet streets from my mornings in Rome.",
     "seoTitle": "Rome: a magical morning run | Runograph",
     "seoDescription": "A personal 16.4 km Rome morning run, with a Tiber route map, GPX, elevation profile, run clubs and a preference for walking the crowded historic centre.",
-    "socialImage": "/assets/uploads/rome/rome-morning-running.jpg"
+    "socialImage": "/assets/uploads/rome/rome-morning-running.jpg",
+    "practicalSummary": {
+      "goodFor": "Early morning riverside runs with an optional detour towards the Colosseum.",
+      "terrain": "Paved riverside paths, city streets and cobblestones near the sights.",
+      "keepInMind": "Go early, allow for road crossings and save the crowded historic centre for walking."
+    }
   },
   "routeMap": {
     "enabled": true,

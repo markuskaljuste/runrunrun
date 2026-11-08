@@ -22,11 +22,11 @@
     "enabled": true,
     "safety": {
       "score": 4,
-      "en": "Roadside running, exposed edges and 30 to 35°C heat made this a demanding outing. I badly underestimated the combination."
+      "en": "I underestimated how demanding the roadside running, exposed edges and 30 to 35°C heat would be together."
     },
     "scenery": {
       "score": 10,
-      "en": "Vineyards, olive trees, flowing roads and big views across the Chianti hills. Plenty of wow moments."
+      "en": "Vineyards, olive trees, flowing roads and wide Chianti views provided plenty of wow moments."
     },
     "surface": {
       "score": 9,
@@ -34,11 +34,11 @@
     },
     "access": {
       "score": 4,
-      "en": "Around 900 m of climbing over 33.5 km, steep descents and limited roadside room. I would not recommend this loop to beginners."
+      "en": "Heavy climbing, steep descents and limited roadside space make this loop unsuitable for beginners."
     },
     "experience": {
       "score": 8,
-      "en": "I loved the landscape and roads, but the heat made this my hardest ordinary training run. A cooler, shorter outing would be a better plan."
+      "en": "I loved the landscape and roads, but a cooler, shorter outing would avoid the heat that made this my hardest ordinary training run."
     }
   },
   "en": {
@@ -49,7 +49,12 @@
     "imageCaption": "The Chianti roads and views that made even a very difficult run memorable.",
     "seoTitle": "Tuscany: a hot hilly run | Runograph",
     "seoDescription": "A personal 33.5 km Tuscany run around Albola, La Villa, Coltibuono and Cavriglia, with about 900 m of climbing, a Google map, GPX and honest roadside notes.",
-    "socialImage": "/assets/uploads/tuscany-chianti/chianti-roads-and-views-cropped.jpg"
+    "socialImage": "/assets/uploads/tuscany-chianti/chianti-roads-and-views-cropped.jpg",
+    "practicalSummary": {
+      "goodFor": "Demanding hill runs for experienced runners who enjoy countryside views.",
+      "terrain": "Asphalt roads, steep climbs and descents, with little sustained flat running.",
+      "keepInMind": "Heat, passing cars and exposed edges made this a difficult outing; choose conditions and distance carefully."
+    }
   },
   "routeMap": {
     "enabled": true,

@@ -11,6 +11,7 @@ import {placeHasContent,storiesForPlace} from './story-places.mjs';
 const data=readContent();validateAll(data);
 const dist=resolve(root,'dist'),base=(process.env.BASE_PATH??'').replace(/\/$/,'');
 await import('./check-cms.mjs');
+await import('./check-story-summary.mjs');
 await import('./check-route-privacy.mjs');
 await import('./check-maps.mjs');
 await import('./check-newsletter.mjs');

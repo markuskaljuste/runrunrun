@@ -17,15 +17,15 @@
     "enabled": true,
     "safety": {
       "score": 6,
-      "en": "Roadside running, passing cars, bends and exposed edges need attention. I also turned back after dogs chased me on a trail."
+      "en": "Roadside traffic, bends and exposed edges need attention, and I also turned back after dogs chased me on a trail."
     },
     "scenery": {
       "score": 10,
-      "en": "Mountains, ravines and ocean views, especially at sunrise. The nearby dam is an impressive separate stop."
+      "en": "Mountains, ravines and ocean views stood out at sunrise, with the nearby dam worth a separate stop."
     },
     "surface": {
       "score": 9,
-      "en": "I really enjoyed the asphalt. The short trail attempt had a different surface and is not the main running recommendation."
+      "en": "I enjoyed the asphalt, while the short trail attempt is not my main running recommendation."
     },
     "access": {
       "score": 6,
@@ -44,7 +44,12 @@
     "imageCaption": "Sunrise on the mountain roads around El Río.",
     "seoTitle": "Tenerife: San Isidro, El Río and Arico Runs | Runograph",
     "seoDescription": "Two personal Tenerife runs around El Río: 24.1 km towards San Isidro and 14.2 km towards Arico, with climbing profiles, maps, roadside tips and Presa del Río.",
-    "socialImage": "/assets/uploads/tenerife-el-rio-arico/sunrise-road-run.jpg"
+    "socialImage": "/assets/uploads/tenerife-el-rio-arico/sunrise-road-run.jpg",
+    "practicalSummary": {
+      "goodFor": "Hill training and early morning runs with mountain and ocean views.",
+      "terrain": "Asphalt roads with a mix of steep and gentler climbs and descents.",
+      "keepInMind": "Expect passing cars, bends and exposed edges; the longer climbs are demanding for beginners."
+    }
   },
   "routeMap": {
     "enabled": true,

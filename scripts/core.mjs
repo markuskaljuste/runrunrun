@@ -135,6 +135,7 @@ export function validateRecord(type, item) {
   if(type==='posts'&&item.publishedAt!=null&&item.publishedAt!==''&&!validPublicationTime(item.publishedAt))throw new Error('Add a valid publication time with a time zone, or leave it empty.');
   if(type==='posts'){if(item.routeMap!=null){if(typeof item.routeMap!=='object'||Array.isArray(item.routeMap)||typeof item.routeMap.enabled!=='boolean')throw new Error('Check the story map settings.');const google=googleMyMap(item.routeMap.googleMyMapsUrl);if(item.routeMap.downloadsEnabled!=null&&typeof item.routeMap.downloadsEnabled!=='boolean')throw new Error('Choose whether GPX downloads are shown.');if(item.routeMap.enabled&&!google&&!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.routeMap.mapId??''))throw new Error('Paste a Google My Maps link, choose a prepared map, or turn the map off.');}validateTranslations(item);if(item.ratings!=null)validateRatings(item.ratings);if(item.attachments!=null&&(!Array.isArray(item.attachments)||item.attachments.length>10||item.attachments.some(file=>typeof file!=='string'||safeUrl(file)==='#'||isRouteFile(file)||!/^https?:|^\/assets\/(?:uploads|files)\//.test(file))))throw new Error('Add up to ten valid attachment URLs.');if(item.coverFit!=null&&!['cover','contain'].includes(item.coverFit))throw new Error('Choose cover or contain for the article image.');}
   if(type==='posts'){
+    validatePracticalSummary(item.en?.practicalSummary);
     const places=postPlaceSlugs(item),names=item.placeNames??[];
     if(!Array.isArray(places)||places.length>30||places.some(slug=>typeof slug!=='string'||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug))||new Set(places).size!==places.length)throw new Error('Choose up to 30 different running places.');
     if(!Array.isArray(names)||names.length>30||names.some(name=>typeof name!=='string'||!name.trim()||name.length>120)||new Set(names.map(normalizePlaceName)).size!==names.length)throw new Error('Add up to 30 different place names, each up to 120 characters.');
@@ -151,12 +152,18 @@ export function validateRecord(type, item) {
   }
   if (type==='routes' && item.status==='published' && (!/^https:\/\//.test(item.sourceUrl??'') || safeUrl(item.sourceUrl)==='#' || !item.sourceLabel?.trim() || !/^\d{4}-\d{2}-\d{2}$/.test(item.checked??''))) throw new Error('Published route guides need an official https source, source name and checked date.');
 }
+export function validatePracticalSummary(summary){
+ if(summary==null)return;
+ if(typeof summary!=='object'||Array.isArray(summary))throw new Error('Check the practical summary fields.');
+ for(const key of ['goodFor','terrain','keepInMind'])if(summary[key]!=null&&(typeof summary[key]!=='string'||summary[key].length>180))throw new Error('Keep each practical summary line to 180 characters.');
+}
 function validateTranslations(post){
  const translations=post.translations??[];
  if(!Array.isArray(translations))throw new Error('Translations must be a list.');
  const seen=new Set();
  for(const entry of translations){
   if(!entry||entry.language==='en'||!languageOptions.some(l=>l[0]===entry.language))throw new Error('Choose a supported translation language.');
+  validatePracticalSummary(entry.practicalSummary);
   if(seen.has(entry.language))throw new Error('Add each translation language only once.');seen.add(entry.language);
   if(!['draft','published'].includes(entry.status))throw new Error('Choose Draft or Published for each translation.');
   for(const field of ['title','excerpt','body','imageAlt','imageCaption','seoTitle','seoDescription'])if(entry[field]!=null&&typeof entry[field]!=='string')throw new Error('Translation fields must be text.');
