@@ -43,24 +43,50 @@ const tampered=config.staticryptEncryptedMsgUniqueVariableName.slice(0,-1)+(conf
 assert.equal((await codec.decode(tampered,key,salt)).success,false,'Tampered payload accepted.');
 
 // Run the actual generated login JavaScript with a small DOM and real WebCrypto.
-function browser(saved,enteredUser=username,enteredPassword=password){
- const storage=new Map(saved?[[sessionKey,JSON.stringify(saved)]]:[]),events={},button={disabled:false},status={textContent:''};let written='',reset=0;
- const form={querySelector:()=>button,addEventListener:(name,fn)=>events[name]=fn,reportValidity:()=>true,reset:()=>reset++};
+const adapter=(map,blocked=false)=>({getItem(name){if(blocked)throw Error('Storage blocked');return map.get(name)??null;},setItem(name,value){if(blocked)throw Error('Storage blocked');map.set(name,value);},removeItem(name){if(blocked)throw Error('Storage blocked');map.delete(name);}});
+function browser({saved,shared=new Map(),tab=new Map(),gateHtml=gate,enteredUser=username,enteredPassword=password,blockedLocal=false,blockedTab=false}={}){
+ if(saved)tab.set(sessionKey,JSON.stringify(saved));
+ const events={},button={disabled:false},status={textContent:''};let written='',reset=0;
+ const form={hidden:false,querySelector:()=>button,addEventListener:(name,fn)=>events[name]=fn,reportValidity:()=>true,reset:()=>reset++};
  const elements={'reader-login':form,'reader-status':status,'reader-user':{value:enteredUser},'reader-password':{value:enteredPassword}};
- const sessionStorage={getItem:name=>storage.get(name)??null,setItem:(name,value)=>storage.set(name,value),removeItem:name=>storage.delete(name)};
+ const localStorage=adapter(shared,blockedLocal),sessionStorage=adapter(tab,blockedTab);
  const document={getElementById:name=>elements[name],open(){},write:html=>written=html,close(){}};
- const context=vm.createContext({crypto:webcrypto,TextEncoder,TextDecoder,document,sessionStorage,window:{crypto:webcrypto},URLSearchParams,console});
- const script=[...gate.matchAll(/<script>([\s\S]*?)<\/script>/g)].at(-1)[1].replace(/resume\(\);\s*$/,'globalThis.ready=resume();');
+ const context=vm.createContext({crypto:webcrypto,TextEncoder,TextDecoder,document,localStorage,sessionStorage,window:{crypto:webcrypto},URLSearchParams,console});
+ const script=[...gateHtml.matchAll(/<script>([\s\S]*?)<\/script>/g)].at(-1)[1].replace(/resume\(\);\s*$/,'globalThis.ready=resume();');
  vm.runInContext(script,context);
- return {context,storage,events,status,button,sessionStorage,get written(){return written;},get reset(){return reset;}};
+ return {context,shared,tab,events,status,button,form,sessionStorage,localStorage,get written(){return written;},get reset(){return reset;}};
 }
-const good=browser();await good.context.ready;assert(!good.written);await good.events.submit({preventDefault(){}});assert.equal(good.written,home);assert(good.reset);const saved=JSON.parse(good.storage.get(sessionKey));assert.equal(saved.key,key);assert(!JSON.stringify(saved).includes(password));assert(saved.expires>Date.now());
-const resumed=browser(saved);await resumed.context.ready;assert.equal(resumed.written,home);
-const incorrect=browser(null,username+'wrong');await incorrect.context.ready;await incorrect.events.submit({preventDefault(){}});assert(!incorrect.written);assert.match(incorrect.status.textContent,/incorrect/);assert(!incorrect.storage.size);assert(!incorrect.button.disabled);
-const expired=browser({key,expires:Date.now()-1000});await expired.context.ready;assert(!expired.written);assert(!expired.storage.size);
-const corrupt=browser({key:wrongKey,expires:Date.now()+sessionDuration});await corrupt.context.ready;assert(!corrupt.written);assert(!corrupt.storage.size);
-const events={},logout={};let replaced='',reloads=0;
-const document={currentScript:{src:'https://runograph.com'+base+'/assets/backdoor-session.js'},documentElement:{hidden:false},querySelectorAll:()=>[{addEventListener:(name,fn)=>logout[name]=fn}]};
-vm.runInNewContext(readFileSync(resolve(dist,'assets/backdoor-session.js'),'utf8'),{document,sessionStorage:good.sessionStorage,location:{replace:url=>replaced=url,reload:()=>reloads++},URL,addEventListener:(name,fn)=>events[name]=fn});
-logout.click();assert.equal(replaced,base+'/backdoor/');assert(!good.storage.size);events.pageshow();assert.equal(reloads,1);assert(document.documentElement.hidden);
-console.log(`Passed reader security checks: ${decoded.size} encrypted pages, ${linkCount} local links, correct/wrong username and password, payload integrity, session resume/expiry, sign-out and cached Back navigation. Coming soon, privacy and sitemap preserved.`);
+const good=browser();await good.context.ready;assert(!good.written);await good.events.submit({preventDefault(){}});assert.equal(good.written,home);assert(good.reset);
+const saved=JSON.parse(good.shared.get(sessionKey));assert.equal(saved.key,key);assert(!JSON.stringify(saved).includes(password));assert(saved.expires>Date.now());
+assert(good.tab.has(sessionKey),'Retain tab fallback for blocked shared storage and previously cached gates.');
+// Share only browser storage: every new page has a fresh script context and a new-tab visit has no tab storage.
+for(const path of ['journal/rome/index.html','countries/spain/index.html','journal/nice-to-monaco/index.html','backdoor/privacy/index.html','backdoor/index.html']){
+ const page=browser({shared:good.shared,gateHtml:readFileSync(resolve(dist,path),'utf8')});
+ assert(page.form.hidden,'Do not flash the login form when a valid login is being restored.');
+ await page.context.ready;assert.equal(page.written,decoded.get(path),'A second login was required on '+path);
+ assert.equal(JSON.parse(good.shared.get(sessionKey)).expires,saved.expires,'Navigation must not renew the session indefinitely.');
+}
+const resumed=browser({saved,shared:good.shared});await resumed.context.ready;assert.equal(resumed.written,home);
+const migrated=browser({saved:{key,expires:saved.expires}});await migrated.context.ready;assert.equal(migrated.written,home);assert(migrated.shared.has(sessionKey));assert.equal(JSON.parse(migrated.shared.get(sessionKey)).expires,saved.expires);
+const incorrect=browser({enteredUser:username+'wrong'});await incorrect.context.ready;await incorrect.events.submit({preventDefault(){}});assert(!incorrect.written);assert.match(incorrect.status.textContent,/incorrect/);assert(!incorrect.shared.size);assert(!incorrect.tab.size);assert(!incorrect.button.disabled);
+const expired=browser({saved:{key,expires:Date.now()-1000}});await expired.context.ready;assert(!expired.written);assert(!expired.shared.size);assert(!expired.tab.size);
+const corrupt=browser({saved:{key:wrongKey,expires:Date.now()+sessionDuration}});await corrupt.context.ready;assert(!corrupt.written);assert(!corrupt.shared.size);assert(!corrupt.tab.size);assert(!corrupt.form.hidden);
+const fallback=browser({blockedLocal:true});await fallback.context.ready;await fallback.events.submit({preventDefault(){}});assert.equal(fallback.written,home);assert(fallback.tab.has(sessionKey));
+const fallbackPage=browser({blockedLocal:true,tab:fallback.tab,gateHtml:readFileSync(resolve(dist,'journal/rome/index.html'),'utf8')});await fallbackPage.context.ready;assert.equal(fallbackPage.written,decoded.get('journal/rome/index.html'));
+const blocked=browser({blockedLocal:true,blockedTab:true});await blocked.context.ready;await blocked.events.submit({preventDefault(){}});assert(!blocked.written);assert.match(blocked.status.textContent,/Allow browser storage/);
+function unlocked(page){
+ const events={},logout={};let replaced='',reloads=0;
+ const document={currentScript:{src:'https://runograph.com'+base+'/assets/backdoor-session.js?v=2'},documentElement:{hidden:false},querySelectorAll:()=>[{addEventListener:(name,fn)=>logout[name]=fn}]};
+ const context=vm.createContext({document,sessionStorage:page.sessionStorage,localStorage:page.localStorage,location:{replace:url=>replaced=url,reload:()=>reloads++},URL,addEventListener:(name,fn)=>events[name]=fn});
+ vm.runInContext(readFileSync(resolve(dist,'assets/backdoor-storage.js'),'utf8'),context);
+ vm.runInContext(readFileSync(resolve(dist,'assets/backdoor-session.js'),'utf8'),context);
+ return {events,logout,document,get replaced(){return replaced;},get reloads(){return reloads;}};
+}
+const other=browser({shared:good.shared});await other.context.ready;
+const active=unlocked(good),otherActive=unlocked(other);active.events.pageshow();assert.equal(active.reloads,0);
+active.logout.click();assert.equal(active.replaced,base+'/backdoor/');assert(!good.shared.size);assert(!good.tab.size);
+otherActive.events.storage({key:sessionKey,newValue:null});assert.equal(otherActive.reloads,1);assert(otherActive.document.documentElement.hidden);assert(!other.tab.size);
+const afterLogout=browser({shared:good.shared});await afterLogout.context.ready;assert(!afterLogout.written);
+const cached=unlocked(good);cached.events.pageshow();assert.equal(cached.reloads,1);assert(cached.document.documentElement.hidden);
+const stale=browser({shared:new Map(),tab:new Map([[sessionKey,JSON.stringify({...saved,shared:true})]])});await stale.context.ready;assert(!stale.written,'Do not resurrect a shared login removed in another tab.');
+console.log(`Passed reader security checks: ${decoded.size} encrypted pages, ${linkCount} local links, one login across stories, country and privacy pages/new tabs, legacy migration, blocked-storage fallback, expiry, cross-tab sign-out and cached Back navigation. Coming soon, privacy and sitemap preserved.`);
