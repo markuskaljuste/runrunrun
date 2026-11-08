@@ -16,6 +16,12 @@ assert.deepEqual(fixture.sort(comparePostDates).map(p=>p.slug),['late','early','
 const data=readContent(),base=(process.env.BASE_PATH??'').replace(/\/$/,'');
 const post=data.posts.find(p=>p.status==='published');
 validateRecord('posts',{...post,publishedAt:'2026-11-07T14:00:00+02:00'});
+validateRecord('posts',{...post,publishedAt:undefined});
+validateRecord('posts',{...post,publishedAt:''});
+const cms=JSON.parse(readFileSync(resolve(root,'.pages.yml'),'utf8'));
+const timeField=cms.content.find(c=>c.name==='posts').fields.find(f=>f.name==='publishedAt');
+assert.equal(timeField.type,'string','The optional timestamp must not enter the CMS date writer, which crashes on undefined.');
+assert.equal(timeField.default,'');
 assert.throws(()=>validateRecord('posts',{...post,publishedAt:'not-a-date'}));
 const load=path=>readFileSync(resolve(root,'dist',path,'index.html'),'utf8');
 const cards=html=>[...html.matchAll(/<article class="card"[\s\S]*?<\/article>/g)].map(m=>m[0]);
