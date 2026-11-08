@@ -5,6 +5,7 @@ import {readContent,validateRecord,root} from './core.mjs';
 import {emptyRatings,ratingAverage,validateRatings,ratingCriteria} from './rating-data.mjs';
 import {renderRating} from './ratings.mjs';
 import {shareBar,commentsSection,renderContactSection} from './engagement.mjs';
+import {commentsSetup} from './comments-setup.mjs';
 const data=readContent(),ratings=emptyRatings();assert.equal(ratingAverage(ratings),null);assert.equal(renderRating({ratings},'et'),'');
 const contactFixture=structuredClone(data);contactFixture.engagement.contact={enabled:false,formspreeId:''};
 const unavailableContact=renderContactSection({data:contactFixture,lang:'en',url:p=>p});assert(unavailableContact.includes('id="contact"'));assert(unavailableContact.includes('<fieldset disabled>'));assert(!unavailableContact.includes('data-contact-form'));
@@ -15,6 +16,10 @@ ratings.safety.score=11;assert.throws(()=>validateRatings(ratings));ratings.safe
 const e=structuredClone(data.engagement);e.contact.enabled=true;assert.throws(()=>validateRecord('engagement',e));e.contact.formspreeId='abcdefgh';validateRecord('engagement',e);e.comments.enabled=true;assert.throws(()=>validateRecord('engagement',e));e.comments.remarkboxKey='00000000-0000-4000-8000-000000000001';assert.throws(()=>validateRecord('engagement',e));e.comments.moderationConfirmed=true;validateRecord('engagement',e);e.socials[0].url='javascript:alert(1)';assert.throws(()=>validateRecord('engagement',e));
 const fixture=structuredClone(data);fixture.engagement.comments={enabled:true,remarkboxKey:'00000000-0000-4000-8000-000000000001',moderationConfirmed:true};const comments=commentsSection({data:fixture,lang:'et',path:'/et/places/tallinn/',title:'Tallinn'});assert(comments.includes('data-load-comments'));assert(!comments.includes('<iframe'));assert(!comments.includes('<script'));assert(comments.includes('https://runograph.com/et/places/tallinn/'));
 fixture.engagement.comments.moderationConfirmed=false;assert(!commentsSection({data:fixture,lang:'et',path:'/et/places/tallinn/',title:'Tallinn'}).includes('data-load-comments'));
+fixture.engagement.comments.enabled=false;
+const setup=commentsSetup({data:fixture});assert(setup.includes('data-load-comments'));assert(setup.includes('https://runograph.com/comment-setup/'));assert(setup.includes('Enable Moderation'));
+assert(!commentsSection({data:fixture,lang:'en',path:'/journal/rome/',title:'Rome'}).includes('data-load-comments'));
+fixture.engagement.comments.remarkboxKey='';assert.equal(commentsSetup({data:fixture}),'');
 const share=shareBar({data,lang:'et',path:'/et/places/tallinn/',title:'A & B'});assert(share.includes(encodeURIComponent('https://runograph.com/et/places/tallinn/')));assert(!share.includes('chatgpt.site'));assert(!share.includes('<script'));
 const files=folder=>readdirSync(folder).flatMap(n=>{const p=resolve(folder,n);return statSync(p).isDirectory()?files(p):[p];});
 for(const file of files(resolve(root,'dist')).filter(p=>p.endsWith('.html'))){const html=readFileSync(file,'utf8');for(const match of html.matchAll(/[A-Z0-9._%+-]+@gmail\.com/gi))assert(file===resolve(root,'dist/privacy/index.html')&&match[0]===data.integrations.privacyContactEmail,'Only the approved privacy email may appear, and only on the privacy page.');}

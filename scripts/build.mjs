@@ -1,4 +1,5 @@
 import {comparePostDates} from './post-order.mjs';
+import {commentsSetup} from './comments-setup.mjs';
 import {safeRoutePath,validateSanitizedGpx} from './route-downloads.mjs';
 import {readFileSync} from 'node:fs';
 import {renderFooter} from './footer.mjs';
@@ -107,6 +108,7 @@ for(const post of data.posts)for(const entry of post.translations??[]){
   if(previewDrafts)write('/'+entry.language+'/preview/'+post.slug+'/',redirectPage(url('/'+entry.language+'/journal/'+post.slug+'/'),{origin}));
  }else if(previewDrafts)renderStoryPage(post,entry.language,true);
 }
+if(data.engagement.comments.remarkboxKey)write('/en/comment-setup/',shell('en','comment-setup/','Comment setup','Connect Runograph to Remarkbox.',commentsSetup({data}),{noindex:true}));
 for(const path of englishPaths)for(const prefix of ['en','et']){const legacy='/'+prefix+path;if(!writtenPaths.has(legacy))writeRaw(legacy,redirectPage(url(path),{origin}));}
 writeFileSync(resolve(dist,'404.html'),`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lost track? | ${esc(data.site.brand)}</title><meta name="robots" content="noindex,follow"><link rel="stylesheet" href="${url('/assets/style.css')}"><link rel="stylesheet" href="${url('/assets/consent.css')}"></head><body><main class="section page-heading"><div class="eyebrow">404 / Runograph</div><h1>A little off route.</h1><p>This page could not be found.</p><a class="button button-green" href="${url('/en/')}">Back to the journal</a></main></body></html>`);
 writeFileSync(resolve(dist,'.nojekyll'),'');
