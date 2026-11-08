@@ -487,5 +487,49 @@
     "labelEn": "Presa del Río and its ravine (story illustration)",
     "labelEt": "Presa del Río and its ravine (story illustration)",
     "scope": "story"
+  },
+  {
+    "slug": "otepaa-story-vidrike-lake-and-hills",
+    "path": "/assets/uploads/otepaa-puhajarv-vidrike/vidrike-lake-and-hills.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lakevidrike.JPG",
+    "author": "Dj Capricorn",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "labelEn": "Lake Vidrike and its rolling countryside",
+    "labelEt": "Lake Vidrike and its rolling countryside",
+    "scope": "story"
+  },
+  {
+    "slug": "otepaa-story-murrumetsa-forest-path",
+    "path": "/assets/uploads/otepaa-puhajarv-vidrike/murrumetsa-forest-path.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:L%C3%B5kkekoht_Murrumetsa_matkarajal.JPG",
+    "author": "Ilme Parik",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "labelEn": "Murrumets walking path near Pühajärv",
+    "labelEt": "Murrumets walking path near Pühajärv",
+    "scope": "story"
+  },
+  {
+    "slug": "otepaa-story-tehvandi-stadium",
+    "path": "/assets/uploads/otepaa-puhajarv-vidrike/tehvandi-stadium.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tehvandi_suusastaadion_May_2013.jpg",
+    "author": "Santeri Viinamäki",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "labelEn": "Tehvandi stadium and the wooded hills behind it",
+    "labelEt": "Tehvandi stadium and the wooded hills behind it",
+    "scope": "story"
+  },
+  {
+    "slug": "otepaa-story-puhajarv-poslovitsa",
+    "path": "/assets/uploads/otepaa-puhajarv-vidrike/puhajarv-poslovitsa.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Poslovitsa_k%C3%A4%C3%A4r.jpg",
+    "author": "Mailiksr",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "labelEn": "Pühajärv at Poslovitsa",
+    "labelEt": "Pühajärv at Poslovitsa",
+    "scope": "story"
   }
 ]
