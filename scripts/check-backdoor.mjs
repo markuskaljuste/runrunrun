@@ -44,17 +44,18 @@ assert.equal((await codec.decode(tampered,key,salt)).success,false,'Tampered pay
 
 // Run the actual generated login JavaScript with a small DOM and real WebCrypto.
 const adapter=(map,blocked=false)=>({getItem(name){if(blocked)throw Error('Storage blocked');return map.get(name)??null;},setItem(name,value){if(blocked)throw Error('Storage blocked');map.set(name,value);},removeItem(name){if(blocked)throw Error('Storage blocked');map.delete(name);}});
-function browser({saved,shared=new Map(),tab=new Map(),gateHtml=gate,enteredUser=username,enteredPassword=password,blockedLocal=false,blockedTab=false}={}){
+function browser({saved,shared=new Map(),tab=new Map(),gateHtml=gate,enteredUser=username,enteredPassword=password,blockedLocal=false,blockedTab=false,parsing=false}={}){
  if(saved)tab.set(sessionKey,JSON.stringify(saved));
  const events={},button={disabled:false},status={textContent:''};let written='',reset=0;
  const form={hidden:false,querySelector:()=>button,addEventListener:(name,fn)=>events[name]=fn,reportValidity:()=>true,reset:()=>reset++};
  const elements={'reader-login':form,'reader-status':status,'reader-user':{value:enteredUser},'reader-password':{value:enteredPassword}};
  const localStorage=adapter(shared,blockedLocal),sessionStorage=adapter(tab,blockedTab);
- const document={getElementById:name=>elements[name],open(){},write:html=>written=html,close(){}};
- const context=vm.createContext({crypto:webcrypto,TextEncoder,TextDecoder,document,localStorage,sessionStorage,window:{crypto:webcrypto},URLSearchParams,console});
+ let cleared=false;
+ const document={readyState:parsing?'loading':'complete',getElementById:name=>elements[name],addEventListener:(name,fn)=>events[name]=fn,open(){assert.notEqual(this.readyState,'loading','The login document is still being parsed.');cleared=true;},write:html=>{assert(cleared,'Login DOM and styles must be cleared before writing story HTML.');written=html;},close(){}};
+ const context=vm.createContext({crypto:webcrypto,TextEncoder,TextDecoder,document,localStorage,sessionStorage,window:{crypto:webcrypto},URLSearchParams,console,setTimeout});
  const script=[...gateHtml.matchAll(/<script>([\s\S]*?)<\/script>/g)].at(-1)[1].replace(/resume\(\);\s*$/,'globalThis.ready=resume();');
  vm.runInContext(script,context);
- return {context,shared,tab,events,status,button,form,sessionStorage,localStorage,get written(){return written;},get reset(){return reset;}};
+ return {context,shared,tab,events,status,button,form,sessionStorage,localStorage,finishParsing(){document.readyState='complete';events.DOMContentLoaded?.();},get written(){return written;},get reset(){return reset;}};
 }
 const good=browser();await good.context.ready;assert(!good.written);await good.events.submit({preventDefault(){}});assert.equal(good.written,home);assert(good.reset);
 const saved=JSON.parse(good.shared.get(sessionKey));assert.equal(saved.key,key);assert(!JSON.stringify(saved).includes(password));assert(saved.expires>Date.now());
@@ -66,6 +67,9 @@ for(const path of ['journal/rome/index.html','countries/spain/index.html','journ
  await page.context.ready;assert.equal(page.written,decoded.get(path),'A second login was required on '+path);
  assert.equal(JSON.parse(good.shared.get(sessionKey)).expires,saved.expires,'Navigation must not renew the session indefinitely.');
 }
+// Regression: fast stored-key decryption must not insert the story into a still-parsing login document.
+const early=browser({shared:good.shared,parsing:true,gateHtml:readFileSync(resolve(dist,'journal/rome/index.html'),'utf8')});
+await new Promise(resolve=>setTimeout(resolve,30));assert(!early.written);assert.equal(early.reset,0);assert(early.events.DOMContentLoaded);early.finishParsing();await early.context.ready;assert.equal(early.written,decoded.get('journal/rome/index.html'));
 const resumed=browser({saved,shared:good.shared});await resumed.context.ready;assert.equal(resumed.written,home);
 const migrated=browser({saved:{key,expires:saved.expires}});await migrated.context.ready;assert.equal(migrated.written,home);assert(migrated.shared.has(sessionKey));assert.equal(JSON.parse(migrated.shared.get(sessionKey)).expires,saved.expires);
 const incorrect=browser({enteredUser:username+'wrong'});await incorrect.context.ready;await incorrect.events.submit({preventDefault(){}});assert(!incorrect.written);assert.match(incorrect.status.textContent,/incorrect/);assert(!incorrect.shared.size);assert(!incorrect.tab.size);assert(!incorrect.button.disabled);
@@ -89,4 +93,4 @@ otherActive.events.storage({key:sessionKey,newValue:null});assert.equal(otherAct
 const afterLogout=browser({shared:good.shared});await afterLogout.context.ready;assert(!afterLogout.written);
 const cached=unlocked(good);cached.events.pageshow();assert.equal(cached.reloads,1);assert(cached.document.documentElement.hidden);
 const stale=browser({shared:new Map(),tab:new Map([[sessionKey,JSON.stringify({...saved,shared:true})]])});await stale.context.ready;assert(!stale.written,'Do not resurrect a shared login removed in another tab.');
-console.log(`Passed reader security checks: ${decoded.size} encrypted pages, ${linkCount} local links, one login across stories, country and privacy pages/new tabs, legacy migration, blocked-storage fallback, expiry, cross-tab sign-out and cached Back navigation. Coming soon, privacy and sitemap preserved.`);
+console.log(`Passed reader security checks: ${decoded.size} encrypted pages, ${linkCount} local links, parser-safe full-page replacement without login styles, one login across stories, country and privacy pages/new tabs, legacy migration, blocked-storage fallback, expiry, cross-tab sign-out and cached Back navigation. Coming soon, privacy and sitemap preserved.`);

@@ -9,8 +9,13 @@ const readerSessionDuration=@@SESSION_DURATION@@;
 let readerPlaintext='';
 const reader=readerInitiator.init(readerConfig,{replaceHtmlCallback:html=>{readerPlaintext=html;}});
 const form=document.getElementById('reader-login'),status=document.getElementById('reader-status'),button=form.querySelector('button');
-function renderUnlocked(){form.reset();document.open();document.write(readerPlaintext);document.close();readerPlaintext='';}
-async function resume(){const saved=RunographReaderSession.read();if(!saved)return;form.hidden=true;button.disabled=true;try{const result=await reader.handleDecryptionOfPageFromHash(saved.key,false);if(result.isSuccessful){renderUnlocked();return;}RunographReaderSession.clear();}catch{}form.hidden=false;button.disabled=false;}
-form.addEventListener('submit',async event=>{event.preventDefault();if(!form.reportValidity())return;button.disabled=true;status.textContent='Opening preview…';try{const value=JSON.stringify([document.getElementById('reader-user').value.trim(),document.getElementById('reader-password').value]);const result=await reader.handleDecryptionOfPage(value,false);if(!result.isSuccessful){status.textContent='The username or password is incorrect.';return;}if(!RunographReaderSession.write({key:result.hashedPassword,expires:Date.now()+readerSessionDuration})){status.textContent='Allow browser storage to continue.';return;}renderUnlocked();}catch{status.textContent='Could not open the preview. Please try again in a current browser.';}finally{button.disabled=false;}});
+async function renderUnlocked(){
+ // document.open() is ignored while the original parser is executing. Resume can decrypt before that parser finishes.
+ // Wait for parsing, then replace from a separate task so the login DOM and its global styles are removed together.
+ await new Promise(resolve=>{const ready=()=>setTimeout(resolve,0);if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ready,{once:true});else ready();});
+ const html=readerPlaintext;readerPlaintext='';form.reset();document.open();document.write(html);document.close();
+}
+async function resume(){const saved=RunographReaderSession.read();if(!saved)return;form.hidden=true;button.disabled=true;try{const result=await reader.handleDecryptionOfPageFromHash(saved.key,false);if(result.isSuccessful){await renderUnlocked();return;}RunographReaderSession.clear();}catch{}form.hidden=false;button.disabled=false;}
+form.addEventListener('submit',async event=>{event.preventDefault();if(!form.reportValidity())return;button.disabled=true;status.textContent='Opening preview…';try{const value=JSON.stringify([document.getElementById('reader-user').value.trim(),document.getElementById('reader-password').value]);const result=await reader.handleDecryptionOfPage(value,false);if(!result.isSuccessful){status.textContent='The username or password is incorrect.';return;}if(!RunographReaderSession.write({key:result.hashedPassword,expires:Date.now()+readerSessionDuration})){status.textContent='Allow browser storage to continue.';return;}await renderUnlocked();}catch{status.textContent='Could not open the preview. Please try again in a current browser.';}finally{button.disabled=false;}});
 resume();
 </script></body></html>
