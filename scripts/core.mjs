@@ -18,7 +18,7 @@ export function readContent() {
   for (const type of ['site','branding','images','seo','integrations','publication','engagement']) data[type]=JSON.parse(readFileSync(resolve(root,'content',type+'.json'),'utf8'));
   data.engagement.newsletter ??= {enabled:false,appsScriptUrl:''};
   data.engagement.socials ??= [];for(const social of data.engagement.socials)social.enabled ??= false;
-  data.engagement.contact.formspreeId ??= '';data.engagement.contact.enabled ??= false;data.engagement.comments.remarkboxKey ??= '';data.engagement.comments.enabled ??= false;data.engagement.comments.moderationConfirmed ??= false;
+  data.engagement.contact.formspreeId ??= '';data.engagement.contact.enabled ??= false;
   for (const key of ['logo','footerLogo','logoAlt']) data.branding[key] ??= '';
   data.branding.logoWidth ??= 160;
   data.branding.sponsors ??= [];
@@ -44,9 +44,6 @@ export function validateRecord(type, item) {
     if(!item.contact||typeof item.contact.enabled!=='boolean'||typeof item.contact.formspreeId!=='string')throw new Error('Check contact form settings.');
     if(item.contact.formspreeId&&!/^[a-zA-Z0-9]{6,64}$/.test(item.contact.formspreeId))throw new Error('Use only the Formspree form ID, not an email address.');
     if(item.contact.enabled&&!item.contact.formspreeId)throw new Error('Add the real Formspree form ID before enabling contact messages.');
-    const c=item.comments;if(!c||typeof c.enabled!=='boolean'||typeof c.moderationConfirmed!=='boolean'||typeof c.remarkboxKey!=='string')throw new Error('Check comment settings.');
-    if(c.remarkboxKey&&!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(c.remarkboxKey))throw new Error('Add the public Remarkbox embed key.');
-    if(c.enabled&&(!c.remarkboxKey||!c.moderationConfirmed))throw new Error('Enable Moderation in Remarkbox and add its public embed key before enabling comments.');
     return;
   }
   if(type==='publication'){

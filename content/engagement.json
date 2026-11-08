@@ -13,11 +13,6 @@
     }
   ],
   "sharingEnabled": true,
-  "comments": {
-    "enabled": false,
-    "remarkboxKey": "f4f344c7-db5b-11f1-8000-040140774501",
-    "moderationConfirmed": false
-  },
   "contact": {
     "enabled": false,
     "formspreeId": ""

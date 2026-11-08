@@ -74,13 +74,11 @@ The score at the end of the story is their equally weighted average, rounded to 
 
 Photographs should be your own or licensed for the intended use. A `Photo:` or `Foto:` paragraph directly after a Markdown image is rendered once in its small caption. Include author, source and license links. `content/photo-credits.json`, `CREDITS.md` and bundled license files record stock-photo and font sources. The homepage uses the edited photograph supplied by the author (IMG_0671_mirror copy.jpg).
 
-## Contact, comments, Analytics and cookies
+## Contact, Analytics and cookies
 
 Social, contact, sharing and comment settings are in `content/engagement.json`. Formspree contact submission remains disabled until its real opaque form ID is added. Configure the private receiving address inside Formspree, not the public content files.
 
-Remarkbox comments remain off until its real public embed key is supplied and moderation is enabled in the provider's Namespace Settings. Comment approval happens in Remarkbox. The website acknowledgement does not configure provider moderation automatically.
 
-If Remarkbox requires the snippet before its settings are available, save the public embed key while leaving both comment switches off. Open `/comment-setup/` on runograph.com, unlock the reader preview when requested, and select **Laadi Remarkbox** while logged into Remarkbox in the same browser. Finish the provider setup for exactly `runograph.com`, enable **Namespace Settings → Enable Moderation**, and save. Only then set `moderationConfirmed` and `enabled` to true. The setup page has no menu/sitemap entry and is noindex; during Coming soon it is encrypted with the other reader pages. It uses its own onboarding thread and does not activate any story comment form.
 
 GA4 is configured in **Google & cookies** using the supplied measurement ID and approved privacy contact. It runs on the public Coming soon page and the future full site only after opt-in. Private Sites and local previews do not collect Analytics data. Search Console remains unconfigured. Cookie choices can be changed from the footer. The approved privacy email appears only on the privacy page. Contact-form recipients, API tokens and secrets stay outside public content files.
 

@@ -1,5 +1,4 @@
 import {comparePostDates} from './post-order.mjs';
-import {commentsSetup} from './comments-setup.mjs';
 import {safeRoutePath,validateSanitizedGpx} from './route-downloads.mjs';
 import {readFileSync} from 'node:fs';
 import {renderFooter} from './footer.mjs';
@@ -9,7 +8,7 @@ import { mkdirSync, writeFileSync, rmSync, cpSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { root, readContent, validateAll, esc, safeUrl, inline, markdown } from './core.mjs';
 import {isComingSoon,buildComingSoon,renderComingSoonPage} from './publication.mjs';
-import {wordmarkText,shareBar,commentsSection,renderContactSection,socialLinks} from './engagement.mjs';
+import {wordmarkText,shareBar,renderContactSection,socialLinks} from './engagement.mjs';
 import {renderRating,renderScoreBadge,ratingAverage} from './ratings.mjs';
 import {renderAttachments} from './attachments.mjs';
 import {renderStoryMap} from './story-maps.mjs';
@@ -69,7 +68,7 @@ function storyPlaceTags(p,lang){
 function storyArticle(p,lang,{draft=false}={}){
  const t=translations.en,v=translationFields(p,lang)??p.en,notice=draft?`<aside class="draft-notice"><strong>${lang==='et'?'Mustandi eelvaade':'Draft preview'}</strong><span>${lang==='et'?'See lugu ei ole runograph.com-is avaldatud.':'This story is not published on runograph.com.'}</span></aside>`:'';
  const caption=lang==='en'?(v.imageCaption??t.photos):(v.imageCaption?.trim()||p.en.imageCaption||'');
- return `${notice}<article><header class="article-heading section"><a class="breadcrumb" href="${url('/en/journal/')}">${t.back} ${t.journal.toLowerCase()}</a><div class="eyebrow">${postCountryLinks(p,'en')} <span>·</span> ${draft?(lang==='et'?'Mustand':'Draft'):formattedDate(p.date,lang)} <span>·</span> ${minutes(v.body)} ${t.minutes}</div><h1>${esc(v.title)}</h1><p>${esc(v.excerpt||'')}</p>${storyLanguageLinks(p,lang)}${storyPlaceTags(p,'en')}</header><figure class="article-image${p.coverFit==='contain'?' article-image-contain':''}"><img src="${esc(image(p.image))}" alt="${esc(v.imageAlt||p.en.imageAlt||'')}" width="1600" height="900">${caption?`<figcaption>${inline(caption,base)}</figcaption>`:''}</figure><div class="article-layout section"><div class="prose">${markdown(v.body||'',base)}${lang==='en'?'':sharedStoryMedia(p,v,base)}${renderStoryMap(p,url)}${renderAttachments(p,'en',url)}${renderRating(p,'en')}${draft?'':shareBar({data,lang:'en',path:`/${lang}/journal/${p.slug}/`,title:v.title})+commentsSection({data,lang:'en',path:`/${lang}/journal/${p.slug}/`,title:v.title})}</div></div></article>`;
+ return `${notice}<article><header class="article-heading section"><a class="breadcrumb" href="${url('/en/journal/')}">${t.back} ${t.journal.toLowerCase()}</a><div class="eyebrow">${postCountryLinks(p,'en')} <span>·</span> ${draft?(lang==='et'?'Mustand':'Draft'):formattedDate(p.date,lang)} <span>·</span> ${minutes(v.body)} ${t.minutes}</div><h1>${esc(v.title)}</h1><p>${esc(v.excerpt||'')}</p>${storyLanguageLinks(p,lang)}${storyPlaceTags(p,'en')}</header><figure class="article-image${p.coverFit==='contain'?' article-image-contain':''}"><img src="${esc(image(p.image))}" alt="${esc(v.imageAlt||p.en.imageAlt||'')}" width="1600" height="900">${caption?`<figcaption>${inline(caption,base)}</figcaption>`:''}</figure><div class="article-layout section"><div class="prose">${markdown(v.body||'',base)}${lang==='en'?'':sharedStoryMedia(p,v,base)}${renderStoryMap(p,url)}${renderAttachments(p,'en',url)}${renderRating(p,'en')}${draft?'':shareBar({data,lang:'en',path:`/${lang}/journal/${p.slug}/`,title:v.title})}</div></div></article>`;
 }
 function renderStoryPage(post,lang,draft=false){
  const fields=translationFields(post,lang)??post.en,path=(draft?'preview/':'journal/')+post.slug+'/';
@@ -108,7 +107,6 @@ for(const post of data.posts)for(const entry of post.translations??[]){
   if(previewDrafts)write('/'+entry.language+'/preview/'+post.slug+'/',redirectPage(url('/'+entry.language+'/journal/'+post.slug+'/'),{origin}));
  }else if(previewDrafts)renderStoryPage(post,entry.language,true);
 }
-if(data.engagement.comments.remarkboxKey)write('/en/comment-setup/',shell('en','comment-setup/','Comment setup','Connect Runograph to Remarkbox.',commentsSetup({data}),{noindex:true}));
 for(const path of englishPaths)for(const prefix of ['en','et']){const legacy='/'+prefix+path;if(!writtenPaths.has(legacy))writeRaw(legacy,redirectPage(url(path),{origin}));}
 writeFileSync(resolve(dist,'404.html'),`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lost track? | ${esc(data.site.brand)}</title><meta name="robots" content="noindex,follow"><link rel="stylesheet" href="${url('/assets/style.css')}"><link rel="stylesheet" href="${url('/assets/consent.css')}"></head><body><main class="section page-heading"><div class="eyebrow">404 / Runograph</div><h1>A little off route.</h1><p>This page could not be found.</p><a class="button button-green" href="${url('/en/')}">Back to the journal</a></main></body></html>`);
 writeFileSync(resolve(dist,'.nojekyll'),'');

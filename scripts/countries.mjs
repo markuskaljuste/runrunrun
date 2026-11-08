@@ -1,6 +1,6 @@
 import {renderRating} from './ratings.mjs';
 import {compareStoryRatings} from './rating-data.mjs';
-import {shareBar,commentsSection} from './engagement.mjs';
+import {shareBar} from './engagement.mjs';
 import {esc,safeUrl,markdown,postCountries} from './core.mjs';
 import {storiesForPlace,placeHasContent,comparePlaces,storyPlaceEntries,publishedStoryPlaces} from './story-places.mjs';
 
@@ -74,7 +74,7 @@ export function buildPlacePages({data,lang,url,write,shell,card,base}){
   const heading=`<section class="section page-heading place-heading${compact?' place-heading-compact':''}"><a class="breadcrumb" href="${url('/'+lang+'/countries/'+p.country+'/')}">${esc(country)}</a><div class="eyebrow">${esc([v.region,country].filter(Boolean).join(' · '))}</div><h1>${esc(v.name)}</h1>${!ready?`<span class="place-status">${pendingLabel(lang)}</span>`:!compact?`<p>${esc(v.excerpt)}</p>`:''}</section>`;
   const creditHtml=credit?`<span> · ${esc(credit.author)} · <a href="${esc(safeUrl(credit.sourceUrl))}" target="_blank" rel="noopener noreferrer">${et?'Foto allikas':'Photo source'}</a> · <a href="${esc(safeUrl(credit.licenseUrl))}" target="_blank" rel="noopener noreferrer">${esc(credit.license)}</a></span>`:'';
   const caption=v.imageCaption||(et?'Illustratiivne kohapilt, mitte autori foto.':'Illustrative location image; not the author’s photograph.');
-  const article=compact?'':`<figure class="place-image"><img src="${esc(asset(p.image,url))}" alt="${esc(v.imageAlt||v.name)}" width="1600" height="1000" fetchpriority="high"><figcaption>${esc(caption)}${creditHtml}</figcaption></figure><section class="section place-body"><div class="prose">${markdown(v.body,base)}${renderRating(p,lang)}${shareBar({data,lang,path:`/${lang}/places/${p.slug}/`,title:v.name})}${commentsSection({data,lang,path:`/${lang}/places/${p.slug}/`,title:v.name})}</div></section>`;
+  const article=compact?'':`<figure class="place-image"><img src="${esc(asset(p.image,url))}" alt="${esc(v.imageAlt||v.name)}" width="1600" height="1000" fetchpriority="high"><figcaption>${esc(caption)}${creditHtml}</figcaption></figure><section class="section place-body"><div class="prose">${markdown(v.body,base)}${renderRating(p,lang)}${shareBar({data,lang,path:`/${lang}/places/${p.slug}/`,title:v.name})}</div></section>`;
   const related=stories.length?`<section class="section place-stories${compact?' place-stories-compact':''}"><div class="section-heading"><h2>${et?'Lood sellest paigast':'Stories from this place'}</h2></div><div class="card-grid">${stories.map(s=>card(s,lang)).join('')}</div></section>`:'';
   const more=siblings.length?`<section class="section sibling-places"><div class="section-heading"><h2>${et?'Veel sama riigi jooksukohti':'More running places in this country'}</h2></div><div class="destination-grid">${siblings.slice(0,3).map(q=>placeCard(q,{data,lang,url})).join('')}</div></section>`:'';
   write('/'+lang+'/places/'+p.slug+'/',shell(lang,'places/'+p.slug+'/',v.name+' · '+country,description,heading+article+related+more,{ogImage:p.image,seo:v,noindex:!ready,ogType:'website'}));

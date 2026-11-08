@@ -1154,30 +1154,6 @@
           ]
         },
         {
-          "name": "comments",
-          "label": "Kommentaarid / Comments",
-          "type": "object",
-          "fields": [
-            {
-              "name": "enabled",
-              "label": "Lülita kommentaarid sisse / Enable comments",
-              "type": "boolean",
-              "default": false
-            },
-            {
-              "name": "remarkboxKey",
-              "label": "Remarkboxi avalik embed-võti / Public embed key",
-              "type": "string"
-            },
-            {
-              "name": "moderationConfirmed",
-              "label": "Remarkboxi Namespace Settings all on Enable Moderation sisse lülitatud",
-              "type": "boolean",
-              "default": false
-            }
-          ]
-        },
-        {
           "name": "newsletter",
           "label": "Email signup / Google Sheets",
           "type": "object",

@@ -16,15 +16,6 @@ Kui postitus on seotud hinnatud jooksukohaga, kuvatakse sama koha hinnang ka sel
 
 Tasuta piir on praegu 50 vormisaadetist kuus. Saaja aadress ei ilmu HTML-is, JavaScriptis ega saidi seadistusfailis. Uudiskirjaga liitumine on eraldi toiming; kontaktvorm sinna kedagi automaatselt ei lisa.
 
-## Kommentaarid hiljem
+## Kommentaarid
 
-1. Ava [Remarkbox](https://www.remarkbox.com/) ja vali Setup. Nende praegune Pay what you can mudel lubab alustada ka 0 €/kuus.
-2. Loo runograph.com jaoks Namespace ja kinnita oma konto e-post teenuse juhiste järgi.
-3. Namespace Settings all lülita sisse **Enable Moderation**. See hoiab uued kommentaarid peidus, kuni oled need kinnitanud.
-4. Kopeeri lehele mõeldud avalik rb_owner_key embed-võti. Ära lisa saidile konto parooli ega privaatseid haldustokeneid.
-5. Pages CMS → Sotsiaal ja kontakt → Kommentaarid. Lisa avalik võti, kinnita modereerimise sisselülitamine ning lülita kommentaarid sisse.
-6. Proovi eraldi lugejana kommentaari lisada. See peab jääma avalikul lehel peitu. Seejärel kinnita kommentaar Remarkboxi halduses ja kontrolli avaldamist.
-
-Saidil olev kinnitusmärge ei lülita Remarkboxi modereerimist ise sisse. See tuleb teha teenuses. Kommentaarid laaditakse alles nupust Ava kommentaarid. Teenuse enda vorm on ingliskeelne, lehe ümbritsev tekst on kahes keeles. Et vältida eelvaatest eraldi vestluste tekkimist, kasutatakse alati runograph.com avalikke aadresse.
-
-Ametlikud juhendid: [Formspree hinnad](https://formspree.io/plans), [Formspree AJAX](https://formspree.io/blog/formspree-ajax/), [Remarkboxi modereerimine](https://faq.remarkbox.com/cdbaa346-4320-11ec-ade6-21646204cc72/does-remarkbox-have-moderation-features).
+Kommentaarium ei ole praegu ühendatud. Uus lahendus lisatakse eraldi.
