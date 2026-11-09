@@ -7,7 +7,7 @@
     "spain"
   ],
   "placeNames": [
-    "Barcelona: something for everyone"
+    "Barcelona"
   ],
   "image": "/assets/uploads/barcelona-hills-and-seafront/barcelona-waterfront.jpg",
   "coverFit": "cover",
@@ -41,7 +41,7 @@
     }
   },
   "en": {
-    "title": "Barcelona",
+    "title": "Barcelona: something for everyone",
     "excerpt": "Most of those runs have taken me up into the hills around Turó del Carmel. There are climbs, city views and plenty of other people out for a jog. Down by the sea, Barcelona offers a very different run: flatter, easier to settle into and, for most people, probably the better place to begin.",
     "practicalSummary": {
       "goodFor": "Easy seafront runs or hill sessions around Turó del Carmel.",
