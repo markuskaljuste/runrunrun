@@ -4,8 +4,8 @@
   "pages": {
     "home": {
       "en": {
-        "title": "Running & Travel Journal | Runograph",
-        "description": "An Estonian runner’s journal of running, travel and remote life. Discover the story behind Rocca Sörk, personal running notes and destinations explored on foot.",
+        "title": "Running Routes & Travel Stories | Runograph",
+        "description": "Personal running routes, maps and honest destination scores from places I’ve explored in my running shoes, with practical notes on safety, terrain and scenery.",
         "socialImage": ""
       },
       "et": {
@@ -16,8 +16,8 @@
     },
     "journal": {
       "en": {
-        "title": "Running Stories & Travel Notes | Runograph",
-        "description": "Personal stories about starting to run for karting, nine marathon attempts, a later 10 km focus and running while travelling.",
+        "title": "Running Destination Stories & Routes | Runograph",
+        "description": "First-hand running stories from Europe and beyond, with mapped routes, GPX files, elevation profiles and notes on safety, scenery and local running conditions.",
         "socialImage": ""
       },
       "et": {
@@ -28,8 +28,8 @@
     },
     "about": {
       "en": {
-        "title": "The Story Behind the Running Shoes | Runograph",
-        "description": "From cross-country skiing in Estonia to running for karting, nine marathon attempts and founding Rocca Sörk. A personal story of running, travel and remote work.",
+        "title": "About Markus & Contact | Runograph",
+        "description": "I’m Markus, an Estonian runner working in digital marketing and a co-founder of Rocca Sörk. Read how running and travel led to Runograph, and get in touch.",
         "socialImage": ""
       },
       "et": {

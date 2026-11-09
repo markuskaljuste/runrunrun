@@ -37,6 +37,7 @@ jobs:
         run: npm run check
         env:
           BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          CHECK_PUBLIC_SEARCH: '1'
       - name: Build and verify encrypted reader preview
         run: node scripts/build-backdoor.mjs && node scripts/check-backdoor.mjs
         env:

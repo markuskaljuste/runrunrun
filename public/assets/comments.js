@@ -6,14 +6,21 @@
  const random=length=>{const a=new Uint8Array(length);crypto.getRandomValues(a);return Array.from(a,b=>b.toString(16).padStart(2,'0')).join('');};
  let client=random(16);try{const old=JSON.parse(localStorage.getItem('runograph-comment-client')||'null');if(old&&/^[a-f0-9]{32}$/.test(old.id)&&Date.now()-old.at<30*86400000)client=old.id;else localStorage.setItem('runograph-comment-client',JSON.stringify({id:client,at:Date.now()}));}catch{}
  function request(endpoint,values){return new Promise((resolve,reject)=>{
-  const nonce=random(24),frame=document.createElement('iframe'),transport=document.createElement('form');
+  const nonce=random(24),frame=document.createElement('iframe'),transport=values.action==='add'?document.createElement('form'):null;
   frame.name='runograph-comments-'+nonce;frame.hidden=true;frame.title='Comments response';frame.referrerPolicy='no-referrer';frame.setAttribute('sandbox','allow-scripts allow-forms allow-same-origin');
-  transport.hidden=true;transport.method=values.action==='add'?'POST':'GET';transport.action=endpoint;transport.target=frame.name;
-  for(const [name,value]of Object.entries({...values,origin:window.location.origin,nonce,client})){const input=document.createElement('input');input.type='hidden';input.name=name;input.value=String(value);transport.append(input);}
-  let done=false,timer;const finish=(error,result)=>{if(done)return;done=true;clearTimeout(timer);window.removeEventListener('message',receive);transport.remove();frame.remove();if(error)reject(error);else resolve(result);};
+  // Keep the response sandboxed; supported browsers also isolate it from Google sign-in cookies.
+  frame.setAttribute('credentialless','');
+  const params={...values,origin:window.location.origin,nonce,client};
+  if(transport){transport.hidden=true;transport.method='POST';transport.action=endpoint;transport.target=frame.name;
+   for(const [name,value]of Object.entries(params)){const input=document.createElement('input');input.type='hidden';input.name=name;input.value=String(value);transport.append(input);}
+  }
+  let done=false,timer;const finish=(error,result)=>{if(done)return;done=true;clearTimeout(timer);window.removeEventListener('message',receive);transport?.remove();frame.remove();if(error)reject(error);else resolve(result);};
   const receive=event=>{const r=event.data;if(!googleOrigin(event.origin)||!r||r.type!=='runograph-comments-result'||r.nonce!==nonce||typeof r.ok!=='boolean')return;if(!r.ok)finish(Object.assign(Error(r.code),{code:r.code}));else finish(null,r.data);};
-  window.addEventListener('message',receive);timer=setTimeout(()=>finish(Object.assign(Error('timeout'),{code:'timeout'})),30000);
-  try{document.body.append(frame,transport);transport.submit();}catch(error){finish(error);}
+  window.addEventListener('message',receive);timer=setTimeout(()=>finish(Object.assign(Error('timeout'),{code:'timeout'})),45000);
+  try{
+   if(transport){document.body.append(frame,transport);transport.submit();}
+   else{frame.src=endpoint+'?'+new URLSearchParams(params);document.body.append(frame);}
+  }catch(error){finish(error);}
  });}
  function element(tag,text,className){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(className)e.className=className;return e;}
  function dateLabel(value){const d=new Date(value);return Number.isNaN(d.getTime())?'':d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});}
