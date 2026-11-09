@@ -5,6 +5,7 @@ import {resolve} from 'node:path';
 import {root,readContent,validateRecord,markdown} from './core.mjs';
 import {emptyRatings,ratingCriteria,ratingAverage} from './rating-data.mjs';
 import {renderRating} from './ratings.mjs';
+import {criteria as editorCriteria} from '../public/admin/ratings.js';
 import {storyLanguages,storyHasTranslation,storyLanguage,storyPath,publishedStoryLanguages,translationFields} from './story-languages.mjs';
 
 const post={slug:'language-and-score-check',status:'published',date:'2026-11-02',countries:['france','monaco'],place:'nice',en:{title:'A coastal run',excerpt:'The owner’s introduction.',body:'The owner’s **latest story**.'}};
@@ -20,11 +21,15 @@ assert.throws(()=>validateRecord('posts',{...post,en:{title:'Only a title'}}));
 assert.throws(()=>validateRecord('posts',{...post,en:{...post.en,body:42}}));
 
 const ratings=emptyRatings();ratings.enabled=true;
-for(const [index,[key]] of ratingCriteria.entries())ratings[key]={score:[8,9,7,8,10][index]};
+Object.assign(ratings,{safety:{score:8},scenery:{score:9},surface:{score:7},experience:{score:10}});
 validateRecord('posts',{...post,ratings});
-assert.equal(ratingAverage(ratings),8.4);
-assert(renderRating({ratings},'en').includes('8.4'));
-assert(renderRating({ratings},'et').includes('8,4'));
+assert.equal(ratingAverage(ratings),8.5);
+assert.equal(ratingAverage({...ratings,access:{score:1}}),8.5,'A legacy Access score must not affect the four-criterion average.');
+assert(renderRating({ratings},'en').includes('8.5'));
+assert(renderRating({ratings},'et').includes('8,5'));
+assert.equal((renderRating({ratings},'en').match(/<meter /g)??[]).length,4);
+assert(!renderRating({ratings:{...ratings,access:{score:1}}},'en').includes('<h3>Access</h3>'));
+assert.deepEqual(editorCriteria,ratingCriteria,'The local editor and published stories must use the same criteria.');
 for(const score of [0,11,8.5])assert.throws(()=>validateRecord('posts',{...post,ratings:{...ratings,safety:{score}}}));
 assert.throws(()=>validateRecord('posts',{...post,ratings:{...ratings,safety:{score:8,en:'x'.repeat(241)}}}));
 assert.throws(()=>validateRecord('posts',{...post,ratings:{...ratings,safety:{score:null}}}));
@@ -33,6 +38,7 @@ assert.equal(renderRating(post,'en'),'','An unrated story must not inherit place
 const schema=JSON.parse(readFileSync(resolve(root,'.pages.yml'),'utf8'));
 const fields=schema.content.find(c=>c.name==='posts').fields;
 const ratingFields=fields.find(f=>f.name==='ratings').fields;
+assert.deepEqual(ratingFields.map(f=>f.name),['enabled','safety','scenery','surface','experience']);
 for(const [key] of ratingCriteria){const score=ratingFields.find(f=>f.name===key).fields.find(f=>f.name==='score');assert.deepEqual(score.options,{min:1,max:10});}
 for(const lang of storyLanguages){const group=fields.find(f=>f.name===lang);assert(!group.required);for(const key of ['title','excerpt','body'])assert(!group.fields.find(f=>f.name===key).required);}
 

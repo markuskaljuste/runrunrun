@@ -62,7 +62,7 @@ Each country can have its own **Destination cover image** under **Countries** in
 
 ## Scores
 
-Open a post's **Runograph score / Runographi hinnang** section. Enter whole-number scores from 1 to 10 for safety, scenery, running surface, access and running experience. Add optional English notes, up to 240 characters, and enable **Show rating**. All five scores are required when enabled.
+Open a post's **Runograph score / Runographi hinnang** section. Enter whole-number scores from 1 to 10 for safety, scenery, running surface and running experience. Add optional English notes, up to 240 characters, and enable **Show rating**. All four scores are required when enabled.
 
 The score at the end of the story is their equally weighted average, rounded to one decimal. All language versions share those scores. Stories have independent scores rather than inheriting another place's ratings. The Nice-to-Monaco scores were assigned at the owner's request from his description and remain editable.
 
