@@ -1,0 +1,57 @@
+{
+  "slug": "prague",
+  "status": "published",
+  "date": "2026-11-09",
+  "publishedAt": "2026-11-09T22:10:00+02:00",
+  "countries": [
+    "czechia"
+  ],
+  "placeNames": [
+    "Prague",
+    "Karlín",
+    "Holešovice",
+    "Hradčany"
+  ],
+  "image": "/assets/uploads/prague/prague-city-views.webp",
+  "coverFit": "contain",
+  "routeMap": {
+    "enabled": true,
+    "googleMyMapsUrl": "https://www.google.com/maps/d/viewer?mid=1U0pJHtNdmvmWmdyVWz12oTnsc6JcOGk",
+    "mapId": "prague",
+    "downloadsEnabled": false
+  },
+  "ratings": {
+    "enabled": true,
+    "safety": {
+      "score": 7,
+      "en": "The riverside offered room to run, while traffic, crossings and crowds demanded more attention in the historic streets."
+    },
+    "scenery": {
+      "score": 8,
+      "en": "River views, the castle hill and sunrise over the old city made Prague a memorable place to explore on foot."
+    },
+    "surface": {
+      "score": 7,
+      "en": "The flat riverside paths were comfortable, but cobbles and steps made the historic section less consistent."
+    },
+    "experience": {
+      "score": 8,
+      "en": "Steady riverside miles, an optional hill and early coffee with Pavel made this an enjoyable city run."
+    }
+  },
+  "en": {
+    "title": "Prague: riverside miles and old-town hills",
+    "excerpt": "Flat running beside the Vltava, a climb towards the castle, sunrise coffee with Pavel and a little Harry Potter atmosphere.",
+    "practicalSummary": {
+      "goodFor": "Steady riverside runs with an optional climb into the historic city; my full loop was around 20 to 21 km.",
+      "terrain": "Mostly flat beside the river, with cobblestones, steps and a noticeable climb around the castle hill.",
+      "keepInMind": "I visited in October; go early for the historic streets and expect more tourists and traffic later in the day."
+    },
+    "body": "I visited Prague in October, and the river quickly became my favourite place to run. There was a long walking and cycling path beside the Vltava, very little climbing and enough room to settle into a steady rhythm. Later in the same outing, the historic streets gave me a completely different kind of run.\n\n## Flat miles beside the Vltava\n\nI headed out along the river, turned around on the far side of the map and came back before adding the hillier part through the old city. The full outing was around 20 to 21 km, combining that riverside out-and-back with the castle area and a loop across the central bridges.\n\nThe longer, flatter section heads through Karlín towards the Holešovice side. That was the easiest part for keeping a consistent pace: no big climbs, the river beside me and much less to negotiate than in the busiest historic streets.\n\n![A broad riverside path beside the Vltava in soft morning light](/assets/uploads/prague/vltava-naplavka-morning.webp \"Náplavka beside the Vltava, an illustration of Prague’s riverside paths. Photo: [ŠJů](https://commons.wikimedia.org/wiki/File:Ra%C5%A1%C3%ADnovo_n%C3%A1b%C5%99e%C5%BE%C3%AD,_n%C3%A1plavka_mezi_Palack%C3%A9ho_mostem_a_V%C3%BDton%C3%AD.jpg) · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).\")\n\n## Up towards the castle\n\nAfter the riverside kilometres, I headed into the older streets and up the hill around Hradčany and Prague Castle. On the mapped loop, the main climb comes from Malá Strana towards Hradčany Square, including the Zámecké schody steps. It is a noticeable change after all that flat running beside the river.\n\nThe loop continues around the castle area and comes back down towards Malá Strana via Nerudova. From there, Charles Bridge brings it across the river again. The southern part connects Jiráskův Bridge and Legion Bridge before heading back north.\n\nSomething about Prague’s old buildings and narrow streets reminded me of Harry Potter. I cannot explain that particularly well, but it is the feeling I remember. The higher parts of the city also give you a very different view from the riverside. One of my photos from a walk shows how much height you can gain if you feel like adding a climb.\n\n## Go before the crowds\n\nI ran in the morning, and I would do the same again. The historic streets get busy, and once they fill with tourists, a relaxed run becomes more of a slalom. For a steady session, I would choose the riverside and save the crowded centre for a walk.\n\nSome of my favourite memories are the sunrise runs with my friend Pavel, followed by takeaway coffee. Those mornings were as much about spending time together as getting the kilometres done.\n\n![Markus and Pavel during a sunrise run on a cobbled bridge in Prague](/assets/uploads/prague/sunrise-run-with-pavel.webp \"An early run with Pavel, before the city got busy.\")\n\n## Coffee, food and something sweet\n\nThe eating was good, too. There were hearty meals, coffee stops and plenty of sweet things to pick up in the streets. The photos probably explain that part better than a long restaurant review would.\n\n![A meal with Pavel, takeaway coffees and a sweet street snack in Prague](/assets/uploads/prague/coffee-and-food.webp \"A few things we enjoyed between the runs and walks.\")\n\nFor running, Prague gave me a little of the variety I enjoy in Barcelona: an easier, flatter option and a hillier one when I wanted it. There is no sea, which I usually gravitate towards, but the river and those early mornings made this a very enjoyable city to explore in running shoes.\n\n## My take\n\nI would use the Vltava path for steady running and save the historic streets for an early detour or a walk. Prague worked well for combining a morning run with the rest of a city trip.\n\nDo you know a better riverside stretch, a quieter way up the hill or a local run club worth joining? Leave a comment below. Local tips and corrections are welcome.",
+    "imageAlt": "Prague collage showing Café Slavia, a hillside path overlooking the Vltava and a bridge at sunrise",
+    "imageCaption": "Prague from my runs and walks: riverside mornings, historic streets and views from higher up.",
+    "seoTitle": "Running in Prague: riverside paths and castle hills | Runograph",
+    "seoDescription": "A personal October running story from Prague, with a roughly 21 km Google Maps route, flat Vltava paths, castle hills, photos and practical tips.",
+    "socialImage": "/assets/uploads/prague/prague-city-views.webp"
+  }
+}

@@ -202,6 +202,10 @@
                   {
                     "value": "otepaa-puhajarv-vidrike",
                     "label": "Otepää: Pühajärv and Vidrike"
+                  },
+                  {
+                    "label": "Prague: riverside and castle loop",
+                    "value": "prague"
                   }
                 ]
               },

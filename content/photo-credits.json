@@ -520,5 +520,27 @@
     "labelEn": "Asphalt road at Mäha near Otepää",
     "labelEt": "Asfalttee Mähal Otepää lähedal",
     "scope": "story"
+  },
+  {
+    "slug": "prague-naplavka-morning",
+    "path": "/assets/uploads/prague/vltava-naplavka-morning.webp",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ra%C5%A1%C3%ADnovo_n%C3%A1b%C5%99e%C5%BE%C3%AD,_n%C3%A1plavka_mezi_Palack%C3%A9ho_mostem_a_V%C3%BDton%C3%AD.jpg",
+    "author": "ŠJů",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "labelEn": "Náplavka riverside path, Prague (resized and converted to WebP)",
+    "labelEt": "Praha jõeäärne tee",
+    "scope": "story"
+  },
+  {
+    "slug": "prague-route",
+    "path": "/assets/maps/prague.json",
+    "sourceUrl": "https://www.openstreetmap.org/copyright",
+    "author": "OpenStreetMap contributors; walking routing by FOSSGIS",
+    "license": "ODbL 1.0",
+    "licenseUrl": "https://opendatacommons.org/licenses/odbl/1-0/",
+    "labelEn": "Prague running route geometry",
+    "labelEt": "Praha jooksuraja geomeetria",
+    "scope": "map"
   }
 ]

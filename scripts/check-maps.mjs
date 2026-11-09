@@ -29,9 +29,19 @@ for(const url of ['http://www.google.com/maps/d/viewer?mid='+mapId,'https://www.
 const data=readContent(),base=(process.env.BASE_PATH??'').replace(/\/$/,''),home=readFileSync(resolve(root,'dist/index.html'),'utf8'),launch=home.includes('data-publication="coming-soon"');
 for(const name of readdirSync(resolve(root,'public/assets/maps'))){
  const map=validateMapData(JSON.parse(readFileSync(resolve(root,'public/assets/maps',name),'utf8')));
- assert(map.layers.some(layer=>layer.kind==='personal'));
+ assert(map.layers.some(layer=>layer.kind==='personal')||name==='prague.json','Only the reconstructed Prague map is guide-only.');
  for(const layer of map.layers)assert(!('privateEndsOmitted' in layer),'No false clipping claim should remain.');
 }
+const prague=validateMapData(JSON.parse(readFileSync(resolve(root,'public/assets/maps/prague.json'),'utf8')));
+assert.equal(prague.layers.length,1,'Prague must remain one continuous route.');
+assert.equal(prague.layers[0].kind,'guide','Do not describe the reconstructed route as an original GPS recording.');
+assert.equal(prague.layers[0].paths.length,1);
+assert.deepEqual(prague.layers[0].paths[0][0],prague.layers[0].paths[0].at(-1));
+assert(prague.layers[0].distanceKm>=20&&prague.layers[0].distanceKm<=21);
+assert(!('ascentM' in prague.layers[0])&&!('routeFile' in prague.layers[0]),'Do not invent elevation or an original GPX for Prague.');
+const praguePost=data.posts.find(p=>p.slug==='prague'),pragueMarkup=renderStoryMap(praguePost,p=>p);
+assert(!pragueMarkup.includes('Download GPX'));
+assert(!praguePost.en.body.toLowerCase().includes('strava'));
 const barcelona=validateMapData(JSON.parse(readFileSync(resolve(root,'public/assets/maps/barcelona.json'),'utf8'))),guide=barcelona.layers.find(l=>l.id==='seafront');
 assert(guide?.kind==='guide'&&guide.distanceKm>4.4&&guide.distanceKm<4.6);
 assert.equal(barcelona.layers.length,3);
