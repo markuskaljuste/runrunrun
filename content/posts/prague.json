@@ -23,19 +23,19 @@
   "ratings": {
     "enabled": true,
     "safety": {
-      "score": 7,
-      "en": "The riverside offered room to run, while traffic, crossings and crowds demanded more attention in the historic streets."
+      "score": 8,
+      "en": "The riverside offered long run/bike route, while traffic, crossings and crowds inside the city demanded more attention in the historic streets."
     },
     "scenery": {
-      "score": 7,
+      "score": 6,
       "en": "River views, the castle hill and sunrise over the old city made Prague a memorable place to explore on foot."
     },
     "surface": {
-      "score": 7,
+      "score": 8,
       "en": "The flat riverside paths were comfortable, but cobbles and steps made the historic section less consistent."
     },
     "experience": {
-      "score": 7,
+      "score": 6,
       "en": "Steady riverside miles and a hillier detour made Prague an enjoyable city to explore in running shoes."
     }
   },
