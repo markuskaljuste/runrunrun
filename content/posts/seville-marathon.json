@@ -20,8 +20,8 @@
   "ratings": {
     "enabled": true,
     "safety": {
-      "score": 7,
-      "en": "City streets need care, and race-day crowds hid a rubbish bin that runners in our pace group collided with."
+      "score": 9,
+      "en": "City streets need care and riverside stretch seemed okay."
     },
     "scenery": {
       "score": 6,
@@ -32,7 +32,7 @@
       "en": "A fast, flat road-marathon course, with paved riverside paths for easier everyday runs."
     },
     "experience": {
-      "score": 7,
+      "score": 6,
       "en": "Supporters brought energy throughout the marathon, although the constant crowds and close space may distract runners who prefer quieter races."
     }
   },
