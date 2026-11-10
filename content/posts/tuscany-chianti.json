@@ -28,7 +28,7 @@
     "enabled": true,
     "safety": {
       "score": 4,
-      "en": "I underestimated how demanding the roadside running, exposed edges and 30 to 35°C heat would be together."
+      "en": "I underestimated how demanding the roadside running, exposed edges and 10% hills would be together."
     },
     "scenery": {
       "score": 10,
@@ -39,7 +39,7 @@
       "en": "Enjoyable asphalt and flowing bends, although road quality does not create extra space beside traffic."
     },
     "experience": {
-      "score": 8,
+      "score": 9,
       "en": "I loved the landscape and roads, but a cooler, shorter outing would avoid the heat that made this my hardest ordinary training run."
     }
   },
