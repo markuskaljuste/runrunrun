@@ -28,31 +28,31 @@
       "en": "The quieter roads felt comfortable, although larger roads and limited space in places still needed attention."
     },
     "scenery": {
-      "score": 7,
+      "score": 6,
       "en": "Fields, rolling hills and small villages offered a calmer setting than the dramatic views in Chianti."
     },
     "surface": {
-      "score": 7,
+      "score": 3,
       "en": "Mostly asphalt, with some patched and rougher sections on the country roads."
     },
     "experience": {
-      "score": 7,
-      "en": "A very enjoyable long run with a quieter rural atmosphere and a memorable plate of truffle pasta afterwards."
+      "score": 6,
+      "en": "A very enjoyable long run with a quieter rural atmosphere."
     }
   },
   "en": {
     "title": "Mombaruzzo to Cantalupo",
     "excerpt": "A gentler 32.8 km long-run loop through Monferrato, with rolling hills, a flatter middle, an uphill return and epic truffle pasta.",
+    "practicalSummary": {
+      "goodFor": "A quieter countryside long run over rolling hills.",
+      "terrain": "Mostly asphalt, with a flatter middle section and an uphill return.",
+      "keepInMind": "Save energy for the climb back to Mombaruzzo and take care on the larger roads."
+    },
     "body": "After the steep hills and heat of [my Tuscany long run](/journal/tuscany-chianti/), Mombaruzzo felt like a gentler option for a long loop. There were still climbs and descents, but the landscape flowed more easily. For any Estonian readers, the rolling hills reminded me a little of Otepää: mostly gentler rises and dips, with the occasional steeper bit if you go looking for it.\n\nMombaruzzo is in Piedmont’s Monferrato countryside, south-west of Milan. It is [roughly an hour and a half by car from Milan](https://www.rome2rio.com/s/Mombaruzzo/Milan), depending on where you leave from and the traffic. This was a much quieter setting for a run, with fields on either side, small villages and air that felt fresh.\n\n![Mombaruzzo above fields and vineyards in green Monferrato countryside](/assets/places/mombaruzzo.jpg \"Mombaruzzo and its surrounding countryside. Photo: [Alessandro Vecchi](https://commons.wikimedia.org/wiki/File:Mombaruzzo_panorama.jpg) · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0).\")\n\n## The loop\n\nThe 32.8 km loop had about 350 m of climbing. It heads through Bruno and the Carentino area towards Cantalupo, then returns via Borgoratto Alessandrino and Gamalero.\n\nThe opening kilometres descend towards Bruno, followed by a noticeable climb near Carentino around 7 to 8 km. The longest flatter stretch comes around 12 to 20 km, towards Cantalupo and through Borgoratto. After Gamalero, the road rises gradually again. Save some energy for the final climb back to Mombaruzzo, where the route rises from roughly 160 to 300 m.\n\n![Elevation profile of the 32.8 km Mombaruzzo loop, with Bruno, the Carentino area, Borgoratto, Gamalero and the return towards Mombaruzzo labelled approximately](/assets/uploads/mombaruzzo-cantalupo/elevation-profile.svg \"32.8 km for the full loop and about 350 m of climbing. Place labels are approximate; small elevation fluctuations are smoothed.\")\n\n## Quiet roads, with a few busier stretches\n\nThere was less traffic in Mombaruzzo itself, and even while running beside the road I did not feel particularly unsafe. I liked the quiet countryside and the feeling of moving between little villages rather than constantly negotiating a busy city.\n\nThis is still roadside running. A dedicated riverside running path gives you a different level of separation from cars, and I would not give these roads the same safety score. The loop also includes a larger road on the Gamalero side, where I needed to be more attentive than on the quieter lanes. Bends and limited roadside space still deserve attention, however peaceful the surroundings look.\n\nFor me, the combination worked well: manageable hills, open fields and enough quieter stretches to enjoy a long run. It felt considerably less punishing than the particular loop I ran in Tuscany.\n\n## And then, truffle pasta\n\nThe run was only part of what I enjoyed in Mombaruzzo. I remember eating at a small village restaurant in Mombaruzzo, and the truffle pasta was epic. Truffles are part of the local food culture: there are even [truffle grounds and organised hunts in Mombaruzzo](https://www.agriturismobastian.it/farm-holidays-in-monferrato/truffle-hunting-at-mombaruzzo.php).\n\n![A plate of pasta topped with generous truffle shavings at a restaurant in Mombaruzzo](/assets/uploads/mombaruzzo-cantalupo/truffle-pasta.jpg \"The truffle pasta in Mombaruzzo. A very good reason to make time for food as well as running.\")\n\n",
     "imageAlt": "Personal photos of signposts for Mombaruzzo and San Rocco and an undulating country road",
     "imageCaption": "Quiet country roads and village signs from my long run around Mombaruzzo.",
     "seoTitle": "Mombaruzzo towards Cantalupo | Runograph",
     "seoDescription": "A personal 32.8 km running loop from Mombaruzzo through Bruno, Borgoratto and Gamalero, with about 350 m of climbing, a Google map, GPX and roadside notes.",
-    "socialImage": "/assets/uploads/mombaruzzo-cantalupo/mombaruzzo-country-roads.jpg",
-    "practicalSummary": {
-      "goodFor": "A quieter countryside long run over rolling hills.",
-      "terrain": "Mostly asphalt, with a flatter middle section and an uphill return.",
-      "keepInMind": "Save energy for the climb back to Mombaruzzo and take care on the larger roads."
-    }
+    "socialImage": "/assets/uploads/mombaruzzo-cantalupo/mombaruzzo-country-roads.jpg"
   }
 }
