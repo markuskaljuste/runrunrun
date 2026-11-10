@@ -26,6 +26,7 @@ export function readContent() {
   data.branding.sponsors ??= [];
   for (const sponsor of data.branding.sponsors) for (const key of ['name','logo','url']) sponsor[key] ??= '';
   for (const key of ['gaMeasurementId','searchConsoleVerification','privacyControllerName','privacyContactEmail']) data.integrations[key] ??= '';
+  data.integrations.clarityEnabled ??= false;data.integrations.clarityProjectId ??= '';
   data.seo.defaultSocialImage ??= '';
   for (const page of Object.values(data.seo.pages)) for (const lang of ['en']) for (const key of ['title','description','socialImage']) page[lang][key] ??= '';
   for (const key of ['homeHero','homeStory','about']) for (const lang of ['en']) data.images[key][lang].caption ??= '';
@@ -59,6 +60,9 @@ export function validateRecord(type, item) {
     if (typeof item.analyticsEnabled!=='boolean') throw new Error('Choose whether Analytics is enabled.');
     for (const key of ['gaMeasurementId','searchConsoleVerification','privacyControllerName','privacyContactEmail']) if (typeof item[key]!=='string') throw new Error(`Check ${key}.`);
     if (item.gaMeasurementId&&!/^G-[A-Z0-9]{4,30}$/.test(item.gaMeasurementId)) throw new Error('Use a GA4 measurement ID beginning with G-.');
+    if(typeof (item.clarityEnabled??false)!=='boolean'||typeof (item.clarityProjectId??'')!=='string')throw new Error('Check Microsoft Clarity settings.');
+    if(item.clarityProjectId&&!/^[a-z0-9]{6,32}$/.test(item.clarityProjectId))throw new Error('Use only the Microsoft Clarity project ID, not the script or a URL.');
+    if(item.clarityEnabled&&(!item.clarityProjectId||!item.privacyControllerName.trim()||!item.privacyContactEmail))throw new Error('Before enabling Clarity, add the project ID and privacy contact name/email.');
     if (item.searchConsoleVerification&&!/^[A-Za-z0-9_-]{10,256}$/.test(item.searchConsoleVerification)) throw new Error('Paste only the Search Console HTML-tag verification code.');
     if (item.privacyContactEmail&&!/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(item.privacyContactEmail)) throw new Error('Add a valid privacy contact email address.');
     if (item.analyticsEnabled&&(!item.gaMeasurementId||!item.privacyControllerName.trim()||!item.privacyContactEmail)) throw new Error('Before enabling Analytics, add the measurement ID and privacy contact name/email.');

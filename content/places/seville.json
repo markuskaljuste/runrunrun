@@ -2,7 +2,7 @@
   "slug": "seville",
   "country": "spain",
   "status": "published",
-  "comingSoon": false,
+  "comingSoon": true,
   "image": "/assets/places/seville.jpg",
   "en": {
     "name": "Sevilla",

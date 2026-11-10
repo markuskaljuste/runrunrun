@@ -118,3 +118,12 @@ Stories with prepared personal map layers offer GPX downloads after the score. D
 Map legends use the full recorded distance, including both legs of out-and-back runs. The Barcelona seafront guide states both its one-way length and the doubled out-and-back total. It has no GPX-based ascent estimate. Personal route distance is calculated from the original GPX coordinates. Elevation gain is an estimate from successive GPX elevations with changes smaller than 3 m ignored, rounded to 10 m, to reduce GPS noise. It is not an official course measurement or a claim to match Garmin's proprietary corrected totals.
 
 Seville's story describes the 18 February 2024 recording. Its approximately 42.3 km GPS length is distinguished from the official 42.195 km marathon distance. The train collision note refers to the Madrid to Seville line on 28 October 2026, without claiming the same physical train. Licensed illustrative race photography is explicitly dated 2020.
+
+
+## Microsoft Clarity
+
+Pages CMS → Analytics & cookies contains independent Google Analytics and Microsoft Clarity switches. Clarity uses `clarityEnabled` and `clarityProjectId` in `content/integrations.json`. Paste only the public project ID, not a complete script. Both services require an explicit current analytics opt-in; neither loads in local/Sites previews or encrypted reader pages.
+
+Clarity consent is queued before its script loads, with `analytics_Storage: granted` and `ad_Storage: denied`. Withdrawal denies consent, stops capture, removes accessible first-party Clarity/Runograph cookies and reloads the page. Signup/contact/comment forms and reader comments are masked. Increase `consentVersion` and update the privacy notice when adding a provider; the version also refreshes the local consent script in visitors’ browsers.
+
+After publishing, test an ordinary public page in a fresh browser session: reject analytics and confirm no Clarity tag loads, then allow analytics and check Clarity Dashboard / Recordings for the visit. Private backdoor visits deliberately do not appear. `scripts/check-consent.mjs` verifies consent, independent providers, withdrawal, cookie cleanup, preview isolation and masking.

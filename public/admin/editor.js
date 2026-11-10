@@ -42,8 +42,8 @@ function selectRecord(item,isNew=false){record=copy(item);if(type==='posts'&&isN
 function render(){
  document.querySelector('#page-preview-link')?.remove();
  $('#entry-form').hidden=!record;if(!record)return;
- $('#record-label').textContent=type==='engagement'?'SOTSIAAL JA KONTAKT':type==='publication'?'AVALDAMINE / PUBLISHING':type==='integrations'?'GOOGLE & KÜPSISED':type==='images'?'PILDID / IMAGES':type==='seo'?'SEO':type==='branding'?'LOGO & SPONSORS':type==='site'?'SITE & MY STORY':type==='places'?'KOHAD / PLACES':type==='countries'?'RIIGID / COUNTRIES':type==='routes'?'ROUTE GUIDE':'JOURNAL';
- $('#editor-title').textContent=type==='engagement'?'Sotsiaalmeedia ja suhtlus':type==='publication'?'Avaliku lehe olek':type==='integrations'?'Google ja küpsiste seaded':type==='images'?'Sinu pildid / Your images':type==='seo'?'SEO seaded / SEO settings':type==='branding'?'Make it yours':type==='site'?'Your site, your story':type==='places'?(record.en.name||'Uus koht / New place'):type==='countries'?(record.en.name||'Uus riik / New country'):(record.en.title||'New entry');
+ $('#record-label').textContent=type==='engagement'?'SOTSIAAL JA KONTAKT':type==='publication'?'AVALDAMINE / PUBLISHING':type==='integrations'?'ANALYTICS & COOKIES':type==='images'?'PILDID / IMAGES':type==='seo'?'SEO':type==='branding'?'LOGO & SPONSORS':type==='site'?'SITE & MY STORY':type==='places'?'KOHAD / PLACES':type==='countries'?'RIIGID / COUNTRIES':type==='routes'?'ROUTE GUIDE':'JOURNAL';
+ $('#editor-title').textContent=type==='engagement'?'Sotsiaalmeedia ja suhtlus':type==='publication'?'Avaliku lehe olek':type==='integrations'?'Analytics & cookies':type==='images'?'Sinu pildid / Your images':type==='seo'?'SEO seaded / SEO settings':type==='branding'?'Make it yours':type==='site'?'Your site, your story':type==='places'?(record.en.name||'Uus koht / New place'):type==='countries'?(record.en.name||'Uus riik / New country'):(record.en.title||'New entry');
  const branding=['branding','images','seo','integrations','engagement'].includes(type);
  $('#translation-controls').hidden=type!=='posts';
  $('#metadata').classList.toggle('branding-metadata',branding);

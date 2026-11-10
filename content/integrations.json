@@ -4,6 +4,8 @@
   "searchConsoleVerification": "",
   "privacyControllerName": "Runograph",
   "privacyContactEmail": "runograph01@gmail.com",
-  "privacyUpdated": "2026-11-03",
-  "consentVersion": 2
+  "privacyUpdated": "2026-11-10",
+  "consentVersion": 3,
+  "clarityEnabled": true,
+  "clarityProjectId": "zbkht64vuq"
 }

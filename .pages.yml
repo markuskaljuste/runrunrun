@@ -1081,7 +1081,7 @@
     },
     {
       "name": "integrations",
-      "label": "Google ja küpsised / Google & cookies",
+      "label": "Analüütika ja küpsised / Analytics & cookies",
       "type": "file",
       "path": "content/integrations.json",
       "format": "json",
@@ -1095,6 +1095,17 @@
         {
           "name": "gaMeasurementId",
           "label": "GA4 mõõtmis-ID / Measurement ID (G-…)",
+          "type": "string"
+        },
+        {
+          "name": "clarityEnabled",
+          "label": "Lülita Microsoft Clarity sisse / Enable Microsoft Clarity",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "clarityProjectId",
+          "label": "Microsoft Clarity projekti ID / Project ID",
           "type": "string"
         },
         {

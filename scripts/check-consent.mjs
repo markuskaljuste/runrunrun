@@ -1,5 +1,9 @@
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {existsSync,readFileSync} from 'node:fs';
+import {readContent,validateRecord} from './core.mjs';
+import {renderSignup} from './newsletter.mjs';
+import {renderContactSection} from './engagement.mjs';
+import {commentsSection} from './comments.mjs';
 import {runInNewContext} from 'node:vm';
 const code=readFileSync(new URL('../public/assets/privacy.js',import.meta.url),'utf8');
 const key='runograph-consent',lifetime=180*86400000;
@@ -35,8 +39,35 @@ console.log('Passed consent checks: no pre-consent requests, rejection, opt-in, 
 
 const built=readFileSync(new URL('../dist/index.html',import.meta.url),'utf8');
 const builtConfig=JSON.parse(built.match(/<script type="application\/json" id="runograph-integrations">([\s\S]*?)<\/script>/)[1]);
-const active=builtConfig.enabled===true&&builtConfig.allowAnalytics===true;
+const active=builtConfig.allowAnalytics===true;
+const expectedScripts=[builtConfig.enabled&&builtConfig.id&&'runograph-google-tag',builtConfig.clarityEnabled&&builtConfig.clarityProjectId&&'runograph-clarity-tag'].filter(Boolean);
 b=browser({config:builtConfig,origin:'https://runograph.com'});assert.equal(b.scripts.length,0);b.click('deny');assert.equal(b.scripts.length,0);
-b=browser({config:builtConfig,origin:'https://runograph.com'});b.click('accept');assert.equal(b.scripts.length,active?1:0);if(active){assert.equal(b.scripts[0].src,'https://www.googletagmanager.com/gtag/js?id='+builtConfig.id);assert.equal(b.window.dataLayer.filter(c=>c[0]==='event'&&c[1]==='page_view').length,1);b.save(false);assert.equal(b.reloads,1);}
+b=browser({config:builtConfig,origin:'https://runograph.com'});b.click('accept');assert.equal(b.scripts.length,active?expectedScripts.length:0);if(active){assert.deepEqual(b.scripts.map(s=>s.id),expectedScripts);if(builtConfig.enabled)assert.equal(b.window.dataLayer.filter(c=>c[0]==='event'&&c[1]==='page_view').length,1);b.save(false);assert.equal(b.reloads,1);}
 b=browser({config:builtConfig,saved:remembered(true,{version:builtConfig.version}),origin:'https://test.chatgpt.site'});assert.equal(b.scripts.length,0);
-console.log('Passed built-site consent integration: configured measurement ID, zero requests before opt-in or after rejection, one page view after acceptance, withdrawal and private-preview isolation.');
+console.log('Passed built-site consent integration: configured providers, zero requests before opt-in or after rejection, one load per provider, withdrawal and private-preview isolation.');
+
+const clarityConfig={clarityEnabled:true,clarityProjectId:'testclarity123'};
+const queuedClarity=b=>Array.from(b.window.clarity?.q||[],c=>Array.from(c));
+b=browser({config:clarityConfig,cookies:'session=keep; _clck=old; _clsk=session; runograph_ga=old'});
+assert.equal(b.scripts.length,0);assert.equal(b.window.clarity,undefined);assert(!b.jar.has('_clck'));assert(!b.jar.has('_clsk'));b.click('deny');assert.equal(b.window.clarity,undefined);assert.equal(b.scripts.length,0);
+b=browser({config:clarityConfig});b.click('accept');assert.equal(b.scripts.length,2);assert.equal(b.scripts[1].src,'https://www.clarity.ms/tag/testclarity123');
+assert.deepEqual(JSON.parse(JSON.stringify(queuedClarity(b))),[['consentv2',{analytics_Storage:'granted',ad_Storage:'denied'}]]);
+b.click('accept');assert.equal(b.scripts.length,2);assert.equal(queuedClarity(b).length,1);
+b.jar.set('_clck','client');b.jar.set('_clsk','session');b.save(false);assert.equal(b.reloads,1);assert(!b.jar.has('_clck'));assert(!b.jar.has('_clsk'));assert.equal(b.jar.get('session'),'keep');
+assert.deepEqual(JSON.parse(JSON.stringify(queuedClarity(b).slice(-2))),[['consentv2',{analytics_Storage:'denied',ad_Storage:'denied'}],['stop']]);
+b=browser({config:{...clarityConfig,enabled:false},saved:remembered()});assert.equal(b.scripts.length,1);assert.equal(b.scripts[0].id,'runograph-clarity-tag');assert.equal(b.window.dataLayer,undefined);
+b=browser({config:{...clarityConfig,id:''}});b.click('accept');assert.equal(b.scripts.length,1);assert.equal(b.scripts[0].id,'runograph-clarity-tag');
+for(const clarityProjectId of ['', '<script>', 'https://www.clarity.ms/tag/testid']){b=browser({config:{...clarityConfig,enabled:false,clarityProjectId},saved:remembered()});assert.equal(b.scripts.length,0);assert.equal(b.window.clarity,undefined);}
+for(const origin of ['http://localhost','https://test.chatgpt.site']){b=browser({config:clarityConfig,origin,saved:remembered()});assert.equal(b.scripts.length,0);assert.equal(b.window.clarity,undefined);}
+b=browser({config:{...clarityConfig,allowAnalytics:false},saved:remembered()});assert.equal(b.scripts.length,0);assert.equal(b.window.clarity,undefined);
+b=browser({config:{...clarityConfig,version:3},saved:remembered(true,{version:2})});assert.equal(b.scripts.length,0);assert.equal(b.elements.get('#cookie-banner').hidden,false);b.click('accept');assert.equal(b.scripts.length,2);
+b=browser({config:clarityConfig,saved:remembered()});assert.equal(b.scripts.length,2);b.storageEvent(remembered(false));assert.equal(b.reloads,1);assert.equal(queuedClarity(b).at(-1)[0],'stop');
+b=browser({config:clarityConfig,storageBlocked:true});b.click('accept');assert.equal(b.scripts.length,2);b.save(false);assert.equal(b.reloads,1);
+const data=readContent(),integration=structuredClone(data.integrations);integration.analyticsEnabled=false;integration.gaMeasurementId='';integration.clarityEnabled=true;integration.clarityProjectId='testclarity123';validateRecord('integrations',integration);
+assert.throws(()=>validateRecord('integrations',{...integration,clarityProjectId:''}));assert.throws(()=>validateRecord('integrations',{...integration,clarityProjectId:'<script>'}));assert.throws(()=>validateRecord('integrations',{...integration,privacyContactEmail:''}));assert.throws(()=>validateRecord('integrations',{...integration,clarityEnabled:'true'}));
+assert(renderSignup({data,preview:true}).includes('<form data-clarity-mask="true"'));
+assert(renderContactSection({data,lang:'en',url:p=>p}).includes('class="contact-form" data-clarity-mask="true"'));
+const comments=commentsSection({data,slug:'rome',url:p=>p});assert(comments.includes('class="comment-list" data-clarity-mask="true"'));assert(comments.includes('class="comment-form" data-clarity-mask="true"'));
+if(data.integrations.clarityEnabled){const privacy=readFileSync(new URL('../dist/privacy/index.html',import.meta.url),'utf8');assert(privacy.includes('<h2>Microsoft Clarity</h2>'));assert(privacy.includes('https://privacy.microsoft.com/privacystatement'));assert(privacy.includes('_clck')&&privacy.includes('_clsk'));}
+for(const file of ['index.html','privacy/index.html','journal/prague/index.html']){const path=new URL('../dist/'+file,import.meta.url);if(existsSync(path)){const page=readFileSync(path,'utf8');assert(!page.includes('src="https://www.clarity.ms/'),'Clarity must never load directly from page markup.');}}
+console.log('Passed Clarity checks: fresh and renewed consent, independent providers, denied advertising, single loading, withdrawal and cookie removal, cross-tab changes, blocked storage, preview exclusion, ID validation and form/comment masking.');
