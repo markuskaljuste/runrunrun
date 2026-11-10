@@ -124,6 +124,7 @@
 .story-summary{max-width:680px;margin-top:26px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;line-height:1.65;letter-spacing:0}.story-summary dl{margin:0}.story-summary dl>div{display:grid;grid-template-columns:100px minmax(0,1fr);gap:12px;margin:0 0 7px}.story-summary dt{color:var(--ink);font-weight:500}.story-summary dd{margin:0;color:#56614e;overflow-wrap:anywhere}.story-summary .story-map-link{display:inline-block;margin-top:8px;padding:4px 0;border-bottom:1px solid #9aab80;color:var(--ink);font-size:12px}.story-map[id]{scroll-margin-top:24px}@media(max-width:540px){.story-summary dl>div{grid-template-columns:88px minmax(0,1fr);gap:8px}.story-summary{font-size:12px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 
 .story-author{display:flex;align-items:center;gap:16px;margin-top:28px;padding:24px 0;border-top:1px solid var(--line)}
+.story-author + .story-comments{margin-top:0}
 .story-author a{border:0}
 .story-author-portrait{display:block;flex:0 0 64px}
 .story-author-portrait img{width:64px;height:64px;border-radius:50%;object-fit:cover;object-position:50% 35%;margin:0}
