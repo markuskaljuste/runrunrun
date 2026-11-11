@@ -19,6 +19,9 @@ const sheetsContact=renderContactSection({data:{...data,engagement:e},lang:'en',
 assert(sheetsContact.includes(`data-contact-endpoint="${e.contact.appsScriptUrl}"`));
 assert(sheetsContact.includes('/assets/contact-sheets.js'));
 assert(sheetsContact.includes('<fieldset disabled>'));
+assert(sheetsContact.includes('data-contact-question'));
+assert(sheetsContact.includes('name="answer"'));
+assert(!availableContact.includes('data-contact-question'));
 assert(!sheetsContact.includes('formspree.io'));
 e.contact.appsScriptUrl=e.newsletter.appsScriptUrl;assert.throws(()=>validateRecord('engagement',e));
 e.contact.appsScriptUrl='https://example.com/exec';assert.throws(()=>validateRecord('engagement',e));

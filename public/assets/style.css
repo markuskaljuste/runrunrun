@@ -134,3 +134,4 @@
 .story-author .social-icon{display:block;width:22px;height:22px;flex-shrink:0}
 .story-author a:hover{opacity:.72}
 @media(max-width:380px){.story-author{gap:12px}.story-author-name{font-size:18px}}
+.contact-challenge input{max-width:6rem}.contact-retry{margin-top:12px;color:var(--ink);text-decoration:underline;text-underline-offset:3px;background:none;border:0;padding:0;cursor:pointer}
