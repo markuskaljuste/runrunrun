@@ -4,7 +4,15 @@
  const origin=window.location.origin;
  const endpointPattern=/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]{20,200}\/exec$/;
  const randomId=()=>Array.from(crypto.getRandomValues(new Uint8Array(24)),byte=>byte.toString(16).padStart(2,'0')).join('');
- const isGoogleResponse=origin=>/^https:\/\/(?:[a-z0-9-]+[.-])?script\.googleusercontent\.com$/.test(origin);
+ const isGoogleResponse=value=>{
+  try{
+   const {protocol,hostname,port}=new URL(value);
+   return protocol==='https:'&&!port&&(hostname==='script.googleusercontent.com'||
+    hostname.endsWith('-script.googleusercontent.com')||hostname.endsWith('.script.googleusercontent.com'));
+  }catch{
+   return false;
+  }
+ };
  const unconfirmed=et?'Saatmist ei saanud kinnitada. Sinu sõnum on alles. Proovi uuesti.':'We couldn’t confirm delivery. Your message is still here. Please try again.';
 
  function request(endpoint, method, values){
@@ -17,6 +25,8 @@
    frame.hidden=true;
    frame.referrerPolicy='no-referrer';
    frame.setAttribute('sandbox','allow-scripts allow-forms allow-same-origin');
+   // Match the comment form's isolated Google frame, including for signed-in visitors.
+   frame.setAttribute('credentialless','');
    const transport=method==='POST'?document.createElement('form'):null;
    if(transport){
     transport.hidden=true;
@@ -31,11 +41,12 @@
      input.value=value;
      transport.append(input);
     }
-   }else{
-    frame.src=endpoint+'?'+new URLSearchParams(params);
    }
 
+   let done=false;
    function finish(error,result){
+    if(done)return;
+    done=true;
     clearTimeout(timer);
     window.removeEventListener('message',receive);
     transport?.remove();
@@ -48,9 +59,10 @@
     if(!isGoogleResponse(event.origin)||result?.type!=='runograph-contact-result'||result.nonce!==nonce||typeof result.ok!=='boolean')return;
     finish(null,result);
    }
-   const timer=setTimeout(()=>finish(new Error('Contact response timed out')),method==='POST'?25000:12000);
+   const timer=setTimeout(()=>finish(new Error('Contact response timed out')),45000);
    window.addEventListener('message',receive);
    try{
+    if(!transport)frame.src=endpoint+'?'+new URLSearchParams(params);
     document.body.append(frame);
     if(transport){
      document.body.append(transport);
@@ -87,9 +99,10 @@
    send.disabled=true;
    answer.disabled=true;
    answer.value='';
-   group.hidden=true;
+   group.hidden=false;
+   question.textContent=et?'Laadin…':'Loading…';
    retry.hidden=true;
-   status.textContent=notice||(et?'Laadin kontrollküsimust…':'Loading the quick check…');
+   status.textContent=notice;
    try{
     const result=await request(endpoint,'GET',{action:'challenge',requestId});
     const check=result.challenge;
@@ -99,11 +112,11 @@
     challenge={requestId,token:check.token};
     question.textContent=check.question;
     answer.disabled=false;
-    group.hidden=false;
     send.disabled=false;
     status.textContent=notice;
    }catch{
     const unavailable=et?'Kontrollküsimust ei saanud laadida. Proovi uuesti.':'Couldn’t load the quick check. Try again.';
+    question.textContent='';
     status.textContent=notice?notice+' '+unavailable:unavailable;
     retry.hidden=false;
     retry.onclick=()=>loadChallenge(requestId,notice);
