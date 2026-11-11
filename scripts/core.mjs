@@ -1,6 +1,6 @@
 import {validPublicationTime} from './post-order.mjs';
 import {validateComments} from './comments.mjs';
-import {validateNewsletter} from './newsletter-config.mjs';
+import {validateNewsletter, validSignupEndpoint as validAppsScriptUrl} from './newsletter-config.mjs';
 import {googleMyMap} from './google-maps.mjs';
 import {ratingDefaults,validateRatings} from './rating-data.mjs';
 import {isRouteFile} from '../public/assets/attachment-policy.js';
@@ -21,6 +21,7 @@ export function readContent() {
   data.engagement.comments ??= {enabled:false,appsScriptUrl:''};
   data.engagement.socials ??= [];for(const social of data.engagement.socials)social.enabled ??= false;
   data.engagement.contact.formspreeId ??= '';data.engagement.contact.enabled ??= false;
+  data.engagement.contact.appsScriptUrl ??= '';
   for (const key of ['logo','footerLogo','logoAlt']) data.branding[key] ??= '';
   data.branding.logoWidth ??= 160;
   data.branding.sponsors ??= [];
@@ -48,7 +49,10 @@ export function validateRecord(type, item) {
     for(const social of item.socials)if(typeof social.name!=='string'||!social.name.trim()||typeof social.url!=='string'||!/^https:\/\//.test(social.url)||safeUrl(social.url)==='#'||typeof social.enabled!=='boolean')throw new Error('Use a name and HTTPS address for each social profile.');
     if(!item.contact||typeof item.contact.enabled!=='boolean'||typeof item.contact.formspreeId!=='string')throw new Error('Check contact form settings.');
     if(item.contact.formspreeId&&!/^[a-zA-Z0-9]{6,64}$/.test(item.contact.formspreeId))throw new Error('Use only the Formspree form ID, not an email address.');
-    if(item.contact.enabled&&!item.contact.formspreeId)throw new Error('Add the real Formspree form ID before enabling contact messages.');
+    const contactUrl=item.contact.appsScriptUrl??'';
+    if(typeof contactUrl!=='string'||(contactUrl&&!validAppsScriptUrl(contactUrl)))throw new Error('Use the contact web app URL ending in /exec.');
+    if(contactUrl&&[item.newsletter?.appsScriptUrl,item.comments?.appsScriptUrl].includes(contactUrl))throw new Error('Use a separate web app for contact messages.');
+    if(item.contact.enabled&&!contactUrl&&!item.contact.formspreeId)throw new Error('Connect the contact web app before enabling contact messages.');
     return;
   }
   if(type==='publication'){

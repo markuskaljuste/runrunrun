@@ -14,8 +14,9 @@
   ],
   "sharingEnabled": true,
   "contact": {
-    "enabled": false,
-    "formspreeId": ""
+    "enabled": true,
+    "formspreeId": "",
+    "appsScriptUrl": "https://script.google.com/macros/s/AKfycbzeya1MCpXxYsi0KUoLS3pxOvwC_k47r6lIcQv5StOSzG6eTL-hB4U_naBEv8ffNlDNTA/exec"
   },
   "newsletter": {
     "enabled": true,

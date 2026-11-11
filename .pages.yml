@@ -1237,13 +1237,19 @@
           "fields": [
             {
               "name": "enabled",
-              "label": "Lülita saatmine sisse, kui päris vormi ID on lisatud / Enable submissions",
+              "label": "Lülita saatmine sisse / Enable submissions",
               "type": "boolean",
               "default": false
             },
             {
+              "name": "appsScriptUrl",
+              "label": "Kontaktivormi Apps Scripti URL / Contact web app URL",
+              "description": "Use the deployed contact web app URL ending in /exec.",
+              "type": "string"
+            },
+            {
               "name": "formspreeId",
-              "label": "Formspree vormi ID (ainult ID, mitte meiliaadress)",
+              "label": "Formspree vormi ID / Formspree form ID (optional)",
               "type": "string"
             }
           ]
