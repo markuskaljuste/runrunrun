@@ -29,6 +29,13 @@ e.contact.appsScriptUrl='';e.contact.formspreeId='abcdefgh';
 e.socials[0].url='javascript:alert(1)';assert.throws(()=>validateRecord('engagement',e));
 const share=shareBar({data,lang:'et',path:'/et/places/tallinn/',title:'A & B'});assert(share.includes(encodeURIComponent('https://runograph.com/et/places/tallinn/')));assert(!share.includes('chatgpt.site'));assert(!share.includes('<script'));
 const files=folder=>readdirSync(folder).flatMap(n=>{const p=resolve(folder,n);return statSync(p).isDirectory()?files(p):[p];});
-for(const file of files(resolve(root,'dist')).filter(p=>p.endsWith('.html'))){const html=readFileSync(file,'utf8');for(const match of html.matchAll(/[A-Z0-9._%+-]+@gmail\.com/gi))assert(file===resolve(root,'dist/privacy/index.html')&&match[0]===data.integrations.privacyContactEmail,'Only the approved privacy email may appear, and only on the privacy page.');}
+for(const file of files(resolve(root,'dist')).filter(p=>p.endsWith('.html'))){
+ const html=readFileSync(file,'utf8');
+ for(const match of html.matchAll(/[A-Z0-9._%+-]+@gmail\.com/gi)){
+  const privacy=file===resolve(root,'dist/privacy/index.html')&&match[0]===data.integrations.privacyContactEmail;
+  const collaboration=file===resolve(root,'dist/share-your-story/index.html')&&match[0]==='runograph01@gmail.com';
+  assert(privacy||collaboration,'Only the approved privacy and collaboration addresses may appear, on their designated pages.');
+ }
+}
 console.log('Passed reader-feature checks: rating averages/ranges, escaped notes, inactive defaults, sharing URLs and recipient privacy.');
 await import('./check-reader-ui.mjs');

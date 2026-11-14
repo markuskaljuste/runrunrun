@@ -4,6 +4,8 @@ import {shareBar} from './engagement.mjs';
 import {esc,safeUrl,markdown,postCountries} from './core.mjs';
 import {storiesForPlace,placeHasContent,comparePlaces,storyPlaceEntries,publishedStoryPlaces} from './story-places.mjs';
 
+import {shareStoryCta} from './friend-stories.mjs';
+
 export const countrySlugs=post=>postCountries(post).length?postCountries(post):['general'];
 export function countryName(slug,lang,data){return slug==='general'?(lang==='et'?'Üldine':'General'):data.countries.find(c=>c.slug===slug)?.[lang].name||slug;}
 export const publishedPlaces=data=>(data.places??[]).filter(p=>p.status==='published');
@@ -45,7 +47,7 @@ export function placeCard(place,{data,lang,url}){
 export function buildCountryPages({data,lang,url,write,shell,card}){
  const groups=countryGroups(data,lang),countries=groups.filter(g=>g.slug!=='general'&&g.listed!==false),et=lang==='et',heading=et?'Kus olen jooksnud':'Destination stories';
  const intro=et?'Riigid, linnad ja paigad, kuhu jooksutossud on mind viinud.':'Countries, cities and places I’ve explored in my running shoes.';
- write('/'+lang+'/countries/',shell(lang,'countries/',heading,intro,`<section class="section page-heading destination-heading"><div class="eyebrow">${et?'Runograph / Jooksupaigad':'Runograph / Running places'}</div><h1>${heading}</h1><p>${intro}</p><div class="destination-totals"><span>${quantity(countries.length,lang,'countries')}</span><span>${quantity(publishedStoryPlaces(data,lang).length,lang,'places')}</span><a href="${url('/'+lang+'/places/')}">${et?'Kõik jooksukohad':'All running places'}</a></div></section><section class="section destination-index"><div class="listing-tools"><span class="results-count" aria-live="polite">${quantity(countries.length,lang,'countries')}</span><label class="search"><span aria-hidden="true">⌕</span><input type="search" placeholder="${et?'Otsi riiki või kohta':'Search countries or places'}" aria-label="${et?'Otsi riiki või kohta':'Search countries or places'}"></label></div>${countryBrowse({data,lang,url,full:true})}<p class="empty-state" hidden>${et?'Vasteid ei leitud.':'No matches found.'}</p></section>`));
+ write('/'+lang+'/countries/',shell(lang,'countries/',heading,intro,`<section class="section page-heading destination-heading"><div class="eyebrow">${et?'Runograph / Jooksupaigad':'Runograph / Running places'}</div><h1>${heading}</h1><p>${intro}</p><div class="destination-totals"><span>${quantity(countries.length,lang,'countries')}</span><span>${quantity(publishedStoryPlaces(data,lang).length,lang,'places')}</span><a href="${url('/'+lang+'/places/')}">${et?'Kõik jooksukohad':'All running places'}</a></div></section><section class="section destination-index"><div class="listing-tools"><span class="results-count" aria-live="polite">${quantity(countries.length,lang,'countries')}</span><label class="search"><span aria-hidden="true">⌕</span><input type="search" placeholder="${et?'Otsi riiki või kohta':'Search countries or places'}" aria-label="${et?'Otsi riiki või kohta':'Search countries or places'}"></label></div>${countryBrowse({data,lang,url,full:true})}<p class="empty-state" hidden>${et?'Vasteid ei leitud.':'No matches found.'}</p></section>${shareStoryCta(url)}`));
  for(const group of groups){
   const path='countries/'+group.slug+'/',description=et?'Lood sellest riigist.':'Stories from this country.';
   const cover=group.posts.find(p=>p.image)??group.places[0];

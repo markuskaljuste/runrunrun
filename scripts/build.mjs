@@ -22,6 +22,7 @@ import {redirectPage} from './redirects.mjs';
 import { renderMetadata } from './metadata.mjs';
 import {consentMarkup,buildPrivacyPages,verificationTag} from './privacy.mjs';
 import {countrySlugs,countryName,countryGroups,countryBrowse,buildCountryPages,buildPlacePages,publishedPlaces} from './countries.mjs';
+import {renderShareStory,shareStoryLink,shareStoryCta,shareStoryPath} from './friend-stories.mjs';
 const data=readContent();validateAll(data);
 const base=(process.env.BASE_PATH??'').replace(/\/$/,'');
 if(base && !/^\/[a-zA-Z0-9_./-]+$/.test(base)) throw new Error('BASE_PATH must be a safe path starting with /.');
@@ -55,9 +56,9 @@ function shell(lang,path,title,description,content,{hero=false,ogImage,seo,noind
  const t=translations.en;
  const active=/^(countries|places)\//.test(path)?'countries':path.split('/')[0]||'home';
  const nav=[['',t.home],['countries/','Destinations'],['journal/',t.journal],['about/',t.about],...(previewDrafts?[['preview/','Drafts']]:[])];
- const location=`/${lang}/${path}`;
+ const storyForm=path===shareStoryPath.slice(1);
  const meta=renderMetadata({lang,path,title,description,ogImage,seo,data,base,origin,noindex,ogType,availableLanguages});
- return `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">${meta}<meta name="theme-color" content="#26362c"><link rel="icon" href="${esc(image(data.images.favicon))}"><link rel="stylesheet" href="${url('/assets/style.css')}"><link rel="stylesheet" href="${url('/assets/footer.css')}"><link rel="stylesheet" href="${url('/assets/newsletter.css')}"><script src="${url('/assets/newsletter.js')}" defer></script><link rel="stylesheet" href="${url('/assets/consent.css')}">${maps?`<link rel="stylesheet" href="${url('/assets/story-maps.css')}">${maps==='google'?'':`<script type="module" src="${url('/assets/story-maps.js')}"></script>`}`:''}<script src="${url('/assets/site.js')}" defer></script><script src="${url('/assets/engagement.js')}" defer></script>${comments?`<link rel="stylesheet" href="${url('/assets/comments.css')}"><script src="${url('/assets/comments.js')}?v=2" defer></script>`:''}</head><body class="${hero?'has-hero':''}"><a class="skip-link" href="#main">${t.skip}</a><header class="site-header">${wordmark('en')}<button class="menu-toggle" aria-expanded="false" aria-controls="navigation">${t.menu} <span aria-hidden="true">☰</span></button><nav id="navigation" aria-label="${t.menu}">${nav.map(([p,label])=>`<a href="${url('/en/'+p)}" ${active===(p.split('/')[0]||'home')?'aria-current="page"':''}>${esc(label)}</a>`).join('')}</nav></header><main id="main">${content}</main>${renderFooter({data,url,image})}${consentMarkup({data,lang:'en',url,base,origin})}</body></html>`;
+ return `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">${meta}<meta name="theme-color" content="#26362c"><link rel="icon" href="${esc(image(data.images.favicon))}"><link rel="stylesheet" href="${url('/assets/style.css')}"><link rel="stylesheet" href="${url('/assets/footer.css')}"><link rel="stylesheet" href="${url('/assets/share-story.css')}">${storyForm?`<script src="${url('/assets/share-story.js')}" defer></script>`:''}<link rel="stylesheet" href="${url('/assets/newsletter.css')}"><script src="${url('/assets/newsletter.js')}" defer></script><link rel="stylesheet" href="${url('/assets/consent.css')}">${maps?`<link rel="stylesheet" href="${url('/assets/story-maps.css')}">${maps==='google'?'':`<script type="module" src="${url('/assets/story-maps.js')}"></script>`}`:''}<script src="${url('/assets/site.js')}" defer></script><script src="${url('/assets/engagement.js')}" defer></script>${comments?`<link rel="stylesheet" href="${url('/assets/comments.css')}"><script src="${url('/assets/comments.js')}?v=2" defer></script>`:''}</head><body class="${hero?'has-hero':''}"><a class="skip-link" href="#main">${t.skip}</a><header class="site-header">${wordmark('en')}<button class="menu-toggle" aria-expanded="false" aria-controls="navigation">${t.menu} <span aria-hidden="true">☰</span></button><nav id="navigation" aria-label="${t.menu}">${nav.map(([p,label])=>`<a href="${url('/en/'+p)}" ${active===(p.split('/')[0]||'home')?'aria-current="page"':''}>${esc(label)}</a>`).join('')}</nav>${shareStoryLink(url,storyForm)}</header><main id="main">${content}</main>${renderFooter({data,url,image})}${consentMarkup({data,lang:'en',url,base,origin})}</body></html>`;
 }
 const writtenPaths=new Set(),englishPaths=new Set();
 function writeRaw(path,body){const file=resolve(dist,'.'+path,'index.html');mkdirSync(resolve(file,'..'),{recursive:true});writeFileSync(file,body);}
@@ -90,7 +91,7 @@ function storyArticle(p,lang,{draft=false}={}){
 function renderStoryPage(post,lang,draft=false){
  const fields=translationFields(post,lang)??post.en,path=(draft?'preview/':'journal/')+post.slug+'/';
  const title=fields.title||post.en.title||post.slug,excerpt=fields.excerpt||'';
- const related=draft?'':relatedStories(post);
+ const related=draft?'':relatedStories(post)+shareStoryCta(url);
  write('/'+lang+'/'+path,shell(lang,path,title,excerpt,storyArticle(post,lang,{draft})+related,{ogImage:post.image,seo:fields,noindex:draft,availableLanguages:draft?[]:publishedStoryLanguages(post),comments:!draft&&data.engagement.comments.enabled,maps:post.routeMap?.enabled?(post.routeMap.googleMyMapsUrl?.trim()?'google':'local'):false}));
 }
 for(const lang of ['en']){
@@ -109,6 +110,7 @@ for(const lang of ['en']){
   for(const p of drafts)renderStoryPage(p,'en',true);
  }
 
+ renderShareStory({url,write,shell});
  buildCountryPages({data,lang,url,write,shell,card});
  buildPlacePages({data,lang,url,write,shell,card,base});
  buildPrivacyPages({data,lang,url,write,shell});
