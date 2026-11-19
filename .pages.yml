@@ -70,6 +70,44 @@
           "description": "Optional timestamp for ordering stories published on the same day. Keep the existing value, or leave empty. Example: 2026-11-07T09:10:53+02:00."
         },
         {
+          "name": "guestAuthor",
+          "label": "Stories by Friends author",
+          "type": "object",
+          "fields": [
+            {
+              "name": "enabled",
+              "label": "Stories by Friends",
+              "type": "boolean",
+              "default": false
+            },
+            {
+              "name": "name",
+              "label": "Author full name",
+              "type": "string"
+            },
+            {
+              "name": "image",
+              "label": "Author portrait",
+              "type": "image"
+            },
+            {
+              "name": "instagram",
+              "label": "Instagram URL (optional)",
+              "type": "string"
+            },
+            {
+              "name": "strava",
+              "label": "Strava URL (optional)",
+              "type": "string"
+            },
+            {
+              "name": "website",
+              "label": "Website URL (optional)",
+              "type": "string"
+            }
+          ]
+        },
+        {
           "name": "countries",
           "type": "reference",
           "label": "Riigid / Countries (mitu valikut; tühi = Üldine)",
@@ -206,6 +244,10 @@
                   {
                     "label": "Prague: riverside and castle loop",
                     "value": "prague"
+                  },
+                  {
+                    "value": "fuengirola",
+                    "label": "Fuengirola: Maarja’s coastal run"
                   }
                 ]
               },

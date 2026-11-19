@@ -142,6 +142,12 @@ export function validateRecord(type, item) {
   if (type==='routes'&&!['estonia','portugal','other'].includes(item.category)) throw new Error('Choose a supported category.');
   if(type==='posts'&&item.publishedAt!=null&&item.publishedAt!==''&&!validPublicationTime(item.publishedAt))throw new Error('Add a valid publication time with a time zone, or leave it empty.');
   if(type==='posts'){if(item.routeMap!=null){if(typeof item.routeMap!=='object'||Array.isArray(item.routeMap)||typeof item.routeMap.enabled!=='boolean')throw new Error('Check the story map settings.');const google=googleMyMap(item.routeMap.googleMyMapsUrl);if(item.routeMap.downloadsEnabled!=null&&typeof item.routeMap.downloadsEnabled!=='boolean')throw new Error('Choose whether GPX downloads are shown.');if(item.routeMap.enabled&&!google&&!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.routeMap.mapId??''))throw new Error('Paste a Google My Maps link, choose a prepared map, or turn the map off.');}validateTranslations(item);if(item.ratings!=null)validateRatings(item.ratings);if(item.attachments!=null&&(!Array.isArray(item.attachments)||item.attachments.length>10||item.attachments.some(file=>typeof file!=='string'||safeUrl(file)==='#'||isRouteFile(file)||!/^https?:|^\/assets\/(?:uploads|files)\//.test(file))))throw new Error('Add up to ten valid attachment URLs.');if(item.coverFit!=null&&!['cover','contain'].includes(item.coverFit))throw new Error('Choose cover or contain for the article image.');}
+  if(type==='posts'&&item.guestAuthor!=null){
+    const a=item.guestAuthor;
+    if(typeof a!=='object'||Array.isArray(a)||typeof a.enabled!=='boolean')throw Error('Check the guest author settings.');
+    if(a.enabled&&(typeof a.name!=='string'||!a.name.trim()||a.name.length>120||typeof a.image!=='string'||!/^\/assets\/uploads\//.test(a.image)||safeUrl(a.image)==='#'))throw Error('Add the guest author name and portrait.');
+    for(const k of ['instagram','strava','website'])if(a[k]&&(typeof a[k]!=='string'||!/^https:\/\//.test(a[k])||safeUrl(a[k])==='#'))throw Error('Author profile links must use HTTPS.');
+  }
   if(type==='posts'){
     validatePracticalSummary(item.en?.practicalSummary);
     const places=postPlaceSlugs(item),names=item.placeNames??[];

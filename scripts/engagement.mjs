@@ -1,3 +1,4 @@
+import {guestFooter,isFriend} from './guest-authors.mjs';
 import {canonicalPath} from '../public/assets/paths.js';
 import {esc,safeUrl,root} from './core.mjs';
 import {readFileSync} from 'node:fs';
@@ -6,7 +7,8 @@ const socialPaths=Object.fromEntries(['instagram','strava'].map(name=>{const svg
 function socialIcon(profile){let host='';try{host=new URL(profile.url).hostname.replace(/^www\./,'');}catch{}const name=profile.name.trim().toLowerCase();const key=['instagram','insta'].includes(name)||host==='instagram.com'?'instagram':name==='strava'||['strava.com','strava.app.link'].includes(host)?'strava':'';return key?`<svg class="social-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false"><path d="${socialPaths[key]}"/></svg>`:'';}
 export function wordmarkText(brand){return brand.toLowerCase()==='runograph'?`<span class="wordmark-label"><span class="brand-run">${esc(brand.slice(0,3))}</span><span class="brand-ograph">${esc(brand.slice(3))}</span></span>`:esc(brand);}
 export function socialLinks(data,lang,{showLabel=true}={}){const links=data.engagement.socials.filter(s=>s.enabled);return links.length?`<nav class="social-links" aria-label="${lang==='et'?'Minu sotsiaalmeedia':'My social media'}">${showLabel?'<span class="social-links-label">My IG &amp; Strava:</span>':''}${links.map(s=>{const icon=socialIcon(s);return `<a class="${icon?'social-icon-link':'social-text-link'}" href="${esc(safeUrl(s.url))}" target="_blank" rel="me noopener noreferrer" aria-label="${esc(s.name)}" title="${esc(s.name)}">${icon||esc(s.name)}</a>`;}).join('')}</nav>`:'';}
-export function renderStoryAuthor({data,lang='en',url}){
+export function renderStoryAuthor({data,lang='en',url,post}){
+ if(isFriend(post))return guestFooter(post,url);
  const about=url('/about/'),photo=safeUrl(data.images.about.src),src=photo.startsWith('/')?url(photo):photo;
  return `<aside class="story-author" aria-label="Story author"><a class="story-author-portrait" href="${about}" aria-label="About Markus"><img src="${esc(src)}" alt="" width="64" height="64" loading="lazy"></a><a class="story-author-name" href="${about}" rel="author">Markus</a>${socialLinks(data,lang,{showLabel:false})}</aside>`;
 }
