@@ -1,4 +1,4 @@
-import {guestFooter,isFriend} from './guest-authors.mjs';
+import {guestFooter,isFriend,ownerAuthor,authorFooter} from './guest-authors.mjs';
 import {canonicalPath} from '../public/assets/paths.js';
 import {esc,safeUrl,root} from './core.mjs';
 import {readFileSync} from 'node:fs';
@@ -9,8 +9,7 @@ export function wordmarkText(brand){return brand.toLowerCase()==='runograph'?`<s
 export function socialLinks(data,lang,{showLabel=true}={}){const links=data.engagement.socials.filter(s=>s.enabled);return links.length?`<nav class="social-links" aria-label="${lang==='et'?'Minu sotsiaalmeedia':'My social media'}">${showLabel?'<span class="social-links-label">My IG &amp; Strava:</span>':''}${links.map(s=>{const icon=socialIcon(s);return `<a class="${icon?'social-icon-link':'social-text-link'}" href="${esc(safeUrl(s.url))}" target="_blank" rel="me noopener noreferrer" aria-label="${esc(s.name)}" title="${esc(s.name)}">${icon||esc(s.name)}</a>`;}).join('')}</nav>`:'';}
 export function renderStoryAuthor({data,lang='en',url,post}){
  if(isFriend(post))return guestFooter(post,url);
- const about=url('/about/'),photo=safeUrl(data.images.about.src),src=photo.startsWith('/')?url(photo):photo;
- return `<aside class="story-author" aria-label="Story author"><a class="story-author-portrait" href="${about}" aria-label="About Markus"><img src="${esc(src)}" alt="" width="64" height="64" loading="lazy"></a><a class="story-author-name" href="${about}" rel="author">Markus</a>${socialLinks(data,lang,{showLabel:false})}</aside>`;
+ return authorFooter(ownerAuthor(data),url);
 }
 export function shareBar({data,lang,path,title}){
  if(!data.engagement.sharingEnabled)return '';const et=lang==='et',link=data.engagement.publicOrigin+canonicalPath(path),u=encodeURIComponent(link),text=encodeURIComponent(title+' '+link);
