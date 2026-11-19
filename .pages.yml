@@ -443,6 +443,12 @@
               }
             },
             {
+              "name": "editorialNote",
+              "label": "Runograph’s notes (optional)",
+              "type": "rich-text",
+              "description": "Editorial additions appear in a separate shaded box after the author’s story."
+            },
+            {
               "name": "imageAlt",
               "type": "string",
               "label": "Image description (alt) / Pildi kirjeldus"

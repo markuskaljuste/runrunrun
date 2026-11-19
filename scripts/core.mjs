@@ -161,7 +161,7 @@ export function validateRecord(type, item) {
     if(item.status==='published'&&!storyLanguages.some(lang=>storyHasTranslation(item,lang)))throw new Error('Complete the English title, introduction and story before publishing.');
   }else for (const lang of ['en']) for (const field of ['title','excerpt','body',...(type==='routes'?['place']:[])]) if (typeof item[lang]?.[field] !== 'string' || (item.status==='published'&&!item[lang][field].trim())) throw new Error(`Add ${field} in ${lang.toUpperCase()} before publishing.`);
   for (const lang of ['en']) {
-    for (const key of ['seoTitle','seoDescription','imageAlt','imageCaption']) if (item[lang]?.[key]!=null&&typeof item[lang][key]!=='string') throw new Error(`Check ${key} in ${lang.toUpperCase()}.`);
+    for (const key of ['seoTitle','seoDescription','imageAlt','imageCaption','editorialNote']) if (item[lang]?.[key]!=null&&typeof item[lang][key]!=='string') throw new Error(`Check ${key} in ${lang.toUpperCase()}.`);
     if (item[lang]?.socialImage&&safeUrl(item[lang].socialImage)==='#') throw new Error('Choose a valid post sharing image.');
   }
   if (type==='routes' && item.status==='published' && (!/^https:\/\//.test(item.sourceUrl??'') || safeUrl(item.sourceUrl)==='#' || !item.sourceLabel?.trim() || !/^\d{4}-\d{2}-\d{2}$/.test(item.checked??''))) throw new Error('Published route guides need an official https source, source name and checked date.');

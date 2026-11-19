@@ -113,3 +113,5 @@ await import('./check-root-routing.mjs');
 await import('./check-journal-listing.mjs');
 
 await import('./check-guest-authors.mjs');
+
+await import('./check-article-gallery.mjs');
