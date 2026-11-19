@@ -99,3 +99,5 @@
   #friend-story-form .friend-rating { grid-template-columns: 1fr; gap: 0; margin: 12px 0 22px; }
   #friend-story-form .friend-rating label { margin-bottom: 10px; }
 }
+
+.share-story-intro{max-width:720px;margin-top:24px;font-size:18px;line-height:1.75}.friend-writing-help{font-size:14px;line-height:1.8;margin:0 0 22px;padding:16px 20px;background:#edf0e5;border-left:2px solid #b6c69e;color:#47574c}@media(max-width:580px){.share-story-intro{font-size:16px}}

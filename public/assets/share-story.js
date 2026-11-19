@@ -126,6 +126,7 @@
   source.delete('quickAnswer');
   const story = Object.fromEntries([...source].filter(([,value])=>typeof value==='string'));
   const uploads = [...source.getAll('photos').map(file=>({file,kind:'photo'}))];
+  if (source.get('profilePhoto')?.size) uploads.push({file:source.get('profilePhoto'),kind:'portrait'});
   if (source.get('gpx')?.size) uploads.push({file:source.get('gpx'),kind:'gpx'});
   story.files = uploads.map(({file,kind})=>({kind,size:file.size,extension:file.name.split('.').pop().toLowerCase()}));
   if (story.files.some(file=>!file.size || file.size>8_000_000)) {

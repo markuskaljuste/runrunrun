@@ -5,7 +5,7 @@ const shareStoryEndpoint = 'https://script.google.com/macros/s/AKfycbzEHefCVPtJK
 const minPhotos = 3;
 const maxPhotos = 8;
 const maxRatingExplanation = 500;
-const fields = {firstName: 100, lastName: 100, email: 254, destination: 180, route: 2500, story: 12000, clubs: 2500, map: 1000, instagram: 1000, facebook: 1000, website: 1000};
+const fields = {firstName: 100, lastName: 100, email: 254, destination: 180, route: 2500, story: 12000, clubs: 2500, map: 1000, instagram: 1000, facebook: 1000, website: 1000, strava: 1000};
 const ratingFields = {experience: 'Overall running experience', safety: 'Safety', views: 'Views', surface: 'Running surface'};
 const submissionRules = 'A Runograph admin reviews each submission before publishing. If your story is published, your name will appear alongside it and any personal links you provide may also be shown. Your email is used to contact you about your submission.';
 
@@ -24,10 +24,12 @@ export function renderShareStory({url, write, shell}) {
  <label>Last name <input name="lastName" autocomplete="family-name" maxlength="${fields.lastName}" required></label>
  <div class="friend-field"><label for="friend-email">Your email <input id="friend-email" name="email" type="email" autocomplete="email" maxlength="${fields.email}" aria-describedby="friend-email-privacy" required></label><small id="friend-email-privacy" class="friend-field-note">Your email stays private and is used to contact you about your submission.</small></div>
  <label>Destination (place and country) <input name="destination" maxlength="${fields.destination}" required></label>
- <label>Tell us about your run <textarea name="story" rows="7" maxlength="${fields.story}" required placeholder="What made this run worth sharing? Funny, awkward and unexpectedly lovely moments are welcome too."></textarea></label>
- <label>Route tips <textarea name="route" rows="4" maxlength="${fields.route}" required placeholder="Distance, surface, hills, safety or the best time to run"></textarea></label>
- <label>Know any local running clubs? (optional) <textarea name="clubs" rows="3" maxlength="${fields.clubs}" placeholder="Club names, when they meet, whether runs are free, and any useful links"></textarea></label>
- <div class="friend-field"><label for="friend-photos">Route photos (${minPhotos}–${maxPhotos}, up to 8 MB each) <input id="friend-photos" name="photos" type="file" multiple accept=".jpg,.jpeg,.png,.webp" aria-describedby="friend-photo-help" required></label><small id="friend-photo-help" class="friend-field-note">Choose photos that clearly show the running route or surface. Landscape photos work best. Please avoid selfies.</small></div>
+ <p id="friend-writing-help" class="friend-writing-help">No need for polished writing or perfect grammar. Notes and bullet points are welcome; just get your ideas across. Runograph will take care of the wording and grammar.</p>
+ <label>Tell us about your run <textarea aria-describedby="friend-writing-help" name="story" rows="7" maxlength="${fields.story}" required placeholder="What made this run worth sharing? Funny, awkward and unexpectedly lovely moments are welcome too."></textarea></label>
+ <label>Route tips <textarea aria-describedby="friend-writing-help" name="route" rows="4" maxlength="${fields.route}" required placeholder="Distance, surface, hills, safety or the best time to run"></textarea></label>
+ <label>Know any local running clubs? (optional) <textarea aria-describedby="friend-writing-help" name="clubs" rows="3" maxlength="${fields.clubs}" placeholder="Club names, when they meet, whether runs are free, and any useful links"></textarea></label>
+ <div class="friend-field"><label for="friend-photos">Route photos (${minPhotos}–${maxPhotos}, up to 8 MB each) <input id="friend-photos" name="photos" type="file" multiple accept=".jpg,.jpeg,.png,.webp" aria-describedby="friend-photo-help" required></label><small id="friend-photo-help" class="friend-field-note">Choose mainly landscape photos showing the route, surface and surroundings. A selfie or two is welcome too, preferably in landscape format.</small></div>
+ <div class="friend-field"><label for="friend-profile-photo">Profile photo (optional, up to 8 MB) <input id="friend-profile-photo" name="profilePhoto" type="file" accept=".jpg,.jpeg,.png,.webp" aria-describedby="friend-profile-help"></label><small id="friend-profile-help" class="friend-field-note">A clear photo of your face works best. Social media profile photos are usually ideal, but you can choose another photo you like. It may appear beside your name if your story is published. This photo is separate from your route photos.</small></div>
  <fieldset aria-describedby="friend-route-help">
  <legend>How will you share your route? (required)</legend>
  <p class="contact-privacy" id="friend-route-help">If you already have a Google My Maps map, set sharing to “Anyone with the link” and paste the link below. If you don’t have a map, upload a GPX file. Runograph will use it to create a map under the Runograph name if your story is published.</p>
@@ -48,6 +50,7 @@ export function renderShareStory({url, write, shell}) {
  </fieldset>
  <fieldset><legend>Links for your author credit (optional)</legend>
  <label>Instagram profile <input name="instagram" type="url" maxlength="${fields.instagram}" placeholder="https://www.instagram.com/yourname/"></label>
+ <label>Strava profile <input name="strava" type="url" maxlength="${fields.strava}" placeholder="https://www.strava.com/athletes/… or https://strava.app.link/…"></label>
  <label>Facebook profile <input name="facebook" type="url" maxlength="${fields.facebook}" placeholder="https://www.facebook.com/yourname"></label>
  <label>Personal website <input name="website" type="url" maxlength="${fields.website}" placeholder="https://"></label>
  </fieldset>
@@ -83,5 +86,5 @@ export function renderShareStory({url, write, shell}) {
  updatePhotoValidity();
  </script>`;
  write(shareStoryPath, shell('en',shareStoryPath.slice(1),'Share your running story','Stories by Friends',
-  `<section class="section page-heading"><div class="eyebrow">Stories by Friends</div><h1>Share your running story</h1></section>${form}`, {noindex:true}));
+  `<section class="section page-heading"><div class="eyebrow">Stories by Friends</div><h1>Share your running story</h1><p class="share-story-intro">Share your running route, experience and photos. Runograph will use your input to create an article credited to you, which we’ll review before publishing.</p></section>${form}`, {noindex:true}));
 }
