@@ -31,6 +31,7 @@ const share=shareBar({data,lang:'et',path:'/et/places/tallinn/',title:'A & B'});
 const files=folder=>readdirSync(folder).flatMap(n=>{const p=resolve(folder,n);return statSync(p).isDirectory()?files(p):[p];});
 for(const file of files(resolve(root,'dist')).filter(p=>p.endsWith('.html'))){
  const html=readFileSync(file,'utf8');
+ if(!html.toLowerCase().includes('@gmail.com'))continue;
  for(const match of html.matchAll(/[A-Z0-9._%+-]+@gmail\.com/gi)){
   const privacy=file===resolve(root,'dist/privacy/index.html')&&match[0]===data.integrations.privacyContactEmail;
   const collaboration=file===resolve(root,'dist/share-your-story/index.html')&&match[0]==='runograph01@gmail.com';
